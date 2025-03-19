@@ -1,9 +1,16 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-    id("dev.flutter.flutter-gradle-plugin")
 }
+    id "com.android.application"
+    id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services'
+
+dependencies {
+}
+implementation (platform("com.google.firebase:firebase-bom:33.9.0"))
+implementation("com.google.firebase:firebase-database")
+implementation ('com.android.support:multidex:1.0.3')
 
 android {
     namespace = "com.example.get_fit_app"

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "577845016105",
+    "project_id": "bug-hunters-abdef",
+    "storage_bucket": "bug-hunters-abdef.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577845016105:android:937a211fd28b824e5ece38",
+        "android_client_info": {
+          "package_name": "com.example.get_fit_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ1nvuXR7ysCD_d_YX6Vz_vz2lm0H-QHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
