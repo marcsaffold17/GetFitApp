@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'view/view.dart';
+=======
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package: firebase_core/firebase_core.dart';
+>>>>>>> Stashed changes
 
 void main() {
   runApp(const MyApp());
