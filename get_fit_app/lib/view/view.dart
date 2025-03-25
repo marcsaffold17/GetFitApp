@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'nav_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
@@ -7,31 +11,15 @@ class FavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .inversePrimary,
         title: const Text('Favorites'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.deepPurple),
-              child: Text(
-                'Menu',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home, color: Colors.black),
-              title: const Text("Home"),
-              onTap: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const NavBar(),
       body: const Center(
-        child: Text('This is the Favorites Page'),
+        child: Text('No Favorites right now'),
       ),
     );
   }
