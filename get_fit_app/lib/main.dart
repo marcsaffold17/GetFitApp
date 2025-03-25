@@ -63,14 +63,30 @@ class _MyHomePageState extends State<MyHomePage> {
   /*Access Firestrore collecion of Login-Info and then made a createAccount Function to set the document name to the username
     and then save the password in that document for that username*/
   final databaseReference = FirebaseFirestore.instance.collection("Login-Info");
+  final textController = TextEditingController();
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   void createAccount(String username, String password)
   {
     databaseReference.doc(username).set({"Password": password});
   }
-  final textController = TextEditingController();
   int _counter = 0;
   
+  //Function Checks if a username (aka Document) exits in the firebase
+  void checkAccount(String username)
+  {
+    var docRef = db.collection("Login-Info").doc(username);
+    docRef.get().then((doc) => {
+      if(doc.exists) 
+      {
+        print("Exists")
+      }
+      else
+      {
+        print("Dosnt exist")
+      }
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -93,20 +109,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextField(
                   controller: textController,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Title',
+                  border: OutlineInputBorder(),
+                  hintText: 'Title',
                   ),
                 ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blue,
+                  ),
+                  onPressed: () 
+                  {
+                    checkAccount(textController.text);
+                  },
+                  child: Text('TextButton'),
+                )
               ],
-          // children: <Widget>[
-          //   const Text('You have pushed the button this many times:'),
-          //   Text(
-          //     '$_counter',
-          //     style: Theme.of(context).textTheme.headlineMedium,
-          //   ),
-          // ],
         ),
       ),
+      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Entered text: ${textController.text}"); // Print the text from the TextField
@@ -116,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
