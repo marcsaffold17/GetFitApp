@@ -6,6 +6,7 @@ class Workout {
   String? id;
   String day;
   String description;
+  double distance;
   String time;
   String title;
   String type;
@@ -14,6 +15,7 @@ class Workout {
     this.id,
     required this.day,
     required this.description,
+    required this.distance,
     required this.time,
     required this.title,
     required this.type,
@@ -26,6 +28,7 @@ class Workout {
       id: doc.id,
       day: data['Day'] ?? '',
       description: data['Description'] ?? '',
+      distance: data['Distance'] ?? 0,
       time: data['Time'] ?? '',
       title: data['Title'] ?? '',
       type: data['Type'] ?? '',
@@ -37,6 +40,7 @@ class Workout {
     return {
       'Day': day,
       'Description': description,
+      'Distance': distance,
       'Time': time,
       'Title': title,
       'Type': type,
@@ -45,8 +49,7 @@ class Workout {
 }
 
 class WorkoutRepository {
-  final CollectionReference workoutsCollection =
-  FirebaseFirestore.instance.collection('Workouts');
+  final CollectionReference workoutsCollection = FirebaseFirestore.instance.collection('Workouts');
 
   // Add workout to "Workouts" database in Firestore
   Future<void> addWorkout(Workout workout) async {

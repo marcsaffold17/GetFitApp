@@ -21,6 +21,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
   final _formKey = GlobalKey<FormState>();
   final _dayController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _distanceController = TextEditingController();
   final _timeController = TextEditingController();
   final _titleController = TextEditingController();
   final _typeController = TextEditingController();
@@ -33,12 +34,19 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
 
   @override
   void onWorkoutAdded() {
-    // Handle successful workout addition
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Workout added successfully!'),
+      content: Text('Workout added'),
+      duration: Duration(seconds: 2),
     ));
-    // Clear the form or navigate away
+
+    // Removing user input text fields after workout is added
     _formKey.currentState?.reset();
+    _dayController.clear();
+    _descriptionController.clear();
+    _distanceController.clear();
+    _timeController.clear();
+    _titleController.clear();
+    _typeController.clear();
   }
 
   // Startup UI, should probably adjust later to fit
@@ -54,31 +62,38 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
             children: [
               TextFormField(
                 controller: _dayController,
-                decoration: InputDecoration(labelText: 'Day'),
+                decoration: InputDecoration(labelText: 'Date'),
               ),
               TextFormField(
                 controller: _typeController,
-                decoration: InputDecoration(labelText: 'Type'),
+                decoration: InputDecoration(labelText: 'Type of Workout'),
               ),
               TextFormField(
                 controller: _timeController,
                 decoration: InputDecoration(labelText: 'Time'),
               ),
               TextFormField(
+                controller: _distanceController,
+                decoration: InputDecoration(labelText: 'Distance (Miles)'),
+                keyboardType: TextInputType.number,
+              ),
+              TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: InputDecoration(labelText: 'Workout Title'),
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: InputDecoration(labelText: 'Workout Description'),
               ),
 
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    double? distance = double.tryParse(_distanceController.text) ?? 0.0;
                     final newWorkout = Workout(
                       day: _dayController.text,
                       description: _descriptionController.text,
+                      distance: distance,
                       time: _timeController.text,
                       title: _titleController.text,
                       type: _typeController.text,
