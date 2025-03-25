@@ -73,20 +73,39 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   
   //Function Checks if a username (aka Document) exits in the firebase
-  void checkAccount(String username)
+  void checkUsername(String username)
   {
     var docRef = db.collection("Login-Info").doc(username);
     docRef.get().then((doc) => {
       if(doc.exists) 
       {
-        print("Exists")
+        print("works"),
+        checkPassword(username,username)
       }
       else
       {
-        print("Dosnt exist")
+        print("Invalid Username/Password")
       }
     });
   }
+
+//Checks if inputed password is the correct one tied to the username on the database
+  Future<dynamic> checkPassword(String username, String password) async {
+    DocumentSnapshot ds = await FirebaseFirestore.instance.collection("Login-Info").doc(username).get();
+    String Password = ds.get("Password").toString();
+    print(Password);
+    if (Password == password) 
+    { 
+      print("Correct Password");
+      return true;
+    } 
+    else 
+    {
+      print("Incorrect");
+      return false;
+    }
+  }
+
 
   void _incrementCounter() {
     setState(() {
@@ -119,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () 
                   {
-                    checkAccount(textController.text);
+                    checkUsername(textController.text);
                   },
                   child: Text('TextButton'),
                 )
