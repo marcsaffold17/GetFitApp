@@ -7,19 +7,27 @@ import 'package:timezone/timezone.dart' as tz;
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
+  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-  /// Initialize notifications
+  /// Initialize notifications (Local + Firebase)
   static Future<void> initNotifications() async {
-    const AndroidInitializationSettings androidInitializationSettings =
+    const AndroidInitializationSettings androidInitSettings =
     AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const InitializationSettings initializationSettings = InitializationSettings(
-      android: androidInitializationSettings,
+      android: androidInitSettings,
     );
 
     await _localNotificationsPlugin.initialize(initializationSettings);
 
-    // Initialize Firebase Messaging
+    // Request permission for Firebase notifications
+    await _firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    // Firebase push notifications listener
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         showInstantNotification(
@@ -28,6 +36,9 @@ class NotificationService {
         );
       }
     });
+
+    // Initialize timezone data
+    tz.initializeTimeZones();
   }
 
   /// Show an instant notification
@@ -37,8 +48,8 @@ class NotificationService {
   }) async {
     const NotificationDetails notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
-        'instant_notification_channel',
-        'Instant Notifications',
+        'instant_notification_channel', // Channel ID
+        'Instant Notifications', // Channel Name
         importance: Importance.max,
         priority: Priority.high,
       ),
@@ -58,18 +69,16 @@ class NotificationService {
     required String body,
     required int seconds,
   }) async {
-    // Initialize time zones
-    tz.initializeTimeZones();
+    // Ensure time zones are initialized
     final String timeZone = await FlutterTimezone.getLocalTimezone();
-    final tz.TZDateTime scheduledDate =
-    tz.TZDateTime.now(tz.getLocation(timeZone)).add(Duration(seconds: seconds));
+    final tz.Location location = tz.getLocation(timeZone);
+    final tz.TZDateTime scheduledDate = tz.TZDateTime.now(location).add(Duration(seconds: seconds));
 
-    // Schedule the notification
     await _localNotificationsPlugin.zonedSchedule(
       0, // Notification ID
-      title, // Title
-      body, // Body
-      scheduledDate, // Scheduled time
+      title,
+      body,
+      scheduledDate,
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'workout_reminder_channel', // Channel ID
@@ -79,6 +88,12 @@ class NotificationService {
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.wallClockTime,
     );
+  }
+
+  /// Cancel all notifications
+  static Future<void> cancelAllNotifications() async {
+    await _localNotificationsPlugin.cancelAll();
   }
 }
