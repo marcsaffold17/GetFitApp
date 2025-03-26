@@ -50,8 +50,31 @@ class _HomeViewState extends State<HomeView> {
           title: message.notification!.title ?? 'No Title',
           body: message.notification!.body ?? 'No Body',
         );
+
+        // Save notification to Firestore
+        saveNotificationToFirestore(
+          message.notification!.title ?? 'No Title',
+          message.notification!.body ?? 'No Body',
+        );
       }
     });
+  }
+
+  // Save notification to Firestore
+  Future<void> saveNotificationToFirestore(String title, String body) async {
+    await FirebaseFirestore.instance.collection('notifications').add({
+      'title': title,
+      'body': body,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  /// Get notifications from Firestore
+  Stream<QuerySnapshot> getNotifications() {
+    return FirebaseFirestore.instance
+        .collection('notifications')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
   }
 
   @override
