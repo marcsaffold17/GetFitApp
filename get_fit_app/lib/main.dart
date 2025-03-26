@@ -63,7 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
   /*Access Firestrore collecion of Login-Info and then made a createAccount Function to set the document name to the username
     and then save the password in that document for that username*/
   final databaseReference = FirebaseFirestore.instance.collection("Login-Info");
-  final textController = TextEditingController();
+  final userNameText = TextEditingController();
+  final passWordText = TextEditingController();
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   void createAccount(String username, String password)
@@ -73,14 +74,14 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   
   //Function Checks if a username (aka Document) exits in the firebase
-  void checkUsername(String username)
+  void checkUsername(String username, String password)
   {
     var docRef = db.collection("Login-Info").doc(username);
     docRef.get().then((doc) => {
       if(doc.exists) 
       {
         print("works"),
-        checkPassword(username,username)
+        checkPassword(username,password)
       }
       else
       {
@@ -89,9 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-//Checks if inputed password is the correct one tied to the username on the database
+  //Checks if inputed password is the correct one tied to the username on the database
   Future<dynamic> checkPassword(String username, String password) async {
-    DocumentSnapshot ds = await FirebaseFirestore.instance.collection("Login-Info").doc(username).get();
+    DocumentSnapshot ds = await db.collection("Login-Info").doc(username).get();
     String Password = ds.get("Password").toString();
     print(Password);
     if (Password == password) 
@@ -126,7 +127,14 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 TextField(
-                  controller: textController,
+                  controller: userNameText,
+                  decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Title',
+                  ),
+                ),
+                TextField(
+                  controller: passWordText,
                   decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Title',
@@ -138,23 +146,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () 
                   {
-                    checkUsername(textController.text);
+                    createAccount(userNameText.text,passWordText.text);;
                   },
-                  child: Text('TextButton'),
+                  child: Text('Create Account'),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blue,
+                  ),
+                  onPressed: () 
+                  {
+                    checkUsername(userNameText.text,passWordText.text);
+                  },
+                  child: Text('Check Username'),
                 )
               ],
         ),
-      ),
-      
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print("Entered text: ${textController.text}"); // Print the text from the TextField
-          //Sets the Username and Password to the text entered in the textbox for testing
-          createAccount(textController.text,textController.text);
-          _incrementCounter();
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
