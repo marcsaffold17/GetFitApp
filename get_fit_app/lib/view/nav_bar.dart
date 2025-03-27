@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
-import '../view/view.dart';
+import '../view/favorites_page.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});

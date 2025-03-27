@@ -9,13 +9,11 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-  // Example list of workouts (can be extended with more items)
   List<Workout> workouts = [
     Workout(name: 'Bench Press', muscles: 'Chest, Triceps, Shoulders', sets: 4),
     Workout(name: 'Squat', muscles: 'Legs, Glutes', sets: 3),
   ];
 
-  // Method to rename the workout
   void _renameWorkout(Workout workout) {
     TextEditingController controller = TextEditingController(text: workout.name);
 

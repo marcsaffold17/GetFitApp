@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'view/view.dart';
+import 'view/favorites_page.dart';
 import 'view/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
