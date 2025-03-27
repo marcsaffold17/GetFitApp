@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../view/favorites_page.dart';
+import 'login_HomePage.dart';
+import '../view/login_view.dart';
+
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -44,7 +47,7 @@ class NavBar extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')
+                      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home', username: '')
                       ),
                     );
                   },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../view/login_view.dart';
+import 'nav_bar.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title,required this.username});
@@ -17,6 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(""),
       ),
+      drawer: const NavBar(),
       body: Stack(
         children: [
           Positioned(
