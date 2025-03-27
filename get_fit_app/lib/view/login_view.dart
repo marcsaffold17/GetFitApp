@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import '../presenter/login_presenter.dart';
 import 'login_HomePage.dart';
 
-
-
 class LoginButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
