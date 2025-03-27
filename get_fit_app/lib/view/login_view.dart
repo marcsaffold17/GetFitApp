@@ -94,10 +94,8 @@ class LoginPage extends State<MyLoginPage> implements LoginView
                 if(isValid)
                 {
                   print("works");
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home Page')),
-                  );
+                  Navigator.push(context,MaterialPageRoute(builder: (context) =>  MyHomePage(title: 'Home Page', username: userNameText.text),
+                  ));
                 }
               },
               
