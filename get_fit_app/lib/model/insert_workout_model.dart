@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // Converts user inputted data into strings Firestore can understand.
 class Workout {
   String? id;
-  String day;
+  Timestamp day;
   String description;
   double distance;
-  String time;
+  int time;
   String title;
   String type;
 
@@ -26,10 +26,10 @@ class Workout {
     Map data = doc.data() as Map<String, dynamic>;
     return Workout(
       id: doc.id,
-      day: data['Day'] ?? '',
+      day: data['Day'] as Timestamp? ?? Timestamp.now(),
       description: data['Description'] ?? '',
       distance: data['Distance'] ?? 0,
-      time: data['Time'] ?? '',
+      time: data['Time'] ?? 0,
       title: data['Title'] ?? '',
       type: data['Type'] ?? '',
     );
