@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../view/login_view.dart';
 import 'nav_bar.dart';
-import '../model/global_model.dart';
+import '../presenter/global_presenter.dart';
 
 
 class MyHomePage extends StatefulWidget {

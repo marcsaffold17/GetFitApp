@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../presenter/login_presenter.dart';
-import '../model/global_model.dart';
+import '../presenter/global_presenter.dart';
 
 import 'HomePage.dart';
 
