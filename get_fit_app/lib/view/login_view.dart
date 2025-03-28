@@ -8,7 +8,7 @@ class LoginButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Welcome')),
+      appBar: AppBar(title: const Text('')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -124,6 +124,7 @@ class CreateAccountPage extends State<MyCreateAccountPage> implements LoginView
   late LoginPresenter presenter;
   final userNameText = TextEditingController();
   final passWordText = TextEditingController();
+  final emailText = TextEditingController();
 
   @override
   void initState() {
@@ -156,6 +157,10 @@ class CreateAccountPage extends State<MyCreateAccountPage> implements LoginView
             TextField(
               controller: userNameText,
               decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Username'),
+            ),
+            TextField(
+              controller: emailText,
+              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Email Address'),
             ),
             TextField(
               controller: passWordText,
