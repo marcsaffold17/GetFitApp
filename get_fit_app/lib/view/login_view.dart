@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../presenter/login_presenter.dart';
-import 'login_HomePage.dart';
+import '../model/global_model.dart';
+
+import 'HomePage.dart';
 
 class LoginButtonPage extends StatelessWidget {
   @override
@@ -93,6 +95,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView
                 bool isValid = await presenter.CheckAccountInfo(userNameText.text, passWordText.text);
                 if(isValid)
                 {
+                  globalUsername = userNameText.text;
                   print("works");
                   Navigator.push(context,MaterialPageRoute(builder: (context) =>  MyHomePage(title: 'Home Page', username: userNameText.text),
                   ));

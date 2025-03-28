@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../view/login_view.dart';
 import 'nav_bar.dart';
+import '../model/global_model.dart';
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title,required this.username});
@@ -12,6 +14,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late String UserName;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  void _loadUsername() {
+    UserName = globalUsername ?? widget.username;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
             top: 20,
             left: 20,
             child: Text(
-              "Welcome Back, ${widget.username}",
+              "Welcome Back, ${UserName}",
               style: TextStyle(fontSize: 30)
             ) 
             )
