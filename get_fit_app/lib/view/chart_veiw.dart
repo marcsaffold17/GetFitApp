@@ -115,3 +115,10 @@ class BarChartWidget extends StatelessWidget {
     );
   }
 }
+
+Widget displayChart(List<ChartModel> chartData, String selectedChart) {
+  if (chartData.isEmpty) return const SizedBox.shrink();
+  return selectedChart == 'Line'
+      ? LineChartWidget(data: chartData)
+      : BarChartWidget(data: chartData);
+}
