@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Program',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: ExercisePage(),
+      home: LoginButtonPage(),
     );
   }
 }

@@ -3,6 +3,8 @@ import '../main.dart';
 import '../view/favorites_page.dart';
 import 'HomePage.dart';
 import '../view/login_view.dart';
+import '../view/exercise_view.dart';
+
 
 
 class NavBar extends StatelessWidget {
@@ -59,6 +61,16 @@ class NavBar extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.star_border_outlined, color: Colors.black),
+                  title: const Text("Exercises"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ExercisePage()),
                     );
                   },
                 ),
