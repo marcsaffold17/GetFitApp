@@ -24,7 +24,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   void getMuscleExercises() {
     _presenter = ExercisePresenter(this);
     muscleTypeText.text = "muscle";
-    if(exerciseTypeText.text == "cardio" || exerciseTypeText.text == "plyometrics" || exerciseTypeText.text == "strength")
+    if(exerciseTypeText.text == "cardio" || exerciseTypeText.text == "plyometrics" || exerciseTypeText.text == "strength" || exerciseTypeText.text == "stretching")
     {
       print("works");
       muscleTypeText.text = "type";
