@@ -65,7 +65,7 @@ class NavBar extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.star_border_outlined, color: Colors.black),
+                  leading: const Icon(Icons.sports_handball_outlined, color: Colors.black),
                   title: const Text("Exercises"),
                   onTap: () {
                     Navigator.push(
