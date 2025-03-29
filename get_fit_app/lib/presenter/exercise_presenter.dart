@@ -13,15 +13,14 @@ class ExercisePresenter {
 
   ExercisePresenter(this.view);
 
-  Future<void> fetchMuscleExercises(String muscle) async {
-    final url = Uri.parse("https://api.api-ninjas.com/v1/exercises?muscle=$muscle");
+  Future<void> fetchMuscleExercises(String muscleType, String muscle) async {
+  final url = Uri.parse("https://api.api-ninjas.com/v1/exercises?$muscleType=$muscle");
 
     try {
       final response = await http.get(
         url,
         headers: {"X-Api-Key": apiKey},
       );
-
       if (response.statusCode == 200) {
         List<dynamic> jsonData = json.decode(response.body);
         List<Exercise> exercises = jsonData.map((e) => Exercise.fromJson(e)).toList();
