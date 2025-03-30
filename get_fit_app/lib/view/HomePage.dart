@@ -31,9 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(
-        builder: (context) => const MyLoginPage(title: 'Login Page'),
-      ),
+      MaterialPageRoute(builder: (context) => LoginButtonPage()),
       (Route<dynamic> route) => false,
     );
   }
