@@ -3,9 +3,8 @@ import '../view/login_view.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
 
-
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title,required this.username});
+  const MyHomePage({super.key, required this.title, required this.username});
   final String title;
   final String username;
 
@@ -26,12 +25,27 @@ class _MyHomePageState extends State<MyHomePage> {
     UserName = globalUsername ?? widget.username;
   }
 
+  void _logout() {
+    setState(() {
+      globalUsername = null;
+    });
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MyLoginPage(title: 'Login Page'),
+      ),
+      (Route<dynamic> route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
+        title: const Text(""),
+        actions: [
+          IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
+        ],
       ),
       drawer: const NavBar(),
       body: Stack(
@@ -40,10 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
             top: 20,
             left: 20,
             child: Text(
-              "Welcome Back, ${UserName}",
-              style: TextStyle(fontSize: 30)
-            ) 
-            )
+              "Welcome Back, $UserName",
+              style: const TextStyle(fontSize: 30),
+            ),
+          ),
         ],
       ),
     );
