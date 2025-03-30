@@ -14,17 +14,18 @@ class LoginButtonPage extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                style: TextStyle(fontSize: 80, color: Colors.black),
+                style: TextStyle(fontFamily: 'Helvetica', fontSize: 80, color: Colors.black),
                 children: const <TextSpan>[
                   TextSpan(text: 'Get FIT',style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
-            Image.asset(
-              'assets/images/Dumbell.png',
-              height: 300,
-              width: 300,
-              ),
+            const Divider(height: 20, thickness: 7, indent: 30, endIndent: 30, color: Colors.black),
+            // Image.asset(
+            //   'assets/images/Dumbell.png',
+            //   height: 300,
+            //   width: 300,
+            //   ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -51,6 +52,11 @@ class LoginButtonPage extends StatelessWidget {
               },
               child: const Text('Login'),
             ),
+            Image.asset(
+              'assets/images/Dumbell.png',
+              height: 300,
+              width: 300,
+              ),
           ],
         ),
       ),
