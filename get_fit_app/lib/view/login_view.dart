@@ -14,9 +14,9 @@ class LoginButtonPage extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                style: TextStyle(fontFamily: 'Helvetica', fontSize: 80, color: Colors.black),
+                style: TextStyle(fontFamily: 'Voguella', fontSize: 80, color: Colors.black),
                 children: const <TextSpan>[
-                  TextSpan(text: 'Get FIT',style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: 'Get FIT',style: TextStyle()),
                 ],
               ),
             ),
@@ -26,7 +26,7 @@ class LoginButtonPage extends StatelessWidget {
             //   height: 300,
             //   width: 300,
             //   ),
-            SizedBox(height: 20),
+            SizedBox(height: 100),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -40,12 +40,12 @@ class LoginButtonPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(250, 30), // Adjust width and height
+                minimumSize: const Size(250, 50), // Adjust width and height
                 // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
               ),
               child: const Text('Create Account', style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25),),
             ),
-            SizedBox(height: 12),
+            SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -57,11 +57,12 @@ class LoginButtonPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(250, 30), // Adjust width and height
+                minimumSize: const Size(250, 50), // Adjust width and height
                 // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
               ),
               child: const Text('Login',style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
             ),
+            SizedBox(height: 100),
             Image.asset(
               'assets/images/Dumbell.png',
               height: 300,
