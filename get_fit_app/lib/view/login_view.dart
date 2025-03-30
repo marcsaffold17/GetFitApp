@@ -10,8 +10,21 @@ class LoginButtonPage extends StatelessWidget {
       appBar: AppBar(title: const Text('')),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            RichText(
+              text: TextSpan(
+                style: TextStyle(fontSize: 80, color: Colors.black),
+                children: const <TextSpan>[
+                  TextSpan(text: 'Get FIT',style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+            Image.asset(
+              'assets/images/Dumbell.png',
+              height: 300,
+              width: 300,
+              ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -197,7 +210,8 @@ class CreateAccountPage extends State<MyCreateAccountPage>
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Padding(
+      body: 
+      Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
