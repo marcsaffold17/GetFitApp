@@ -15,7 +15,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
   ];
 
   void _renameWorkout(Workout workout) {
-    TextEditingController controller = TextEditingController(text: workout.name);
+    TextEditingController controller = TextEditingController(
+      text: workout.name,
+    );
 
     showDialog(
       context: context,
@@ -24,7 +26,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
           title: const Text('Rename Workout'),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(hintText: 'Enter new workout name'),
+            decoration: const InputDecoration(
+              hintText: 'Enter new workout name',
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -62,7 +66,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
           Expanded(
             child: ListView.separated(
               itemCount: workouts.length,
-              separatorBuilder: (context, index) => const Divider(thickness: 2, color: Colors.black),
+              separatorBuilder:
+                  (context, index) =>
+                      const Divider(thickness: 2, color: Colors.black),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -92,11 +98,7 @@ class WorkoutItem extends StatelessWidget {
   final Workout workout;
   final VoidCallback onRename;
 
-  const WorkoutItem({
-    super.key,
-    required this.workout,
-    required this.onRename,
-  });
+  const WorkoutItem({super.key, required this.workout, required this.onRename});
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +117,7 @@ class WorkoutItem extends StatelessWidget {
             Text('Sets: ${workout.sets}'),
           ],
         ),
-        IconButton(
-          icon: const Icon(Icons.edit),
-          onPressed: onRename,
-        ),
+        IconButton(icon: const Icon(Icons.edit), onPressed: onRename),
       ],
     );
   }

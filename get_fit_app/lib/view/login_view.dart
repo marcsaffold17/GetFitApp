@@ -1,39 +1,52 @@
 import 'package:flutter/material.dart';
 import '../presenter/login_presenter.dart';
-import 'login_HomePage.dart';
+import '../presenter/global_presenter.dart';
+
+import 'HomePage.dart';
 
 class LoginButtonPage extends StatelessWidget {
+  const LoginButtonPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Welcome')),
+      appBar: AppBar(title: const Text('')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           ElevatedButton(
-            onPressed: () {
-              // Navigate to the login page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyCreateAccountPage(title: 'Create Account Page')),
-              );
-            },
-            child: const Text('Create Account'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Navigate to the login page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyLoginPage(title: 'Login Page')),
-              );
-            },
-            child: const Text('Login'),
-          ), 
-          ]
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to the login page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => const MyCreateAccountPage(
+                          title: 'Create Account Page',
+                        ),
+                  ),
+                );
+              },
+              child: const Text('Create Account'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to the login page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => const MyLoginPage(title: 'Login Page'),
+                  ),
+                );
+              },
+              child: const Text('Login'),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -45,8 +58,7 @@ class MyLoginPage extends StatefulWidget {
   LoginPage createState() => LoginPage();
 }
 
-class LoginPage extends State<MyLoginPage> implements LoginView
-{
+class LoginPage extends State<MyLoginPage> implements LoginView {
   late LoginPresenter presenter;
   final userNameText = TextEditingController();
   final passWordText = TextEditingController();
@@ -59,12 +71,20 @@ class LoginPage extends State<MyLoginPage> implements LoginView
 
   @override
   void showSuccess(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message, style: const TextStyle(color: Colors.green))));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(color: Colors.green)),
+      ),
+    );
   }
 
   @override
   void showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message, style: const TextStyle(color: Colors.red))));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(color: Colors.red)),
+      ),
+    );
   }
 
   @override
@@ -81,24 +101,41 @@ class LoginPage extends State<MyLoginPage> implements LoginView
           children: [
             TextField(
               controller: userNameText,
-              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Username'),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Username',
+              ),
             ),
             TextField(
               controller: passWordText,
-              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Password'),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Password',
+              ),
             ),
             TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.blue),
-              onPressed: () async{
-                bool isValid = await presenter.CheckAccountInfo(userNameText.text, passWordText.text);
-                if(isValid)
-                {
+              onPressed: () async {
+                bool isValid = await presenter.CheckAccountInfo(
+                  userNameText.text,
+                  passWordText.text,
+                );
+                if (isValid) {
+                  globalUsername = userNameText.text;
                   print("works");
-                  Navigator.push(context,MaterialPageRoute(builder: (context) =>  MyHomePage(title: 'Home Page', username: userNameText.text),
-                  ));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => MyHomePage(
+                            title: 'Home Page',
+                            username: userNameText.text,
+                          ),
+                    ),
+                  );
                 }
               },
-              
+
               child: const Text('Check Login Info'),
             ),
           ],
@@ -116,11 +153,12 @@ class MyCreateAccountPage extends StatefulWidget {
   CreateAccountPage createState() => CreateAccountPage();
 }
 
-class CreateAccountPage extends State<MyCreateAccountPage> implements LoginView
-{
+class CreateAccountPage extends State<MyCreateAccountPage>
+    implements LoginView {
   late LoginPresenter presenter;
   final userNameText = TextEditingController();
   final passWordText = TextEditingController();
+  final emailText = TextEditingController();
 
   @override
   void initState() {
@@ -130,12 +168,20 @@ class CreateAccountPage extends State<MyCreateAccountPage> implements LoginView
 
   @override
   void showSuccess(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message, style: const TextStyle(color: Colors.green))));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(color: Colors.green)),
+      ),
+    );
   }
 
   @override
   void showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message, style: const TextStyle(color: Colors.red))));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(color: Colors.red)),
+      ),
+    );
   }
 
   @override
@@ -152,11 +198,24 @@ class CreateAccountPage extends State<MyCreateAccountPage> implements LoginView
           children: [
             TextField(
               controller: userNameText,
-              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Username'),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Username',
+              ),
+            ),
+            TextField(
+              controller: emailText,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Email Address',
+              ),
             ),
             TextField(
               controller: passWordText,
-              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Password'),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Password',
+              ),
             ),
             TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.blue),
@@ -171,5 +230,3 @@ class CreateAccountPage extends State<MyCreateAccountPage> implements LoginView
     );
   }
 }
-
-

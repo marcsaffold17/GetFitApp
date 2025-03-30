@@ -17,7 +17,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> implements ChartView {
   List<ChartModel> _chartData = [];
   late ChartPresenter _presenter;
-  String _selectedChart = 'Line';
+  final String _selectedChart = 'Line';
 
   @override
   void initState() {

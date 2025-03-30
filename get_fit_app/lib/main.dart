@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'view/login_view.dart';
+import '../view/HomePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,12 +10,12 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter MVP Demo',
+      title: 'Flutter Program',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: LoginButtonPage(),
     );
