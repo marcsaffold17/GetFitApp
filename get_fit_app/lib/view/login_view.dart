@@ -153,6 +153,8 @@ class CreateAccountPage extends State<MyCreateAccountPage>
   final userNameText = TextEditingController();
   final passWordText = TextEditingController();
   final confirmPassWordText = TextEditingController();
+  final emailText = TextEditingController();
+
 
   @override
   void initState() {
@@ -203,6 +205,13 @@ class CreateAccountPage extends State<MyCreateAccountPage>
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Username',
+              ),
+            ),
+            TextField(
+              controller: emailText,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Email',
               ),
             ),
             TextField(
