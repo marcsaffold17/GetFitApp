@@ -26,6 +26,7 @@ class LoginButtonPage extends StatelessWidget {
             //   height: 300,
             //   width: 300,
             //   ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -38,8 +39,13 @@ class LoginButtonPage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Create Account'),
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(250, 30), // Adjust width and height
+                // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+              ),
+              child: const Text('Create Account', style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25),),
             ),
+            SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -50,7 +56,11 @@ class LoginButtonPage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Login'),
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(250, 30), // Adjust width and height
+                // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+              ),
+              child: const Text('Login',style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
             ),
             Image.asset(
               'assets/images/Dumbell.png',

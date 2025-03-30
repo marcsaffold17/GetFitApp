@@ -84,6 +84,9 @@ flutter:
     - family: Helvetica
       fonts:
         - asset: assets/fonts/HelveticaNeueBold.otf
+    - family: Mirage
+      fonts:
+        - asset: assets/fonts/mMirage.otf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
