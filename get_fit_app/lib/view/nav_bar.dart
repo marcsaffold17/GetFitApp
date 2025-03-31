@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../view/favorites_page.dart';
-import 'HomePage.dart';
+import '../view/HomePage.dart';
 import '../view/login_view.dart';
 import '../view/exercise_view.dart';
-
-
+import '../view/SettingsPage.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -25,7 +24,11 @@ class NavBar extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 16),
                     child: IconButton(
-                      icon: const Icon(Icons.close, size: 28, color: Colors.black),
+                      icon: const Icon(
+                        Icons.close,
+                        size: 28,
+                        color: Colors.black,
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -49,28 +52,51 @@ class NavBar extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home', username:"")
+                      MaterialPageRoute(
+                        builder:
+                            (context) =>
+                                const MyHomePage(title: 'Home', username: ""),
                       ),
                     );
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.star_border_outlined, color: Colors.black),
+                  leading: const Icon(
+                    Icons.star_border_outlined,
+                    color: Colors.black,
+                  ),
                   title: const Text("Favorites"),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const FavoritesPage(),
+                      ),
                     );
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.sports_handball_outlined, color: Colors.black),
+                  leading: const Icon(
+                    Icons.sports_handball_outlined,
+                    color: Colors.black,
+                  ),
                   title: const Text("Exercises"),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ExercisePage()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings, color: Colors.black),
+                  title: const Text("Settings"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsPage(),
+                      ),
                     );
                   },
                 ),
