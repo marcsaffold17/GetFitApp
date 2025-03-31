@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import '../presenter/login_presenter.dart';
 import '../presenter/global_presenter.dart';
-
 import 'HomePage.dart';
 
 class LoginButtonPage extends StatelessWidget {
-  const LoginButtonPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +14,6 @@ class LoginButtonPage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                // Navigate to the login page
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -32,7 +28,6 @@ class LoginButtonPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the login page
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -94,7 +89,8 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -106,8 +102,10 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                 hintText: 'Username',
               ),
             ),
+            SizedBox(height: 12),
             TextField(
               controller: passWordText,
+              obscureText: true,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Password',
@@ -122,7 +120,6 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                 );
                 if (isValid) {
                   globalUsername = userNameText.text;
-                  print("works");
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -135,7 +132,6 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                   );
                 }
               },
-
               child: const Text('Check Login Info'),
             ),
           ],
@@ -158,7 +154,9 @@ class CreateAccountPage extends State<MyCreateAccountPage>
   late LoginPresenter presenter;
   final userNameText = TextEditingController();
   final passWordText = TextEditingController();
+  final confirmPassWordText = TextEditingController();
   final emailText = TextEditingController();
+
 
   @override
   void initState() {
@@ -184,6 +182,14 @@ class CreateAccountPage extends State<MyCreateAccountPage>
     );
   }
 
+  void handleCreateAccount() {
+    if (passWordText.text != confirmPassWordText.text) {
+      showError("Passwords do not match");
+      return;
+    }
+    presenter.createAccount(userNameText.text, passWordText.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,7 +197,8 @@ class CreateAccountPage extends State<MyCreateAccountPage>
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -203,25 +210,35 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                 hintText: 'Username',
               ),
             ),
+            SizedBox(height: 12),
             TextField(
               controller: emailText,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Email Address',
+                hintText: 'Email',
               ),
             ),
+            SizedBox(height: 12),
             TextField(
               controller: passWordText,
+              obscureText: true,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Password',
               ),
             ),
+            SizedBox(height: 12),
+            TextField(
+              controller: confirmPassWordText,
+              obscureText: true,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Confirm Password',
+              ),
+            ),
             TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.blue),
-              onPressed: () {
-                presenter.createAccount(userNameText.text, passWordText.text);
-              },
+              onPressed: handleCreateAccount,
               child: const Text('Create Account'),
             ),
           ],
