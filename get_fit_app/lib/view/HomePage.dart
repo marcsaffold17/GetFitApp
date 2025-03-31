@@ -44,6 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
       MaterialPageRoute(builder: (context) => LoginButtonPage()),
       (Route<dynamic> route) => false,
     );
+  }
+
   void _loadChartData() {
     _chartData = [
       ChartModel(x: 1, y: 5),

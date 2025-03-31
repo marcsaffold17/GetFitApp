@@ -17,7 +17,8 @@ class WorkoutEntryScreen extends StatefulWidget {
 }
 
 // Initializing various text fields for inserting workout data
-class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements WorkoutView {
+class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
+    implements WorkoutView {
   final _formKey = GlobalKey<FormState>();
   final _dayController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -34,10 +35,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
 
   @override
   void onWorkoutAdded() {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Workout added'),
-      duration: Duration(seconds: 2),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Workout added'), duration: Duration(seconds: 2)),
+    );
 
     // Removing user input text fields after workout is added
     _formKey.currentState?.reset();
@@ -90,17 +90,19 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    double? distance = double.tryParse(
-                        _distanceController.text) ?? 0.0;
+                    double? distance =
+                        double.tryParse(_distanceController.text) ?? 0.0;
                     int? time = int.tryParse(_timeController.text) ?? 0;
                     final newWorkout = Workout(
-                      day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
+                      day: Timestamp.fromDate(
+                        DateTime.parse(_dayController.text),
+                      ),
                       description: _descriptionController.text,
                       distance: distance,
                       time: time,
                       title: _titleController.text,
                       type: _typeController.text,
-                  );
+                    );
                     widget.presenter.addWorkout(newWorkout);
                   }
                 },

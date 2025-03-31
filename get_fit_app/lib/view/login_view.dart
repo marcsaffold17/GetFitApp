@@ -157,7 +157,6 @@ class CreateAccountPage extends State<MyCreateAccountPage>
   final confirmPassWordText = TextEditingController();
   final emailText = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
