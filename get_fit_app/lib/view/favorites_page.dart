@@ -10,27 +10,59 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   List<Workout> workouts = [
-    Workout(name: 'Bench Press', muscles: 'Chest, Triceps, Shoulders', sets: 4),
-    Workout(name: 'Squat', muscles: 'Legs, Glutes', sets: 3),
+    Workout(
+      name: 'Bench Press',
+      muscles: 'Chest, Triceps, Shoulders',
+      sets: 4,
+      reps: 10,
+    ),
+    Workout(name: 'Squat', muscles: 'Legs, Glutes', sets: 3, reps: 12),
   ];
 
-  void _renameWorkout(Workout workout) {
-    TextEditingController controller = TextEditingController(text: workout.name);
+  void _editWorkout(Workout workout) {
+    TextEditingController nameController = TextEditingController(
+      text: workout.name,
+    );
+    TextEditingController setsController = TextEditingController(
+      text: workout.sets.toString(),
+    );
+    TextEditingController repsController = TextEditingController(
+      text: workout.reps.toString(),
+    );
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Rename Workout'),
-          content: TextField(
-            controller: controller,
-            decoration: const InputDecoration(hintText: 'Enter new workout name'),
+          title: const Text('Edit Workout'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(labelText: 'Workout Name'),
+              ),
+              TextField(
+                controller: setsController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Sets'),
+              ),
+              TextField(
+                controller: repsController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Reps'),
+              ),
+            ],
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 setState(() {
-                  workout.name = controller.text;
+                  workout.name = nameController.text;
+                  workout.sets =
+                      int.tryParse(setsController.text) ?? workout.sets;
+                  workout.reps =
+                      int.tryParse(repsController.text) ?? workout.reps;
                 });
                 Navigator.of(context).pop();
               },
@@ -62,13 +94,15 @@ class _FavoritesPageState extends State<FavoritesPage> {
           Expanded(
             child: ListView.separated(
               itemCount: workouts.length,
-              separatorBuilder: (context, index) => const Divider(thickness: 2, color: Colors.black),
+              separatorBuilder:
+                  (context, index) =>
+                      const Divider(thickness: 2, color: Colors.black),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: WorkoutItem(
                     workout: workouts[index],
-                    onRename: () => _renameWorkout(workouts[index]),
+                    onEdit: () => _editWorkout(workouts[index]),
                   ),
                 );
               },
@@ -84,41 +118,47 @@ class Workout {
   String name;
   String muscles;
   int sets;
+  int reps;
 
-  Workout({required this.name, required this.muscles, required this.sets});
+  Workout({
+    required this.name,
+    required this.muscles,
+    required this.sets,
+    required this.reps,
+  });
 }
 
 class WorkoutItem extends StatelessWidget {
   final Workout workout;
-  final VoidCallback onRename;
+  final VoidCallback onEdit;
 
-  const WorkoutItem({
-    super.key,
-    required this.workout,
-    required this.onRename,
-  });
+  const WorkoutItem({super.key, required this.workout, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              workout.name,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text('Muscles Worked: ${workout.muscles}'),
-            const SizedBox(height: 8),
-            Text('Sets: ${workout.sets}'),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                workout.name,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text('Muscles Worked: ${workout.muscles}'),
+              const SizedBox(height: 8),
+              Text('Sets: ${workout.sets}'),
+              const SizedBox(height: 8),
+              Text('Reps: ${workout.reps}'),
+            ],
+          ),
         ),
-        IconButton(
-          icon: const Icon(Icons.edit),
-          onPressed: onRename,
-        ),
+        IconButton(icon: const Icon(Icons.edit), onPressed: onEdit),
       ],
     );
   }
