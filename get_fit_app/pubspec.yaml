@@ -40,6 +40,10 @@ dependencies:
   firebase_messaging: ^15.2.4
   flutter_local_notifications: ^16.3.1
   flutter_timezone: ^4.1.0
+  awesome_notifications_core: ^0.10.1
+  awesome_notifications: ^0.10.1
+  awesome_notifications_fcm: ^0.10.1
+
 
 dev_dependencies:
   flutter_test:
