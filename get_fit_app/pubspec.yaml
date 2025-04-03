@@ -83,7 +83,7 @@ flutter:
   fonts:
     - family: Voguella
       fonts:
-        - asset: assets/fonts/Voguella.ttf
+        - asset: assets/fonts/CreatoDisplay-Medium.otf
     - family: Mirage
       fonts:
         - asset: assets/fonts/mMirage.otf

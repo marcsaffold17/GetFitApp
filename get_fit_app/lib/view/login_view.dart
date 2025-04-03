@@ -7,20 +7,27 @@ class LoginButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('')),
-      body: Center(
+      // appBar: AppBar(title: const Text('')),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color.fromARGB(255, 4, 222, 138), Color.fromARGB(255, 2, 154, 80), Color.fromARGB(255, 1, 50, 34)], // Gradient colors
+            begin: Alignment.centerLeft, // Start position
+            end: Alignment.centerRight, // End position
+          ),
+        ),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 230),
             RichText(
               text: TextSpan(
-                style: TextStyle(fontFamily: 'Voguella', fontSize: 80, color: Colors.black),
+                style: TextStyle(fontFamily: 'Voguella', fontSize: 80, color: const Color.fromARGB(255, 255, 255, 255)),
                 children: const <TextSpan>[
-                  TextSpan(text: 'Get FIT',style: TextStyle()),
+                  TextSpan(text: 'Get FIT'),
                 ],
               ),
             ),
-            const Divider(height: 20, thickness: 7, indent: 30, endIndent: 30, color: Colors.black),
+            const Divider(height: 20, thickness: 7, indent: 30, endIndent: 30, color: Color.fromARGB(255, 255, 255, 255)),
             // Image.asset(
             //   'assets/images/Dumbell.png',
             //   height: 300,
@@ -63,11 +70,11 @@ class LoginButtonPage extends StatelessWidget {
               child: const Text('Login',style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
             ),
             SizedBox(height: 100),
-            Image.asset(
-              'assets/images/Dumbell.png',
-              height: 300,
-              width: 300,
-              ),
+            // Image.asset(
+            //   'assets/images/Dumbell.png',
+            //   height: 300,
+            //   width: 300,
+            //   ),
           ],
         ),
       ),
