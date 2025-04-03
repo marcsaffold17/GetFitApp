@@ -5,6 +5,7 @@ import '../view/HomePage.dart';
 import '../view/login_view.dart';
 import '../view/exercise_view.dart';
 import '../view/SettingsPage.dart';
+import '../view/checklist_view.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -85,6 +86,19 @@ class NavBar extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ExercisePage()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.checklist_rounded,
+                    color: Colors.black,
+                  ),
+                  title: const Text("Checklist"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChecklistPage()),
                     );
                   },
                 ),

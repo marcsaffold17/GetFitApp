@@ -89,8 +89,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -102,7 +101,6 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                 hintText: 'Username',
               ),
             ),
-            SizedBox(height: 12),
             TextField(
               controller: passWordText,
               obscureText: true,
@@ -196,8 +194,7 @@ class CreateAccountPage extends State<MyCreateAccountPage>
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -209,7 +206,6 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                 hintText: 'Username',
               ),
             ),
-            SizedBox(height: 12),
             TextField(
               controller: emailText,
               decoration: const InputDecoration(
@@ -217,7 +213,6 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                 hintText: 'Email',
               ),
             ),
-            SizedBox(height: 12),
             TextField(
               controller: passWordText,
               obscureText: true,
@@ -226,7 +221,6 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                 hintText: 'Password',
               ),
             ),
-            SizedBox(height: 12),
             TextField(
               controller: confirmPassWordText,
               obscureText: true,
