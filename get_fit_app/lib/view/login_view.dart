@@ -223,95 +223,121 @@ class CreateAccountPage extends State<MyCreateAccountPage>
     presenter.createAccount(userNameText.text, passWordText.text);
   }
 
-  @override
+@override
 Widget build(BuildContext context) {
   return Scaffold(
-      body: Stack(
-      children: [
-        Container(
+    appBar: AppBar(
+      flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color.fromARGB(255, 4, 222, 138), Color.fromARGB(255, 2, 154, 80), Color.fromARGB(255, 1, 50, 34)],
+            colors: [
+              Color.fromARGB(255, 4, 222, 138),
+              Color.fromARGB(255, 2, 154, 80),
+              Color.fromARGB(255, 1, 50, 34),
+            ],
             begin: Alignment.centerLeft,
-            end: Alignment.centerRight, 
+            end: Alignment.centerRight,
           ),
         ),
-        ),
-        Positioned(
-          left: -5,
-          right: -5,      
-          top: 300,       
-          bottom: -15,     
-          child: Container(
-            height: 100,  
-            width: 100,   
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color.fromARGB(255, 255, 255, 255),
-              border: Border.all(width: 5.0, color: Colors.white),
-              borderRadius: BorderRadius.all(
-                Radius.circular(30.0), 
-              ),
+      ),
+    ),
+    body: Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 4, 222, 138),
+                Color.fromARGB(255, 2, 154, 80),
+                Color.fromARGB(255, 1, 50, 34),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Align(
-                  alignment: Alignment.topLeft, // Change to Alignment.topLeft, bottomRight, etc.
-                  child: RichText(
-                    text: TextSpan(
-                      style: TextStyle(fontFamily: 'Voguella', fontSize: 80, color: const Color.fromARGB(255, 255, 255, 255)),
-                      children: const <TextSpan>[
-                        TextSpan(text: 'Login'),
-                      ],
+        Align(
+          alignment: Alignment.topLeft,
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(
+                fontFamily: 'Voguella',
+                fontSize: 40,
+                color: const Color.fromARGB(255, 255, 255, 255),
+              ),
+              children: const <TextSpan>[
+                TextSpan(text: '   Create\n   Account'),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: -5,
+          right: -5,
+          top: 200,
+          bottom: -15,
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(width: 5.0, color: Colors.white),
+              borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            ),
+            child: SingleChildScrollView( 
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(height: 20),
+                  TextField(
+                    controller: userNameText,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Username',
                     ),
-                  ),  
+                  ),
+                  SizedBox(height: 12),
+                  TextField(
+                    controller: emailText,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Email',
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  TextField(
+                    controller: passWordText,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Password',
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  TextField(
+                    controller: confirmPassWordText,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Confirm Password',
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), 
+                      shape: RoundedRectangleBorder( 
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),                    ),
+                    onPressed: handleCreateAccount, 
+                    child: const Text
+                    ( 
+                      'Create Account',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), 
+                    ),
+                  )
+                ],
               ),
-              SizedBox(height: 200),
-              TextField(
-                controller: userNameText,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Username',
-                ),
-              ),
-              SizedBox(height: 12),
-              TextField(
-                controller: emailText,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Email',
-                ),
-              ),
-              SizedBox(height: 12),
-              TextField(
-                controller: passWordText,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Password',
-                ),
-              ),
-              SizedBox(height: 12),
-              TextField(
-                controller: confirmPassWordText,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Confirm Password',
-                ),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(foregroundColor: Colors.blue),
-                onPressed: handleCreateAccount,
-                child: const Text('Create Account'),
-              ),
-            ],
+            ),
           ),
         ),
       ],
