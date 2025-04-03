@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b424f84-6c03-44d4-a8a2-38f561c85ed8" name="Changes" comment="Got code startup for the notification services user stories">
-      <change afterPath="$PROJECT_DIR$/get_fit_app/lib/view/workout_history_view.dart" afterDir="false" />
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/get_fit_app/lib/model/badge_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AndroidProjectSystem.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_3_27_2025_8_46_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_3_27_2025_8_46_PM_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_3_27_2025_8_46_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,15 +32,15 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Notifications" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
+  &quot;associatedIndex&quot;: 2
 }</component>
-  <component name="ProjectId" id="2uaxdHfTmbiLcfNKFjCRWrAGJXd" />
+  <component name="ProjectId" id="2vBlbITNGNoFcUoZKpRDC6HPl5D" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -48,14 +54,18 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "Badges",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/danie/StudioProjects/Bug-Hunters",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\danie\StudioProjects\Bug-Hunters\get_fit_app\lib\model" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration name="main" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/get_fit_app/lib/main.dart" />
       <method v="2" />
     </configuration>
@@ -63,44 +73,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2b424f84-6c03-44d4-a8a2-38f561c85ed8" name="Changes" comment="" />
-      <created>1742500572105</created>
+      <changelist id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="" />
+      <created>1743626419885</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1742500572105</updated>
+      <updated>1743626419885</updated>
     </task>
-    <task id="LOCAL-00001" summary="Got code startup for the notification services user stories">
-      <option name="closed" value="true" />
-      <created>1742908017158</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1742908017158</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Got code startup for the notification services user stories">
-      <option name="closed" value="true" />
-      <created>1742908090304</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1742908090304</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Got code startup for the notification services user stories" />
-    <option name="LAST_COMMIT_MESSAGE" value="Got code startup for the notification services user stories" />
   </component>
 </project>
