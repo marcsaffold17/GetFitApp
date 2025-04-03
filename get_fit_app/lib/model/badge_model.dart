@@ -38,6 +38,9 @@ class Badge {
   }
 }
 
+// =======================
+// Repository for Badges
+// =======================
 
 class BadgeRepsoitory {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -47,13 +50,20 @@ class BadgeRepsoitory {
 
   // Fetch badges from Firestore
   Stream<List<Badge>> getBadges() {
-    return _firestore.collection('users').doc(userId).collection('badges').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Badge.fromFirestore(doc.data())).toList();
-    });
+    return _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('badges')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => Badge.fromFirestore(doc.data()))
+            .toList());
+  }
 
-    // Unlock a badge in Firestore
-    Future<void> unlockBadge(String badgeId) async {
-    await _firestore.collection('users').doc(userId).collection('badges').doc(badgeId).update({'isUnlocked': true});
+  // Unlock a badge in Firestore
+  Future<void> unlockBadge(String badgeId) async {
+    await _firestore.collection('users').doc(userId).collection('badges').doc(badgeId)
+        .update({'isUnlocked': true});
 
   }
 }
