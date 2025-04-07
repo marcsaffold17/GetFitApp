@@ -61,30 +61,54 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
           child: Column(
             children: [
               TextFormField(
-                controller: _dayController,
-                decoration: InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
-              ),
-              TextFormField(
-                controller: _typeController,
-                decoration: InputDecoration(labelText: 'Type of Workout'),
-              ),
-              TextFormField(
-                controller: _timeController,
-                decoration: InputDecoration(labelText: 'Time (Minutes)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _distanceController,
-                decoration: InputDecoration(labelText: 'Distance (Miles)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Workout Title'),
+                decoration: InputDecoration(
+                  labelText: 'Workout Title',
+                  floatingLabelAlignment: FloatingLabelAlignment.center,
+              ),
+                keyboardType: TextInputType.text,
+              textAlign: TextAlign.center,
+              ),
+              TextFormField(
+                controller: _dayController,
+                decoration: InputDecoration(
+                  labelText: 'Date (YYYY-MM-DD)',
+                  floatingLabelAlignment: FloatingLabelAlignment.start,
+                ),
+                keyboardType: TextInputType.datetime,
+
               ),
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(labelText: 'Workout Description'),
+              ),
+
+              Row(
+                children: [
+                  Expanded (
+                    child: TextFormField(
+                      controller: _typeController,
+                      decoration: InputDecoration(labelText: 'Type of Workout'),
+                      keyboardType: TextInputType.text,
+                    ),
+                  ),
+                  SizedBox(width: 16.0),
+                  Expanded(
+                    child: TextFormField(
+                      controller: _timeController,
+                      decoration: InputDecoration(labelText: 'Time (Minutes)'),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  SizedBox(width: 16.0), // Add some spacing between the fields
+                  Expanded(
+                    child: TextFormField(
+                      controller: _distanceController,
+                      decoration: InputDecoration(labelText: 'Distance (Miles)'),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                ],
               ),
 
               ElevatedButton(
@@ -104,6 +128,10 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                     widget.presenter.addWorkout(newWorkout);
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(double.infinity, 50),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                ),
                 child: Text('Add Workout'),
               ),
             ],
