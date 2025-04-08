@@ -1,44 +1,24 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/checklist_item.dart';
 
 class ChecklistPresenter {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final String storageKey = 'checklist_items';
 
-  /// Save the entire checklist to Firestore under the user's document
-  Future<void> saveChecklist(List<ChecklistItem> items) async {
-    final user = _auth.currentUser;
-    if (user == null) return;
-
-    final itemsMap = items.map((item) => item.toMap()).toList();
-
-    await _firestore
-        .collection('users')
-        .doc(user.uid)
-        .collection('checklist')
-        .doc('data')
-        .set({'items': itemsMap});
+  Future<List<ChecklistItem>> loadItems() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedData = prefs.getString(storageKey);
+    if (savedData != null) {
+      List<dynamic> jsonList = jsonDecode(savedData);
+      return jsonList.map((item) => ChecklistItem.fromJson(item)).toList();
+    }
+    return [];
   }
 
-  /// Load the user's checklist from Firestore
-  Future<List<ChecklistItem>> loadChecklist() async {
-    final user = _auth.currentUser;
-    if (user == null) return [];
-
-    final doc =
-        await _firestore
-            .collection('users')
-            .doc(user.uid)
-            .collection('checklist')
-            .doc('data')
-            .get();
-
-    if (!doc.exists || !doc.data()!.containsKey('items')) return [];
-
-    final List<dynamic> itemsData = doc.data()!['items'];
-    return itemsData
-        .map((item) => ChecklistItem.fromMap(item as Map<String, dynamic>))
-        .toList();
+  Future<void> saveItems(List<ChecklistItem> items) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> jsonList =
+        items.map((item) => item.toJson()).toList();
+    prefs.setString(storageKey, jsonEncode(jsonList));
   }
 }
