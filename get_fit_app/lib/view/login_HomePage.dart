@@ -37,6 +37,14 @@ class _MyHomePageState extends State<MyHomePage> implements ChartView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("")),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: 'Favorite'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setting'),
+        ],
+      ),
       drawer: const NavBar(),
       body: Stack(
         children: [
