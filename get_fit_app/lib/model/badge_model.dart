@@ -42,11 +42,11 @@ class Badge {
 // Repository for Badges
 // =======================
 
-class BadgeRepsoitory {
+class BadgeRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String userId;
 
-  BadgeRepsoitory({required this.userId});
+  BadgeRepository({required this.userId});
 
   // Fetch badges from Firestore
   Stream<List<Badge>> getBadges() {
