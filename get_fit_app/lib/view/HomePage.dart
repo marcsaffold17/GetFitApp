@@ -151,8 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'workout',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.star_border_outlined),
+            label: 'Favorites',
           ),
         ],
       ),
