@@ -12,14 +12,20 @@ class LoginButtonPage extends StatelessWidget {
         decoration: const BoxDecoration(
           // color: Color.fromARGB(255, 29, 28, 28)
           gradient: LinearGradient(
-            colors: [Color.fromARGB(255, 4, 222, 138), Color.fromARGB(255, 2, 154, 80), Color.fromARGB(255, 1, 50, 34)],
-            // colors: [Color.fromARGB(255, 67, 66, 66), Color.fromARGB(255, 189, 172, 172), Color.fromARGB(255, 60, 60, 61)], 
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight, 
+            colors: [Color.fromARGB(255, 4, 222, 138), 
+                     Color.fromARGB(255, 2, 154, 80), 
+                     Color.fromARGB(255, 1, 50, 34)],
+            begin: Alignment.centerLeft, // Start position
+            end: Alignment.centerRight, // End position
           ),
         ),
         child: Column(
           children: [
+            // Image.asset(
+            //   'assets/images/AshtonHall.webp',
+            //   height: 300,
+            //   width: 300,
+            //   ),
             SizedBox(height: 230),
             RichText(
               text: TextSpan(
@@ -67,11 +73,6 @@ class LoginButtonPage extends StatelessWidget {
               child: const Text('Login',style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
             ),
             SizedBox(height: 100),
-            // Image.asset(
-            //   'assets/images/Dumbell.png',
-            //   height: 300,
-            //   width: 300,
-            //   ),
           ],
         ),
       ),
@@ -159,7 +160,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                 color: const Color.fromARGB(255, 255, 255, 255),
               ),
               children: const <TextSpan>[
-                TextSpan(text: '   Login\n'),
+                TextSpan(text: '\n   Login'),
               ],
             ),
           ),
@@ -180,6 +181,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            SizedBox(height: 50),
             TextField(
               controller: userNameText,
               decoration: const InputDecoration(
@@ -196,28 +198,51 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                 hintText: 'Password',
               ),
             ),
-            TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.blue),
-              onPressed: () async {
-                bool isValid = await presenter.CheckAccountInfo(
-                  userNameText.text,
-                  passWordText.text,
-                );
-                if (isValid) {
-                  globalUsername = userNameText.text;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) => MyHomePage(
-                            title: 'Home Page',
-                            username: userNameText.text,
-                          ),
-                    ),
+            SizedBox(height: 20),
+            Container(
+              width: 400, 
+              height: 60, 
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color.fromARGB(255, 4, 222, 138), Color.fromARGB(255, 2, 154, 80), Color.fromARGB(255, 1, 50, 34)],
+                  //colors: [Color.fromARGB(255, 67, 66, 66), Color.fromARGB(255, 189, 172, 172), Color.fromARGB(255, 60, 60, 61)], 
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight, 
+                ),
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+                onPressed: () async {
+                  bool isValid = await presenter.CheckAccountInfo(
+                    userNameText.text,
+                    passWordText.text,
                   );
-                }
-              },
-              child: const Text('Check Login Info'),
+                  if (isValid) {
+                    globalUsername = userNameText.text;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => MyHomePage(
+                              title: 'Home Page',
+                              username: userNameText.text,
+                            ),
+                      ),
+                    );
+                  }
+                },
+                child: const Text(
+                  'Login',
+                  style: TextStyle(fontFamily: 'Mirage', fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255)),
+                ),
+              ),
             ),
           ],
         ),
@@ -346,16 +371,36 @@ Widget build(BuildContext context) {
                   SizedBox(height: 20),
                   TextField(
                     controller: userNameText,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 5, 99, 25),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide(width: 3.0, color: Colors.blue),
+                      ),
                       hintText: 'Username',
                     ),
                   ),
                   SizedBox(height: 12),
                   TextField(
                     controller: emailText,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 5, 99, 25),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide(width: 3.0, color: Colors.blue),
+                      ),
                       hintText: 'Email',
                     ),
                   ),
@@ -363,8 +408,18 @@ Widget build(BuildContext context) {
                   TextField(
                     controller: passWordText,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 5, 99, 25),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide(width: 3.0, color: Colors.blue),
+                      ),
                       hintText: 'Password',
                     ),
                   ),
@@ -372,8 +427,18 @@ Widget build(BuildContext context) {
                   TextField(
                     controller: confirmPassWordText,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 5, 99, 25),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide(width: 3.0, color: Colors.blue),
+                      ),
                       hintText: 'Confirm Password',
                     ),
                   ),
