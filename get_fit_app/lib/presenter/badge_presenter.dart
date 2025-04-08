@@ -2,14 +2,14 @@ import '../model/badge_model.dart';
 import '../view/badge_screen.dart';
 
 class BadgePresenter {
-  final BadgeView view;
+  late BadgeView view;
   final BadgeRepository repository;
 
   BadgePresenter({required this.view, required this.repository});
 
   void loadBadges() {
     repository.getBadges().listen((badges) {
-      view.updateBadges(badges);
+      view.displayBadges(badges);
     });
   }
 

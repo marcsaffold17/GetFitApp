@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../model/badge_model.dart';
+import '../model/badge_model.dart' as model;
 import '../presenter/badge_presenter.dart';
 import 'badge_grid.dart';
 
 abstract class BadgeView {
-  void displayBadges(List<Badge> badges);
+  void displayBadges(List<model.Badge> badges);
   void showBadgeUnlocked(String badgeId);
 }
 
@@ -14,11 +14,11 @@ class BadgeScreen extends StatefulWidget {
   const BadgeScreen({required this.presenter, super.key});
 
   @override
-  _BadgeScreenState createState() => _BadgeScreenState();
+  State<BadgeScreen> createState() => _BadgeScreenState();
 }
 
 class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
-  List<Badge> _badges = [];
+  List<model.Badge> _badges = [];
 
   @override
   void initState() {
@@ -33,6 +33,13 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
       appBar: AppBar(title: Text('Badges')),
       body: BadgeGrid(badges: _badges, presenter: widget.presenter),
     );
+  }
+
+  @override
+  void displayBadges(List<model.Badge> badges) {
+    setState(() {
+      _badges = badges;
+    });
   }
 
   @override

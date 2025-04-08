@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../model/badge_model.dart';
+import '../model/badge_model.dart' as model;
 import '../presenter/badge_presenter.dart';
 
 class BadgeItem extends StatelessWidget {
-  final Badge badge;
+  final model.Badge badge;
   final BadgePresenter presenter;
 
   const BadgeItem({required this.badge, required this.presenter, super.key});

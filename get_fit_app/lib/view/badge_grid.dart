@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../model/badge_model.dart';
+import '../model/badge_model.dart' as model;
 import '../presenter/badge_presenter.dart';
 import 'badge_item.dart';
 
 class BadgeGrid extends StatelessWidget {
-  final List<Badge> badges;
+  final List<model.Badge> badges;
   final BadgePresenter presenter;
 
   const BadgeGrid({required this.badges, required this.presenter, super.key});
