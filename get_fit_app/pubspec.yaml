@@ -38,6 +38,8 @@ dependencies:
   firebase_core: ^3.5.0
   cloud_firestore: ^5.4.2
   firebase_core_platform_interface: ^5.4.0
+  image_picker: ^3.0.0
+  video_player: ^4.0.1
 
 dev_dependencies:
   flutter_test:
