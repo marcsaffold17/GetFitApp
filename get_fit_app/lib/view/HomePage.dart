@@ -165,22 +165,6 @@ class _MyHomePageState extends State<MyHomePage> {
               text: "Favorites"
             )
         ]
-      //   currentIndex: _selected Index,
-      //   onTap: _onItemTapped,
-      //   items: const [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Home',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.sports_handball_outlined),
-      //       label: 'workout',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.star_border_outlined),
-      //       label: 'Favorites',
-      //     ),
-      //   ],
       ),
     );
   }
