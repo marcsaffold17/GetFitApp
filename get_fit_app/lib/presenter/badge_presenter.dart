@@ -5,7 +5,7 @@ class BadgePresenter {
   late BadgeView view;
   final BadgeRepository repository;
 
-  BadgePresenter({required this.view, required this.repository});
+  BadgePresenter({required this.repository});
 
   void loadBadges() {
     repository.getBadges().listen((badges) {

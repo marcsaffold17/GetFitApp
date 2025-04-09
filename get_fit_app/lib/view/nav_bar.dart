@@ -5,6 +5,12 @@ import '../view/HomePage.dart';
 import '../view/login_view.dart';
 import '../view/exercise_view.dart';
 import '../view/SettingsPage.dart';
+import '../view/badge_screen.dart';
+import '../presenter/badge_presenter.dart';
+import '../model/badge_model.dart';
+
+final badgeRepository = BadgeRepository(userId: 'user123');
+final BadgePresenter badgePresenter = BadgePresenter(repository: badgeRepository);
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -55,7 +61,7 @@ class NavBar extends StatelessWidget {
                       MaterialPageRoute(
                         builder:
                             (context) =>
-                                const MyHomePage(title: 'Home', username: ""),
+                        const MyHomePage(title: 'Home', username: ""),
                       ),
                     );
                   },
@@ -88,6 +94,26 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
+
+                // ✅ Updated Badge ListTile to pass in the presenter
+                ListTile(
+                  leading: const Icon(
+                    Icons.badge_outlined,
+                    color: Colors.black,
+                  ),
+                  title: const Text("Badges"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BadgeScreen(
+                          presenter: badgePresenter,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
                 ListTile(
                   leading: const Icon(Icons.settings, color: Colors.black),
                   title: const Text("Settings"),

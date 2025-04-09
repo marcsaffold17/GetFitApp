@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../model/badge_model.dart' as model;
 import '../presenter/badge_presenter.dart';
 import 'badge_grid.dart';
+import 'nav_bar.dart';
 
 abstract class BadgeView {
   void displayBadges(List<model.Badge> badges);
