@@ -149,6 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         padding: EdgeInsets.all(16),
         gap: 8,
+        tabBackgroundColor: const Color.fromARGB(255, 211, 208, 208)!,
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
