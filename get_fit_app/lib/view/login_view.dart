@@ -8,19 +8,47 @@ class LoginButtonPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(title: const Text('')),
-      body: Container(
-        decoration: const BoxDecoration(
-          // color: Color.fromARGB(255, 29, 28, 28)
-          gradient: LinearGradient(
-            colors: [Color.fromARGB(255, 4, 222, 138), 
-                     Color.fromARGB(255, 2, 154, 80), 
-                     Color.fromARGB(255, 1, 50, 34)],
-            begin: Alignment.centerLeft, // Start position
-            end: Alignment.centerRight, // End position
-          ),
+      body: Stack(
+  children: [
+    // Background gradient
+    Container(
+      decoration: const BoxDecoration(
+        // color: Color.fromARGB(255, 47, 63, 57),
+        gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(255, 4, 222, 138),
+            Color.fromARGB(255, 2, 154, 80),
+            Color.fromARGB(255, 1, 50, 34)
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
         ),
+      ),
+    ),
+    // Positioned(
+    //   top: -50,
+    //   left: -50,
+    //   child: Container(
+    //     width: 200,
+    //     height: 200,
+    //     decoration: const BoxDecoration(
+    //       color: Color.fromARGB(255, 0, 0, 0),
+    //       shape: BoxShape.circle,
+    //     ),
+    //   ),
+    // ),
+        Positioned.fill(
         child: Column(
           children: [
+            // Container(
+            //   width: 120,
+            //   height: 120,
+            //   decoration: BoxDecoration(
+            //     color: Colors.white,
+            //     shape: BoxShape.circle,
+            //   ),
+            // ),
+            // SizedBox(height: 20,),
             // Image.asset(
             //   'assets/images/AshtonHall.webp',
             //   height: 300,
@@ -51,9 +79,8 @@ class LoginButtonPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(250, 50), 
-                // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
               ),
-              child: const Text('Create Account', style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25),),
+              child: const Text('Create Account', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight:  FontWeight.w600, fontFamily: 'Mirage', fontSize: 25),),
             ),
             SizedBox(height: 30),
             ElevatedButton(
@@ -70,12 +97,14 @@ class LoginButtonPage extends StatelessWidget {
                 minimumSize: const Size(250, 50),
                 // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
               ),
-              child: const Text('Login',style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
+              child: const Text('Login',style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
             ),
             SizedBox(height: 100),
           ],
         ),
       ),
+      ]
+      )
     );
   }
 }
@@ -184,20 +213,39 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
             SizedBox(height: 50),
             TextField(
               controller: userNameText,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Username',
-              ),
-            ),
+              decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 5, 99, 25),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide(width: 3.0, color: Colors.blue),
+                      ),
+                      hintText: 'Username',
+                    ),
+                  ),
             SizedBox(height: 12),
             TextField(
               controller: passWordText,
-              obscureText: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Password',
-              ),
-            ),
+              decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 5, 99, 25),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide(width: 3.0, color: Colors.blue),
+                      ),
+                      hintText: 'Password',
+                    ),
+                  ),
             SizedBox(height: 20),
             Container(
               width: 400, 
@@ -368,7 +416,16 @@ Widget build(BuildContext context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  SizedBox(height: 20),
+                  // SizedBox(height: 20),
+                  // RichText(
+                  //   text: TextSpan(
+                  //     style: TextStyle(fontFamily: 'Mirage', fontSize: 15, color: const Color.fromARGB(255, 0, 0, 0)),
+                  //     children: const <TextSpan>[
+                  //       TextSpan(text: 'Username                                                                                                      '),
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(height: 30),
                   TextField(
                     controller: userNameText,
                     decoration: InputDecoration(
