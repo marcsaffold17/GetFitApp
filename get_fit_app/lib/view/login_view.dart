@@ -7,54 +7,24 @@ class LoginButtonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: const Text('')),
       body: Stack(
   children: [
-    // Background gradient
     Container(
       decoration: const BoxDecoration(
-        // color: Color.fromARGB(255, 47, 63, 57),
-        gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 4, 222, 138),
-            Color.fromARGB(255, 2, 154, 80),
-            Color.fromARGB(255, 1, 50, 34)
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
+        color: Color.fromARGB(255, 81, 7, 7),
       ),
     ),
-    // Positioned(
-    //   top: -50,
-    //   left: -50,
-    //   child: Container(
-    //     width: 200,
-    //     height: 200,
-    //     decoration: const BoxDecoration(
-    //       color: Color.fromARGB(255, 0, 0, 0),
-    //       shape: BoxShape.circle,
-    //     ),
-    //   ),
-    // ),
         Positioned.fill(
         child: Column(
           children: [
-            // Container(
-            //   width: 120,
-            //   height: 120,
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     shape: BoxShape.circle,
-            //   ),
-            // ),
-            // SizedBox(height: 20,),
-            // Image.asset(
-            //   'assets/images/AshtonHall.webp',
-            //   height: 300,
-            //   width: 300,
-            //   ),
-            SizedBox(height: 230),
+            SizedBox(height: 100 ),
+            Image.asset(
+            'assets/images/athass_2.png',
+            height: 200,
+            width: 200,
+            ),
+
+            // SizedBox(height: 230),
             RichText(
               text: TextSpan(
                 style: TextStyle(fontFamily: 'Voguella', fontSize: 80, color: const Color.fromARGB(255, 255, 255, 255)),
@@ -80,7 +50,7 @@ class LoginButtonPage extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(250, 50), 
               ),
-              child: const Text('Create Account', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight:  FontWeight.w600, fontFamily: 'Mirage', fontSize: 25),),
+              child: const Text('Create Account', style: TextStyle(color: Color.fromARGB(255, 81, 7, 7), fontWeight:  FontWeight.w600, fontFamily: 'Mirage', fontSize: 25),),
             ),
             SizedBox(height: 30),
             ElevatedButton(
@@ -95,9 +65,8 @@ class LoginButtonPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(250, 50),
-                // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
               ),
-              child: const Text('Login',style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
+              child: const Text('Login',style: TextStyle(color: Color.fromARGB(255, 81, 7, 7), fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
             ),
             SizedBox(height: 100),
           ],
@@ -152,15 +121,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
       appBar: AppBar(
       flexibleSpace: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 4, 222, 138),
-              Color.fromARGB(255, 2, 154, 80),
-              Color.fromARGB(255, 1, 50, 34),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
+          color: Color.fromARGB(255, 81, 7, 7),
         ),
       ),
     ),
@@ -168,15 +129,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
       children: [
         Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 4, 222, 138),
-                Color.fromARGB(255, 2, 154, 80),
-                Color.fromARGB(255, 1, 50, 34),
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
+            color: Color.fromARGB(255, 81, 7, 7),
           ),
         ),
         Align(
@@ -217,7 +170,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 5, 99, 25),
+                          color: Color.fromARGB(255, 81, 7, 7),
                           width: 2,
                         ),
                       ),
@@ -231,11 +184,12 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
             SizedBox(height: 12),
             TextField(
               controller: passWordText,
+              obscureText: true,
               decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 5, 99, 25),
+                          color: Color.fromARGB(255, 81, 7, 7),
                           width: 2,
                         ),
                       ),
@@ -251,12 +205,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
               width: 400, 
               height: 60, 
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color.fromARGB(255, 4, 222, 138), Color.fromARGB(255, 2, 154, 80), Color.fromARGB(255, 1, 50, 34)],
-                  //colors: [Color.fromARGB(255, 67, 66, 66), Color.fromARGB(255, 189, 172, 172), Color.fromARGB(255, 60, 60, 61)], 
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight, 
-                ),
+                color: Color.fromARGB(255, 118, 11, 11),
                 borderRadius: BorderRadius.circular(30.0),
               ),
               child: ElevatedButton(
@@ -358,15 +307,7 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       flexibleSpace: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 4, 222, 138),
-              Color.fromARGB(255, 2, 154, 80),
-              Color.fromARGB(255, 1, 50, 34),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
+          color: Color.fromARGB(255, 81, 7, 7),
         ),
       ),
     ),
@@ -374,15 +315,7 @@ Widget build(BuildContext context) {
       children: [
         Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 4, 222, 138),
-                Color.fromARGB(255, 2, 154, 80),
-                Color.fromARGB(255, 1, 50, 34),
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
+            color: Color.fromARGB(255, 81, 7, 7),
           ),
         ),
         Align(
@@ -416,15 +349,6 @@ Widget build(BuildContext context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // SizedBox(height: 20),
-                  // RichText(
-                  //   text: TextSpan(
-                  //     style: TextStyle(fontFamily: 'Mirage', fontSize: 15, color: const Color.fromARGB(255, 0, 0, 0)),
-                  //     children: const <TextSpan>[
-                  //       TextSpan(text: 'Username                                                                                                      '),
-                  //     ],
-                  //   ),
-                  // ),
                   SizedBox(height: 30),
                   TextField(
                     controller: userNameText,
@@ -432,7 +356,7 @@ Widget build(BuildContext context) {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 5, 99, 25),
+                          color: Color.fromARGB(255, 81, 7, 7),
                           width: 2,
                         ),
                       ),
@@ -450,7 +374,7 @@ Widget build(BuildContext context) {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 5, 99, 25),
+                          color: Color.fromARGB(255, 81, 7, 7),
                           width: 2,
                         ),
                       ),
@@ -469,7 +393,7 @@ Widget build(BuildContext context) {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 5, 99, 25),
+                          color: Color.fromARGB(255, 81, 7, 7),
                           width: 2,
                         ),
                       ),
@@ -488,7 +412,7 @@ Widget build(BuildContext context) {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 5, 99, 25),
+                          color: Color.fromARGB(255, 81, 7, 7),
                           width: 2,
                         ),
                       ),
@@ -504,12 +428,7 @@ Widget build(BuildContext context) {
                     width: 400, 
                     height: 60, 
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color.fromARGB(255, 4, 222, 138), Color.fromARGB(255, 2, 154, 80), Color.fromARGB(255, 1, 50, 34)],
-                        //colors: [Color.fromARGB(255, 67, 66, 66), Color.fromARGB(255, 189, 172, 172), Color.fromARGB(255, 60, 60, 61)], 
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight, 
-                      ),
+                      color: Color.fromARGB(255, 129, 12, 12),
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     child: ElevatedButton(
