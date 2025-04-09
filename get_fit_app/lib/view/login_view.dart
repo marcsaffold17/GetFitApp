@@ -27,7 +27,7 @@ class LoginButtonPage extends StatelessWidget {
             // SizedBox(height: 230),
             RichText(
               text: TextSpan(
-                style: TextStyle(fontFamily: 'Voguella', fontSize: 80, color: const Color.fromARGB(255, 255, 255, 255)),
+                style: TextStyle(fontFamily: 'CreatoDisplay', fontSize: 80, color: const Color.fromARGB(255, 255, 255, 255)),
                 children: const <TextSpan>[
                   TextSpan(text: 'Get FIT'),
                 ],
@@ -50,7 +50,7 @@ class LoginButtonPage extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(250, 50), 
               ),
-              child: const Text('Create Account', style: TextStyle(color: Color.fromARGB(255, 81, 7, 7), fontWeight:  FontWeight.w600, fontFamily: 'Mirage', fontSize: 25),),
+              child: const Text('Create Account', style: TextStyle(color: Color.fromARGB(255, 81, 7, 7), fontWeight:  FontWeight.w600, fontFamily: 'Garet', fontSize: 25),),
             ),
             SizedBox(height: 30),
             ElevatedButton(
@@ -66,7 +66,7 @@ class LoginButtonPage extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(250, 50),
               ),
-              child: const Text('Login',style: TextStyle(color: Color.fromARGB(255, 81, 7, 7), fontWeight: FontWeight.w600, fontFamily: 'Mirage', fontSize: 25) ),
+              child: const Text('Login',style: TextStyle(color: Color.fromARGB(255, 81, 7, 7), fontWeight: FontWeight.w600, fontFamily: 'Garet', fontSize: 25) ),
             ),
             SizedBox(height: 100),
           ],
@@ -237,7 +237,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                 },
                 child: const Text(
                   'Login',
-                  style: TextStyle(fontFamily: 'Mirage', fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255)),
+                  style: TextStyle(fontFamily: 'Garet', fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255)),
                 ),
               ),
             ),
@@ -323,7 +323,7 @@ Widget build(BuildContext context) {
           child: RichText(
             text: TextSpan(
               style: TextStyle(
-                fontFamily: 'Voguella',
+                fontFamily: 'CreatoDisplay',
                 fontSize: 40,
                 color: const Color.fromARGB(255, 255, 255, 255),
               ),
