@@ -13,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'insert_workout_view.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
 
 
 class MyHomePage extends StatefulWidget {
@@ -138,23 +140,47 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.sports_handball_outlined),
-            label: 'workout',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star_border_outlined),
-            label: 'Favorites',
-          ),
-        ],
+      bottomNavigationBar: GNav(
+        onTabChange: (index)
+        {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        padding: EdgeInsets.all(16),
+        gap: 8,
+        tabBorderRadius: 12,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        tabs: const [
+          GButton(
+            icon: Icons.home,
+            text: 'Home',
+            ),
+            GButton(
+              icon:Icons.sports_handball_outlined,
+              text: 'Exercise List',
+            ),
+            GButton(
+              icon:Icons.star_border_outlined,
+              text: "Favorites"
+            )
+        ]
+      //   currentIndex: _selected Index,
+      //   onTap: _onItemTapped,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.sports_handball_outlined),
+      //       label: 'workout',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.star_border_outlined),
+      //       label: 'Favorites',
+      //     ),
+      //   ],
       ),
     );
   }
