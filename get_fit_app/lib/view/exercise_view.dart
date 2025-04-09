@@ -20,10 +20,19 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   final exerciseTypeText = TextEditingController();
   final muscleTypeText = TextEditingController();
 
+  void _loadFavorites() async {
+    final snapshot = await favoritesRef.get();
+    setState(() {
+      _favoriteExercises = snapshot.docs.map((doc) => doc.id).toSet();
+    });
+  }
+
+
   @override
   void initState() {
     super.initState();
     _presenter = ExercisePresenter(this);
+    _loadFavorites();
     _presenter.fetchMuscleExercises(muscleTypeText.text, exerciseTypeText.text);
   }
 
@@ -114,15 +123,15 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                         ),
                         onPressed: () async {
                           setState(() {
-                            /*exercise.isFavorite = !isFavorite;
-                              if (exercise.isFavorite) {
+                            exercise.isFavorite = !isFavorite;
+                               if (exercise.isFavorite) {
                               _favoriteExercises.add(exercise.name);
                             } else {
                               _favoriteExercises.remove(exercise.name);
                             }
-                            */
+
                           });
-                          if (exercise.isFavorite == false) {
+                          if (exercise.isFavorite == true) {
                             await favoritesRef.doc(exercise.name).set({
                               'name': exercise.name,
                               'difficulty': exercise.difficulty,
