@@ -60,34 +60,34 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.star_border_outlined,
-                    color: Colors.black,
-                  ),
-                  title: const Text("Favorites"),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const FavoritesPage(),
-                      ),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.sports_handball_outlined,
-                    color: Colors.black,
-                  ),
-                  title: const Text("Exercises"),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ExercisePage()),
-                    );
-                  },
-                ),
+                // ListTile(
+                //   leading: const Icon(
+                //     Icons.star_border_outlined,
+                //     color: Colors.black,
+                //   ),
+                //   title: const Text("Favorites"),
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => const FavoritesPage(),
+                //       ),
+                //     );
+                //   },
+                // ),
+                // ListTile(
+                //   leading: const Icon(
+                //     Icons.sports_handball_outlined,
+                //     color: Colors.black,
+                //   ),
+                //   title: const Text("Exercises"),
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => ExercisePage()),
+                //     );
+                //   },
+                // ),
                 ListTile(
                   leading: const Icon(Icons.settings, color: Colors.black),
                   title: const Text("Settings"),
