@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../presenter/exercise_presenter.dart';
 import '../model/exercies_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ExercisePage extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class ExercisePage extends StatefulWidget {
 class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   late ExercisePresenter _presenter;
   List<Exercise> _exercises = [];
+  Set<String> _favoriteExercises = {};
   String _errorMessage = "";
 
   final exerciseTypeText = TextEditingController();
@@ -21,6 +23,10 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
     _presenter = ExercisePresenter(this);
     _presenter.fetchMuscleExercises(muscleTypeText.text, exerciseTypeText.text);
   }
+
+void setFavorites(){
+
+}
 
   void getMuscleExercises() {
     _presenter = ExercisePresenter(this);
@@ -78,34 +84,49 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
               },
               child: const Text('Search'),
             ),
-
             const SizedBox(height: 20),
             Expanded(
-              child:
-                  _errorMessage.isNotEmpty
-                      ? Center(
-                        child: Text(
-                          _errorMessage,
-                          style: TextStyle(color: Colors.red),
+              child: _errorMessage.isNotEmpty
+                  ? Center(
+                child: Text(
+                  _errorMessage,
+                  style: TextStyle(color: Colors.red),
+                ),
+              )
+                  : ListView.builder(
+                itemCount: _exercises.length,
+                itemBuilder: (context, index) {
+                  final exercise = _exercises[index];
+                  final isFavorite = _favoriteExercises.contains(exercise.name);
+
+                  return Card(
+                    margin: EdgeInsets.all(8),
+                    child: ListTile(
+                      title: Text(exercise.name),
+                      subtitle: Text(
+                        "Difficulty: ${exercise.difficulty}\n"
+                            "Equipment: ${exercise.equipment}",
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.star : Icons.star_border,
+                          color: isFavorite ? Colors.amber : Colors.grey,
                         ),
-                      )
-                      : ListView.builder(
-                        itemCount: _exercises.length,
-                        itemBuilder: (context, index) {
-                          final exercise = _exercises[index];
-                          return Card(
-                            margin: EdgeInsets.all(8),
-                            child: ListTile(
-                              title: Text(exercise.name),
-                              subtitle: Text(
-                                "Difficulty: ${exercise.difficulty}\n"
-                                "Equipment: ${exercise.equipment}",
-                              ),
-                              onTap: () => _showDetails(exercise),
-                            ),
-                          );
+                        onPressed: () {
+                          setState(() {
+                            if (isFavorite) {
+                              _favoriteExercises.remove(exercise.name);
+                            } else {
+                              _favoriteExercises.add(exercise.name);
+                            }
+                          });
                         },
                       ),
+                      onTap: () => _showDetails(exercise),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),

@@ -26,5 +26,4 @@ class Exercise {
       instructions: json['instructions'],
     );
   }
-
 }
