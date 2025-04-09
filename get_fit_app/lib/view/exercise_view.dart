@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../presenter/exercise_presenter.dart';
 import '../model/exercies_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../presenter/global_presenter.dart';
 
 class ExercisePage extends StatefulWidget {
   @override
@@ -12,7 +13,9 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   late ExercisePresenter _presenter;
   List<Exercise> _exercises = [];
   Set<String> _favoriteExercises = {};
+  final favoritesRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('favorites');
   String _errorMessage = "";
+
 
   final exerciseTypeText = TextEditingController();
   final muscleTypeText = TextEditingController();
@@ -24,9 +27,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
     _presenter.fetchMuscleExercises(muscleTypeText.text, exerciseTypeText.text);
   }
 
-void setFavorites(){
-
-}
 
   void getMuscleExercises() {
     _presenter = ExercisePresenter(this);
@@ -112,15 +112,28 @@ void setFavorites(){
                           isFavorite ? Icons.star : Icons.star_border,
                           color: isFavorite ? Colors.amber : Colors.grey,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
-                            if (isFavorite) {
-                              _favoriteExercises.remove(exercise.name);
-                            } else {
+                            /*exercise.isFavorite = !isFavorite;
+                              if (exercise.isFavorite) {
                               _favoriteExercises.add(exercise.name);
+                            } else {
+                              _favoriteExercises.remove(exercise.name);
                             }
+                            */
                           });
+                          if (exercise.isFavorite == false) {
+                            await favoritesRef.doc(exercise.name).set({
+                              'name': exercise.name,
+                              'difficulty': exercise.difficulty,
+                              'equipment': exercise.equipment,
+                              'instructions': exercise.instructions,
+                            });
+                          } else {
+                            await favoritesRef.doc(exercise.name).delete();
+                          }
                         },
+
                       ),
                       onTap: () => _showDetails(exercise),
                     ),
