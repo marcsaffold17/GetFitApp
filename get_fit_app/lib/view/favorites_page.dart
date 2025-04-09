@@ -10,6 +10,7 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   List<Exercise> _favoriteExercises = [];
+
   final favoritesRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('favorites');
 
   @override
