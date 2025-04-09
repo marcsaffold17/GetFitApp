@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../presenter/insert_workout_presenter.dart';
 import '../model/insert_workout_model.dart';
+import '../view/workout_history_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:io';
 
 abstract class WorkoutView {
   void onWorkoutAdded();
@@ -28,11 +30,11 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
   final _timeController = TextEditingController();
   final _titleController = TextEditingController();
   final _typeController = TextEditingController();
+  File? _image;
 
   @override
   void initState() {
     super.initState();
-    widget.presenter.view = this;
   }
 
   @override
@@ -50,6 +52,21 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
     _timeController.clear();
     _titleController.clear();
     _typeController.clear();
+    _image = null;
+  }
+
+  // User adds photo from camera roll to workout
+  Future<void> _pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected');
+      }
+    });
   }
 
   // Startup UI, should probably adjust later to fit
@@ -91,8 +108,19 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
               ),
 
               ElevatedButton(
+                onPressed: _pickImage,
+                child: Text('Add Photo'),
+              ),
+              if (_image != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Image.file(_image!, height: 100),
+                ),
+
+              ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    widget.presenter.view = this;
                     double? distance = double.tryParse(
                         _distanceController.text) ?? 0.0;
                     int? time = int.tryParse(_timeController.text) ?? 0;
@@ -103,6 +131,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                       time: time,
                       title: _titleController.text,
                       type: _typeController.text,
+                      image: _image,
                   );
                     widget.presenter.addWorkout(newWorkout);
                   }

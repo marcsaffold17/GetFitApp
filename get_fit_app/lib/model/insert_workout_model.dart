@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
 
 // Code mainly deals with user inputted code from the view.
 // Converts user inputted data into strings Firestore can understand.
@@ -10,6 +11,7 @@ class Workout {
   int time;
   String title;
   String type;
+  File? image;
 
   Workout({
     this.id,
@@ -19,6 +21,7 @@ class Workout {
     required this.time,
     required this.title,
     required this.type,
+    this.image,
   });
 
   // Factory for creating a workout
@@ -32,6 +35,7 @@ class Workout {
       time: data['Time'] ?? 0,
       title: data['Title'] ?? '',
       type: data['Type'] ?? '',
+      image: data['imageURL'] != null ? File(data['imageURL']) : null,
     );
   }
 
@@ -44,6 +48,7 @@ class Workout {
       'Time': time,
       'Title': title,
       'Type': type,
+      'imageURL': image?.path,
     };
   }
 }

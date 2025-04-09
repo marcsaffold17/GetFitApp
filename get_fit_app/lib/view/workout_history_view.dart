@@ -37,11 +37,12 @@ class WorkoutHistoryScreen extends StatelessWidget {
                       ),
                     if (data['Day'] == null || data['Day'] is! Timestamp)
                       Text('Date: No Date'),
-
                     Text('Type: ${data['Type'] ?? 'No Type'}'),
                     Text('Time: ${data['Time'] ?? 'No Time'}'),
                     Text('Distance: ${data['Distance'] ?? 'No Distance'}'),
                     Text('Description: ${data['Description'] ?? 'No Description'}'),
+                    if (data['Image'] != null)
+                      Text('Image: ${data['Image']}'),
                   ],
                 ),
               );
