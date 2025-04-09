@@ -134,6 +134,8 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                           if (exercise.isFavorite == true) {
                             await favoritesRef.doc(exercise.name).set({
                               'name': exercise.name,
+                              'type': exercise.type,
+                              'muscle': exercise.muscle,
                               'difficulty': exercise.difficulty,
                               'equipment': exercise.equipment,
                               'instructions': exercise.instructions,
