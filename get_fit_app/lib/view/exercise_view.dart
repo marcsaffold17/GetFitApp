@@ -123,7 +123,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                             "Equipment: ${exercise.equipment}",
                       ),
                       trailing: SizedBox(
-                        width: 100, 
+                        width: 100,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -135,16 +135,17 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                               onPressed: () async {
                                 setState(() {
                                   exercise.isFavorite = !isFavorite;
-                                    if (exercise.isFavorite) {
+                                  if (exercise.isFavorite) {
                                     _favoriteExercises.add(exercise.name);
                                   } else {
                                     _favoriteExercises.remove(exercise.name);
                                   }
-
                                 });
                                 if (exercise.isFavorite == true) {
                                   await favoritesRef.doc(exercise.name).set({
                                     'name': exercise.name,
+                                    'type': exercise.type,
+                                    'muscle': exercise.muscle,
                                     'difficulty': exercise.difficulty,
                                     'equipment': exercise.equipment,
                                     'instructions': exercise.instructions,
@@ -157,40 +158,20 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                             IconButton(
                               icon: Icon(Icons.add_outlined),
                               onPressed: () async {
-                                  await workoutPlanRef.doc(exercise.name).set({
-                                    'name': exercise.name,
-                                    'difficulty': exercise.difficulty,
-                                    'equipment': exercise.equipment,
-                                    'instructions': exercise.instructions,
-                                  });
+                                await workoutPlanRef.doc(exercise.name).set({
+                                  'name': exercise.name,
+                                  'type': exercise.type,
+                                  'muscle': exercise.muscle,
+                                  'difficulty': exercise.difficulty,
+                                  'equipment': exercise.equipment,
+                                  'instructions': exercise.instructions,
+                                });
                               },
                             ),
                           ],
                         ),
-                        onPressed: () async {
-                          setState(() {
-                            exercise.isFavorite = !isFavorite;
-                               if (exercise.isFavorite) {
-                              _favoriteExercises.add(exercise.name);
-                            } else {
-                              _favoriteExercises.remove(exercise.name);
-                            }
-
-                          });
-                          if (exercise.isFavorite == true) {
-                            await favoritesRef.doc(exercise.name).set({
-                              'name': exercise.name,
-                              'type': exercise.type,
-                              'muscle': exercise.muscle,
-                              'difficulty': exercise.difficulty,
-                              'equipment': exercise.equipment,
-                              'instructions': exercise.instructions,
-                            });
-                          } else {
-                            await favoritesRef.doc(exercise.name).delete();
-                          }
-                        },
                       ),
+
                       onTap: () => _showDetails(exercise),
                     ),
                   );
