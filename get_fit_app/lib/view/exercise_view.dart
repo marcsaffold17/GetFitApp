@@ -187,7 +187,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                   );
 
                                   if (pickedDate != null) {
-                                    String formattedDate = DateFormat('MM/dd/yy').format(pickedDate);
+                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
                                     print(formattedDate);
                                     await workoutPlanRef.doc(exercise.name).set({
                                       'date': formattedDate,

@@ -43,7 +43,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Workout History')),
+      // appBar: AppBar(title: Text('Workout History')),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
