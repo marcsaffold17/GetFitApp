@@ -41,7 +41,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
+      body: _favoriteExercises.isEmpty
+          ? Center(
+        child: Text(
+          "No favorites right now",
+          style: TextStyle(fontSize: 18, color: Colors.grey),
+        ),
+      )
+          : ListView.builder(
         itemCount: _favoriteExercises.length,
         itemBuilder: (context, index) {
           final exercise = _favoriteExercises[index];
