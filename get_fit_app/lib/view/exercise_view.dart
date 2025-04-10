@@ -80,10 +80,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Exercises"),
-      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      // ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -171,6 +167,29 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                             ),
                           ],
                         ),
+                        onPressed: () async {
+                          setState(() {
+                            exercise.isFavorite = !isFavorite;
+                               if (exercise.isFavorite) {
+                              _favoriteExercises.add(exercise.name);
+                            } else {
+                              _favoriteExercises.remove(exercise.name);
+                            }
+
+                          });
+                          if (exercise.isFavorite == true) {
+                            await favoritesRef.doc(exercise.name).set({
+                              'name': exercise.name,
+                              'type': exercise.type,
+                              'muscle': exercise.muscle,
+                              'difficulty': exercise.difficulty,
+                              'equipment': exercise.equipment,
+                              'instructions': exercise.instructions,
+                            });
+                          } else {
+                            await favoritesRef.doc(exercise.name).delete();
+                          }
+                        },
                       ),
                       onTap: () => _showDetails(exercise),
                     ),
