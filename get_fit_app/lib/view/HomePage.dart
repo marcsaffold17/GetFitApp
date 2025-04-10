@@ -14,6 +14,7 @@ import 'insert_workout_view.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import  '../view/Workout-Plan.dart';
 
 
 
@@ -128,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _buildHomePage(),
       ExercisePage(),
       FavoritesPage(),
+      WorkoutHistoryByDate(),
     ];
 
     return Scaffold(
@@ -164,7 +166,11 @@ class _MyHomePageState extends State<MyHomePage> {
             GButton(
               icon:Icons.star_border_outlined,
               text: "Favorites"
-            )
+            ),
+            GButton(
+              icon:Icons.star_border_outlined,
+              text: "Favorites"
+            ),
         ]
       ),
     );
