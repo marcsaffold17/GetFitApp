@@ -60,27 +60,37 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
           padding: EdgeInsets.all(16.0),
           child: Column(
             children: [
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  labelText: 'Workout Title',
-                  floatingLabelAlignment: FloatingLabelAlignment.center,
+              Row(
+                children:[
+                  Expanded(
+                    child: TextFormField(
+                      controller: _titleController,
+                      decoration: InputDecoration(
+                        labelText: 'Workout Title',
+                        floatingLabelAlignment: FloatingLabelAlignment.center,
+                      ),
+                      keyboardType: TextInputType.text,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(width: 16.0),
+                  Expanded(
+                    child: TextFormField(
+                      controller: _dayController,
+                      decoration: InputDecoration(
+                        labelText: 'Date (YYYY-MM-DD)',
+                        floatingLabelAlignment: FloatingLabelAlignment.start,
+                      ),
+                      keyboardType: TextInputType.datetime,
+                    ),
+                  ),
+                ]
               ),
-                keyboardType: TextInputType.text,
-              textAlign: TextAlign.center,
-              ),
-              TextFormField(
-                controller: _dayController,
-                decoration: InputDecoration(
-                  labelText: 'Date (YYYY-MM-DD)',
-                  floatingLabelAlignment: FloatingLabelAlignment.start,
-                ),
-                keyboardType: TextInputType.datetime,
 
-              ),
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(labelText: 'Workout Description'),
+                keyboardType: TextInputType.text,
               ),
 
               Row(
@@ -100,7 +110,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                       keyboardType: TextInputType.number,
                     ),
                   ),
-                  SizedBox(width: 16.0), // Add some spacing between the fields
+                  SizedBox(width: 16.0),
                   Expanded(
                     child: TextFormField(
                       controller: _distanceController,
@@ -110,7 +120,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                   ),
                 ],
               ),
-
+              SizedBox(height: 400.0),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -129,8 +139,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  padding: EdgeInsets.symmetric(horizontal: 100.0, vertical: 50.0),
                 ),
                 child: Text('Add Workout'),
               ),
