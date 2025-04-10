@@ -13,7 +13,10 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   late ExercisePresenter _presenter;
   List<Exercise> _exercises = [];
   Set<String> _favoriteExercises = {};
+    Set<String> _WorkoutPlan = {};
   final favoritesRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('favorites');
+    final workoutPlanRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('Workout-Plan');
+
   String _errorMessage = "";
 
 
@@ -27,12 +30,20 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
     });
   }
 
+  void _LoadWorkoutPlan() async{
+    final snapshot = await workoutPlanRef.get();
+    setState(() {
+      _WorkoutPlan = snapshot.docs.map((doc) => doc.id).toSet();
+    });
+  }
+
 
   @override
   void initState() {
     super.initState();
     _presenter = ExercisePresenter(this);
     _loadFavorites();
+    _LoadWorkoutPlan();
     _presenter.fetchMuscleExercises(muscleTypeText.text, exerciseTypeText.text);
   }
 
@@ -103,7 +114,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                 itemBuilder: (context, index) {
                   final exercise = _exercises[index];
                   final isFavorite = _favoriteExercises.contains(exercise.name);
-
                   return Card(
                     margin: EdgeInsets.all(8),
                     child: ListTile(
@@ -112,10 +122,50 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                         "Difficulty: ${exercise.difficulty}\n"
                             "Equipment: ${exercise.equipment}",
                       ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          isFavorite ? Icons.star : Icons.star_border,
-                          color: isFavorite ? Colors.amber : Colors.grey,
+                      trailing: SizedBox(
+                        width: 100, 
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                isFavorite ? Icons.star : Icons.star_border,
+                                color: isFavorite ? Colors.amber : Colors.grey,
+                              ),
+                              onPressed: () async {
+                                setState(() {
+                                  exercise.isFavorite = !isFavorite;
+                                    if (exercise.isFavorite) {
+                                    _favoriteExercises.add(exercise.name);
+                                  } else {
+                                    _favoriteExercises.remove(exercise.name);
+                                  }
+
+                                });
+                                if (exercise.isFavorite == true) {
+                                  await favoritesRef.doc(exercise.name).set({
+                                    'name': exercise.name,
+                                    'difficulty': exercise.difficulty,
+                                    'equipment': exercise.equipment,
+                                    'instructions': exercise.instructions,
+                                  });
+                                } else {
+                                  await favoritesRef.doc(exercise.name).delete();
+                                }
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.add_outlined),
+                              onPressed: () async {
+                                  await workoutPlanRef.doc(exercise.name).set({
+                                    'name': exercise.name,
+                                    'difficulty': exercise.difficulty,
+                                    'equipment': exercise.equipment,
+                                    'instructions': exercise.instructions,
+                                  });
+                              },
+                            ),
+                          ],
                         ),
                         onPressed: () async {
                           setState(() {
@@ -140,7 +190,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                             await favoritesRef.doc(exercise.name).delete();
                           }
                         },
-
                       ),
                       onTap: () => _showDetails(exercise),
                     ),
