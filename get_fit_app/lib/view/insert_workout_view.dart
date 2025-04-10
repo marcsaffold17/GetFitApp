@@ -6,6 +6,10 @@ import '../view/workout_history_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+// Required when needing to authenticate user
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 
 abstract class WorkoutView {
@@ -69,6 +73,22 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
     });
   }
 
+  Future<String?> uploadImage(File image) async {
+    try {
+      final storageRef = FirebaseStorage.instance.ref().child
+        ('Workout-Images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      final UploadTask uploadTask = storageRef.putFile(image);
+
+      final TaskSnapshot snapshot = await uploadTask.whenComplete(() {});
+      final String downloadURL = await snapshot.ref.getDownloadURL();
+
+      return downloadURL;
+    } catch (e) {
+      print("Error uploading image: $e");
+      return null;
+    }
+  }
+
   // Startup UI, should probably adjust later to fit
   @override
   Widget build(BuildContext context) {
@@ -118,12 +138,25 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                 ),
 
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     widget.presenter.view = this;
                     double? distance = double.tryParse(
                         _distanceController.text) ?? 0.0;
                     int? time = int.tryParse(_timeController.text) ?? 0;
+
+                    String? uploadedImage;
+                    if (_image != null) {
+                      uploadedImage = await uploadImage(_image!);
+                      if (uploadedImage == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text('Error uploading image'),
+                              duration: Duration(seconds: 2)),
+                        );
+                      }
+                    }
+
                     final newWorkout = Workout(
                       day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
                       description: _descriptionController.text,
@@ -131,9 +164,10 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                       time: time,
                       title: _titleController.text,
                       type: _typeController.text,
-                      image: _image,
+                      // image: uploadedImageUrl != null? File(uploadedImageUrl) : null,
                   );
                     widget.presenter.addWorkout(newWorkout);
+                    return;
                   }
                 },
                 child: Text('Add Workout'),
