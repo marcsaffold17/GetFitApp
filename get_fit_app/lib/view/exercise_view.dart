@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/date_time_patterns.dart';
 import '../presenter/exercise_presenter.dart';
 import '../model/exercies_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

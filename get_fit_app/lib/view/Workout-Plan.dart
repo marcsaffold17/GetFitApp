@@ -50,9 +50,22 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
               children: workoutsByDate.entries.map((entry) {
                 final date = entry.key;
                 final workouts = entry.value;
-
                 return ExpansionTile(
-                  title: Text(date),
+                  title: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(167, 196, 189,1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      date,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    ),
+                  ),
                   children: workouts.map((workout) {
                     return _WorkoutTile(workout: workout);
                   }).toList(),
@@ -77,35 +90,52 @@ class _WorkoutTileState extends State<_WorkoutTile> {
   bool isExpanded = false;
 
   void _showEditDialog() {
-    final setsController = TextEditingController(text: widget.workout['sets']?.toString() ?? '');
-    final repsController = TextEditingController(text: widget.workout['reps']?.toString() ?? '');
+    final setsController =
+        TextEditingController(text: widget.workout['sets']?.toString() ?? '');
+    final repsController =
+        TextEditingController(text: widget.workout['reps']?.toString() ?? '');
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Edit Sets and Reps BITCH'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          'Edit Sets & Reps',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: setsController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Sets'),
+              decoration: InputDecoration(
+                labelText: 'Sets',
+                border: OutlineInputBorder(),
+              ),
             ),
+            SizedBox(height: 12),
             TextField(
               controller: repsController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Reps'),
-            )
+              decoration: InputDecoration(
+                labelText: 'Reps',
+                border: OutlineInputBorder(),
+              ),
+            ),
           ],
         ),
         actions: [
-          // TextButton(
-          //   onPressed: onPressed, 
-          //   child: child
-          //   )
           TextButton(
-            onPressed: () async{
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: StadiumBorder(),
+              backgroundColor: Colors.deepPurple,
+            ),
+            onPressed: () async {
               String updatedSets = setsController.text;
               String updatedReps = repsController.text;
 
@@ -113,77 +143,81 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   .collection('Login-Info')
                   .doc(globalUsername)
                   .collection('Workout-Plan')
-                  .doc(widget.workout['name']) // this assumes 'name' is used as doc ID
+                  .doc(widget.workout['name'])
                   .update({
                 'sets': updatedSets,
                 'reps': updatedReps,
               });
+
               setState(() {
                 widget.workout['sets'] = updatedSets;
                 widget.workout['reps'] = updatedReps;
               });
+
               Navigator.of(context).pop();
             },
-            child: Text('Save')
-            )
+            child: Text('Save'),
+          ),
         ],
-      )
+      ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
     final workout = widget.workout;
 
-    return Column(
-      children: [
-        ListTile(
-          title: Text(workout['name'] ?? 'Unnamed'),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}"),
-              Text("Equipment: ${workout['equipment'] ?? 'N/A'}"),
-              Text("Sets: ${workout['sets'] ?? 'N/A'}"),
-              Text("Reps: ${workout['reps'] ?? 'N/A'}"),
-            ],
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                setState(() {
-                  _showEditDialog();
-                });
-                },
-              ),
-              IconButton(
-                icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-              ),
-            ]
-          )
-        ),
-        if (isExpanded)
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 12.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Instructions: ${workout['instructions'] ?? 'N/A'}",
-                style: TextStyle(color: Colors.grey[700]),
-              ),
+    return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+    child: Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      color: Color(0xFFF9F9F9),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    workout['name'] ?? 'Unnamed',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit, color: Colors.black),
+                  onPressed: _showEditDialog,
+                ),
+                IconButton(
+                  icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
+                  onPressed: () {
+                    setState(() {
+                      isExpanded = !isExpanded;
+                    });
+                  },
+                ),
+              ],
             ),
-          ),
-        Divider(height: 1),
-      ],
-    );
+            SizedBox(height: 4),
+            Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}"),
+            Text("Equipment: ${workout['equipment'] ?? 'N/A'}"),
+            Text("Sets: ${workout['sets'] ?? 'N/A'}"),
+            Text("Reps: ${workout['reps'] ?? 'N/A'}"),
+            if (isExpanded)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Instructions: ${workout['instructions'] ?? 'N/A'}",
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
+              ),
+          ],
+        ),
+      ),
+    ),
+  );
   }
 }
+

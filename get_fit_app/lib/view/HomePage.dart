@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get_fit_app/model/insert_workout_model.dart';
 import '../view/login_view.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
 import '../model/chart_model.dart';
-import '../presenter/global_presenter.dart';
-import '../presenter/insert_workout_presenter.dart';
-import 'nav_bar.dart';
 import '../view/chart_veiw.dart';
 import 'settingspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'insert_workout_view.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -135,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor:  Color.fromRGBO(78, 119, 128, 0.8),
         actions: [
           IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
