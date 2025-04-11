@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
-        backgroundColor:  Color.fromRGBO(78, 119, 128, 0.8),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
