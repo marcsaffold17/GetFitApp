@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Badge {
-  String id;
-  String name;
-  String description;
-  String iconUrl;
-  bool isUnlocked;
+  final String id;
+  final String title;
+  final String description;
+  final String iconUrl;
+  final bool isUnlocked;
 
   Badge({
     required this.id,
-    required this.name,
+    required this.title,
     required this.description,
     required this.iconUrl,
     required this.isUnlocked,
@@ -19,7 +19,7 @@ class Badge {
   factory Badge.fromFirestore(Map<String, dynamic> data) {
     return Badge(
       id: data['id'] ?? '',
-      name: data['name'] ?? '',
+      title: data['title'] ?? '',
       description: data['description'] ?? '',
       iconUrl: data['iconUrl'] ?? '',
       isUnlocked: data['isUnlocked'] ?? false,
@@ -30,7 +30,7 @@ class Badge {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
+      'title': title,
       'description': description,
       'iconUrl': iconUrl,
       'isUnlocked': isUnlocked,
@@ -51,18 +51,22 @@ class BadgeRepository {
   // Fetch badges from Firestore
   Stream<List<Badge>> getBadges() {
     return _firestore
-        .collection('users')
+        .collection('Login_Info')
         .doc(userId)
-        .collection('badges')
+        .collection('Badges')
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => Badge.fromFirestore(doc.data()))
-            .toList());
+        .map((doc) => Badge.fromFirestore(doc.data()..['id'] = doc.id))
+        .toList());
   }
 
   // Unlock a badge in Firestore
   Future<void> unlockBadge(String badgeId) async {
-    await _firestore.collection('users').doc(userId).collection('badges').doc(badgeId)
+    await _firestore
+        .collection('Login_Info')
+        .doc(userId)
+        .collection('Badges')
+        .doc(badgeId)
         .update({'isUnlocked': true});
 
   }

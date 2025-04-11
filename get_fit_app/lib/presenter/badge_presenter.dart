@@ -2,20 +2,19 @@ import '../model/badge_model.dart';
 import '../view/badge_screen.dart';
 
 class BadgePresenter {
-  late BadgeView view;
   final BadgeRepository repository;
+  BadgeView? view;
 
-  BadgePresenter({required this.repository});
+  BadgePresenter({required this.repository, required this.view});
 
   void loadBadges() {
     repository.getBadges().listen((badges) {
-      view.displayBadges(badges);
+      view?.displayBadges(badges);
     });
   }
 
   void unlockBadge(String badgeId) {
-    repository.unlockBadge(badgeId).then((_) {
-      view.showBadgeUnlocked(badgeId);
-    });
+    repository.unlockBadge(badgeId);
+    view?.showBadgeUnlocked(badgeId);
   }
 }

@@ -6,11 +6,7 @@ import '../view/login_view.dart';
 import '../view/exercise_view.dart';
 import '../view/SettingsPage.dart';
 import '../view/badge_screen.dart';
-import '../presenter/badge_presenter.dart';
-import '../model/badge_model.dart';
 
-final badgeRepository = BadgeRepository(userId: 'user123');
-final BadgePresenter badgePresenter = BadgePresenter(repository: badgeRepository);
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -106,9 +102,7 @@ class NavBar extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BadgeScreen(
-                          presenter: badgePresenter,
-                        ),
+                        builder: (context) => const BadgeScreen(),
                       ),
                     );
                   },
