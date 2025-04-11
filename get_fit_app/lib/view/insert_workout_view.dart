@@ -184,6 +184,17 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                 },
                 child: Text('Add Workout'),
               ),
+
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WorkoutHistoryScreen()),
+                  );
+                },
+                child: Text('View Old Workouts'),
+              ),
             ],
           ),
         ),
