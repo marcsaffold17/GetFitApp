@@ -145,18 +145,31 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                         _distanceController.text) ?? 0.0;
                     int? time = int.tryParse(_timeController.text) ?? 0;
 
-                    String? uploadedImage;
+                    String? uploadedImageUrl;
                     if (_image != null) {
-                      uploadedImage = await uploadImage(_image!);
-                      if (uploadedImage == null) {
+                      uploadedImageUrl = await uploadImage(_image!);
+                      if (uploadedImageUrl == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text('Error uploading image'),
-                              duration: Duration(seconds: 2)),
+                          SnackBar(content: Text('Photo upload failed, uploading without photo'),
+                              duration: Duration(seconds: 3)),
                         );
+
+                        // Workout without image
+                        final newWorkout = Workout(
+                          day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
+                          description: _descriptionController.text,
+                          distance: distance,
+                          time: time,
+                          title: _titleController.text,
+                          type: _typeController.text,
+                          image: null,
+                        );
+                        widget.presenter.addWorkout(newWorkout);
+                        return;
                       }
                     }
 
+                    // Workout with image
                     final newWorkout = Workout(
                       day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
                       description: _descriptionController.text,
@@ -164,23 +177,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                       time: time,
                       title: _titleController.text,
                       type: _typeController.text,
-                      // image: uploadedImageUrl != null? File(uploadedImageUrl) : null,
-                  );
+                      image: uploadedImageUrl != null ? File(uploadedImageUrl) : null,
+                    );
                     widget.presenter.addWorkout(newWorkout);
-                    return;
                   }
                 },
                 child: Text('Add Workout'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>
-                        WorkoutHistoryScreen()),
-                  );
-                },
-                child: Text('View Old Workouts'),
               ),
             ],
           ),
