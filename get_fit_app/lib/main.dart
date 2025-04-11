@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'view/login_view.dart';
-import 'view/exercise_view.dart';
-import '../view/HomePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get_fit_app/model/insert_workout_model.dart';
 import '../view/login_view.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
 import '../model/chart_model.dart';
-import '../presenter/global_presenter.dart';
-import '../presenter/insert_workout_presenter.dart';
-import 'nav_bar.dart';
 import '../view/chart_veiw.dart';
 import 'settingspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'insert_workout_view.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import  '../view/Workout-Plan.dart';
 
 
 
@@ -128,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _buildHomePage(),
       ExercisePage(),
       FavoritesPage(),
+      WorkoutHistoryByDate(),
     ];
 
     return Scaffold(
@@ -164,7 +161,11 @@ class _MyHomePageState extends State<MyHomePage> {
             GButton(
               icon:Icons.star_border_outlined,
               text: "Favorites"
-            )
+            ),
+            GButton(
+              icon:Icons.history,
+              text: "Workout History"
+            ),
         ]
       ),
     );

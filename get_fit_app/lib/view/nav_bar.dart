@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
-import '../view/favorites_page.dart';
 import '../view/HomePage.dart';
-import '../view/login_view.dart';
-import '../view/exercise_view.dart';
 import '../view/SettingsPage.dart';
 
 class NavBar extends StatelessWidget {
