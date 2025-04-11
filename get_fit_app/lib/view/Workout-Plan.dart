@@ -63,6 +63,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
   }
 }
 
+
 class _WorkoutTile extends StatefulWidget {
   final Map<String, dynamic> workout;
 
@@ -74,6 +75,62 @@ class _WorkoutTile extends StatefulWidget {
 
 class _WorkoutTileState extends State<_WorkoutTile> {
   bool isExpanded = false;
+
+  void _showEditDialog() {
+    final setsController = TextEditingController(text: widget.workout['sets']?.toString() ?? '');
+    final repsController = TextEditingController(text: widget.workout['reps']?.toString() ?? '');
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Edit Sets and Reps BITCH'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: setsController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Sets'),
+            ),
+            TextField(
+              controller: repsController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Reps'),
+            )
+          ],
+        ),
+        actions: [
+          // TextButton(
+          //   onPressed: onPressed, 
+          //   child: child
+          //   )
+          TextButton(
+            onPressed: () async{
+              String updatedSets = setsController.text;
+              String updatedReps = repsController.text;
+
+              await FirebaseFirestore.instance
+                  .collection('Login-Info')
+                  .doc(globalUsername)
+                  .collection('Workout-Plan')
+                  .doc(widget.workout['name']) // this assumes 'name' is used as doc ID
+                  .update({
+                'sets': updatedSets,
+                'reps': updatedReps,
+              });
+              setState(() {
+                widget.workout['sets'] = updatedSets;
+                widget.workout['reps'] = updatedReps;
+              });
+              Navigator.of(context).pop();
+            },
+            child: Text('Save')
+            )
+        ],
+      )
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +145,31 @@ class _WorkoutTileState extends State<_WorkoutTile> {
             children: [
               Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}"),
               Text("Equipment: ${workout['equipment'] ?? 'N/A'}"),
+              Text("Sets: ${workout['sets'] ?? 'N/A'}"),
+              Text("Reps: ${workout['reps'] ?? 'N/A'}"),
             ],
           ),
-          trailing: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
-          onTap: () {
-            setState(() {
-              isExpanded = !isExpanded;
-            });
-          },
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                setState(() {
+                  _showEditDialog();
+                });
+                },
+              ),
+              IconButton(
+                icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
+                onPressed: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+              ),
+            ]
+          )
         ),
         if (isExpanded)
           Padding(

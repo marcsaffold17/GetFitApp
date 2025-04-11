@@ -95,6 +95,12 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
 //   });
 // }
 
+TextEditingController setsController = TextEditingController();
+TextEditingController repsController = TextEditingController();
+String reps = '';
+String sets = '';
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,13 +185,47 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                             IconButton(
                               icon: Icon(Icons.add_outlined),
                               onPressed: () async {
-                                final DateTime? pickedDate = await showDatePicker(
+                                  final DateTime? pickedDate = await showDatePicker(
                                     context: context, 
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(2000), 
                                     lastDate: DateTime(2100),
                                   );
 
+                                  await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Edit Workout'),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          TextField(
+                                            controller: setsController,
+                                            keyboardType: TextInputType.number,
+                                            decoration: const InputDecoration(labelText: 'Sets'),
+                                          ),
+                                          TextField(
+                                            controller: repsController,
+                                            keyboardType: TextInputType.number,
+                                            decoration: const InputDecoration(labelText: 'Reps'),
+                                          ),
+                                        ],
+                                        
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            sets = setsController.text;
+                                            reps = repsController.text;
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('Proceed'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                                   if (pickedDate != null) {
                                     String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
                                     print(formattedDate);
@@ -198,8 +238,11 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                     'equipment': exercise.equipment,
                                     'instructions': exercise.instructions,
                                     'date': formattedDate,
+                                    'reps': reps,
+                                    'sets': sets
                                   });
                               };
+                              
                               }
                             ),
                           ],

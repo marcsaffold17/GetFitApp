@@ -168,8 +168,8 @@ class _MyHomePageState extends State<MyHomePage> {
               text: "Favorites"
             ),
             GButton(
-              icon:Icons.star_border_outlined,
-              text: "Favorites"
+              icon:Icons.history,
+              text: "Workout History"
             ),
         ]
       ),
