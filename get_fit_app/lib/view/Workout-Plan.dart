@@ -18,20 +18,26 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
   }
 
   Future<void> fetchAndGroupWorkouts() async {
-    final snapshot = await FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('Workout-Plan').get();
-
-
-    final List<Map<String, dynamic>> allWorkouts =
-        snapshot.docs.map((doc) => doc.data()).toList();
-
+    final planSnapshot = await FirebaseFirestore.instance
+        .collection('Login-Info')
+        .doc(globalUsername)
+        .collection('Workout-Plan')
+        .get();
     final Map<String, List<Map<String, dynamic>>> grouped = {};
 
-    for (var workout in allWorkouts) {
-      final date = workout['date'] ?? 'Unknown Date';
-      if (!grouped.containsKey(date)) {
-        grouped[date] = [];
+    for (var planDoc in planSnapshot.docs) {
+      final date = planDoc.id;
+      final workoutSnapshot =
+          await planDoc.reference.collection('Workout').get();
+
+      for (var workoutDoc in workoutSnapshot.docs) {
+        final workoutData = workoutDoc.data();
+        workoutData['date'] = date;
+        print("works");
+        print(workoutData['date']);
+        workoutData['exercise'] = workoutDoc.id;
+        grouped.putIfAbsent(date, () => []).add(workoutData);
       }
-      grouped[date]!.add(workout);
     }
 
     setState(() {
@@ -43,7 +49,6 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text('Workout History')),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
@@ -54,7 +59,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                   title: Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(167, 196, 189,1),
+                      color: Color.fromRGBO(167, 196, 189, 1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -66,16 +71,15 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                       ),
                     ),
                   ),
-                  children: workouts.map((workout) {
-                    return _WorkoutTile(workout: workout);
-                  }).toList(),
+                  children: workouts
+                      .map((workout) => _WorkoutTile(workout: workout))
+                      .toList(),
                 );
               }).toList(),
             ),
     );
   }
 }
-
 
 class _WorkoutTile extends StatefulWidget {
   final Map<String, dynamic> workout;
@@ -143,7 +147,9 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   .collection('Login-Info')
                   .doc(globalUsername)
                   .collection('Workout-Plan')
-                  .doc(widget.workout['name'])
+                  .doc(widget.workout['date'])
+                  .collection('Workout')
+                  .doc(widget.workout['exercise'])
                   .update({
                 'sets': updatedSets,
                 'reps': updatedReps,
@@ -168,56 +174,57 @@ class _WorkoutTileState extends State<_WorkoutTile> {
     final workout = widget.workout;
 
     return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-    child: Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Color(0xFFF9F9F9),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        color: Color(0xFFF9F9F9),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      workout['name'] ?? 'Unnamed',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.edit, color: Colors.black),
+                    onPressed: _showEditDialog,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                        isExpanded ? Icons.expand_less : Icons.expand_more),
+                    onPressed: () {
+                      setState(() {
+                        isExpanded = !isExpanded;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 4),
+              Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}"),
+              Text("Equipment: ${workout['equipment'] ?? 'N/A'}"),
+              Text("Sets: ${workout['sets'] ?? 'N/A'}"),
+              Text("Reps: ${workout['reps'] ?? 'N/A'}"),
+              if (isExpanded)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    workout['name'] ?? 'Unnamed',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    "Instructions: ${workout['instructions'] ?? 'N/A'}",
+                    style: TextStyle(color: Colors.grey[700]),
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.edit, color: Colors.black),
-                  onPressed: _showEditDialog,
-                ),
-                IconButton(
-                  icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
-                  onPressed: () {
-                    setState(() {
-                      isExpanded = !isExpanded;
-                    });
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 4),
-            Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}"),
-            Text("Equipment: ${workout['equipment'] ?? 'N/A'}"),
-            Text("Sets: ${workout['sets'] ?? 'N/A'}"),
-            Text("Reps: ${workout['reps'] ?? 'N/A'}"),
-            if (isExpanded)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  "Instructions: ${workout['instructions'] ?? 'N/A'}",
-                  style: TextStyle(color: Colors.grey[700]),
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
   }
 }
-

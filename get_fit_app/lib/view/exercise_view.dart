@@ -14,9 +14,9 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   late ExercisePresenter _presenter;
   List<Exercise> _exercises = [];
   Set<String> _favoriteExercises = {};
-    Set<String> _WorkoutPlan = {};
+  Set<String> _WorkoutPlan = {};
   final favoritesRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('favorites');
-    final workoutPlanRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('Workout-Plan');
+  final workoutPlanRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('Workout-Plan');
 
   String _errorMessage = "";
 
@@ -223,12 +223,15 @@ String sets = '';
                                   },
                                 );
                                   if (pickedDate != null) {
-                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                                    print(formattedDate);
-                                    await workoutPlanRef.doc(exercise.name).set({
-                                      'date': formattedDate,
+                                    String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
+                                    // print(formattedDate);
+                                  //   await workoutPlanRef.doc(exercise.name).set({
+                                  //     'date': formattedDate,
+                                  // });
+                                  await workoutPlanRef.doc(formattedDate).set({
+                                    'date': formattedDate,
                                   });
-                                  await workoutPlanRef.doc(exercise.name).set({
+                                  await workoutPlanRef.doc(formattedDate).collection("Workout").doc(exercise.name).set({
                                     'name': exercise.name,
                                     'difficulty': exercise.difficulty,
                                     'equipment': exercise.equipment,
