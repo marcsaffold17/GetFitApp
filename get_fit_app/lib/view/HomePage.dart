@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/login_view.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
@@ -9,9 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import  '../view/Workout-Plan.dart';
-
-
+import '../view/Workout-Plan.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -125,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ExercisePage(),
       FavoritesPage(),
       WorkoutHistoryByDate(),
+      LeaderboardPage(),
     ];
 
     return Scaffold(
@@ -138,8 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
       bottomNavigationBar: GNav(
-        onTabChange: (index)
-        {
+        onTabChange: (index) {
           setState(() {
             _selectedIndex = index;
           });
@@ -150,23 +149,12 @@ class _MyHomePageState extends State<MyHomePage> {
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
-          GButton(
-            icon: Icons.home,
-            text: 'Home',
-            ),
-            GButton(
-              icon:Icons.sports_handball_outlined,
-              text: 'Exercise List',
-            ),
-            GButton(
-              icon:Icons.star_border_outlined,
-              text: "Favorites"
-            ),
-            GButton(
-              icon:Icons.history,
-              text: "Workout History"
-            ),
-        ]
+          GButton(icon: Icons.home, text: 'Home'),
+          GButton(icon: Icons.sports_handball_outlined, text: 'Exercise List'),
+          GButton(icon: Icons.star_border_outlined, text: "Favorites"),
+          GButton(icon: Icons.history, text: "Workout History"),
+          GButton(icon: Icons.bar_chart_sharp, text: "LeaderBoard"),
+        ],
       ),
     );
   }
