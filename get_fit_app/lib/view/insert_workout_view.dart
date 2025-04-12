@@ -57,6 +57,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
     _titleController.clear();
     _typeController.clear();
     _image = null;
+    setState(() {});
   }
 
   // User adds photo from camera roll to workout
@@ -177,7 +178,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                       time: time,
                       title: _titleController.text,
                       type: _typeController.text,
-                      image: uploadedImageUrl != null ? File(uploadedImageUrl) : null,
+                      image: uploadedImageUrl,
                     );
                     widget.presenter.addWorkout(newWorkout);
                   }

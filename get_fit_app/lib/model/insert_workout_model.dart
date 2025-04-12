@@ -11,7 +11,7 @@ class Workout {
   int time;
   String title;
   String type;
-  File? image;
+  String? image;
 
   Workout({
     this.id,
@@ -35,7 +35,7 @@ class Workout {
       time: data['Time'] ?? 0,
       title: data['Title'] ?? '',
       type: data['Type'] ?? '',
-      image: data['imageURL'] != null ? File(data['imageURL']) : null,
+      image: data['imageURL'] ?? '',
     );
   }
 
@@ -48,7 +48,7 @@ class Workout {
       'Time': time,
       'Title': title,
       'Type': type,
-      'imageURL': image?.path,
+      'imageURL': image,
     };
   }
 }
