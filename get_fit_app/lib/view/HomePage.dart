@@ -9,9 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import  '../view/Workout-Plan.dart';
-
-
+import '../view/Workout-Plan.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -38,17 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _loadUsername() {
     UserName = globalUsername ?? widget.username;
-  }
-
-  void _logout() {
-    setState(() {
-      globalUsername = null;
-    });
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => LoginButtonPage()),
-      (Route<dynamic> route) => false,
-    );
   }
 
   void _loadChartData() {
@@ -131,42 +118,26 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text(""),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        actions: [
-          IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
-        ],
       ),
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
       bottomNavigationBar: GNav(
-        onTabChange: (index)
-        {
+        onTabChange: (index) {
           setState(() {
             _selectedIndex = index;
           });
         },
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         gap: 8,
-        tabBackgroundColor: const Color.fromARGB(255, 211, 208, 208)!,
+        tabBackgroundColor: const Color.fromARGB(255, 211, 208, 208),
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
-          GButton(
-            icon: Icons.home,
-            text: 'Home',
-            ),
-            GButton(
-              icon:Icons.sports_handball_outlined,
-              text: 'Exercise List',
-            ),
-            GButton(
-              icon:Icons.star_border_outlined,
-              text: "Favorites"
-            ),
-            GButton(
-              icon:Icons.history,
-              text: "Workout History"
-            ),
-        ]
+          GButton(icon: Icons.home, text: 'Home'),
+          GButton(icon: Icons.sports_handball_outlined, text: 'Exercise List'),
+          GButton(icon: Icons.star_border_outlined, text: "Favorites"),
+          GButton(icon: Icons.history, text: "Workout History"),
+        ],
       ),
     );
   }
