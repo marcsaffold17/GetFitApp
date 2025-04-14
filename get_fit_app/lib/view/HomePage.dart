@@ -10,6 +10,7 @@ import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/Workout-Plan.dart';
+import '../view/profile_page.dart'; // ✅ Import the Profile Page
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -118,6 +119,27 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text(""),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(username: UserName),
+                  ),
+                );
+              },
+              child: const CircleAvatar(
+                backgroundImage: AssetImage(
+                  'assets/images/AshtonHall.webp',
+                ), // Replace with your image
+                radius: 18,
+              ),
+            ),
+          ),
+        ],
       ),
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
