@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
-        backgroundColor: Color.fromARGB(255, 12,53,37),
+        backgroundColor: Color.fromARGB(255, 20, 50, 31),
         actions: [
           IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
@@ -152,25 +152,38 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         padding: EdgeInsets.all(16),
         gap: 8,
-        tabBackgroundColor: const Color.fromARGB(255, 211, 208, 208)!,
+        backgroundColor: Color.fromARGB(255, 20,50,31),
+        tabBackgroundColor: Color.fromARGB(255, 49, 112, 75),
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
           GButton(
-            icon: Icons.home,
-            text: 'Home',
+              icon: Icons.home,
+              text: 'Home',
+              iconColor: Color.fromARGB(255, 244, 238, 227),
+              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+              textColor: Color.fromARGB(255, 244, 238, 227),
             ),
             GButton(
               icon:Icons.sports_handball_outlined,
               text: 'Exercise List',
+              iconColor: Color.fromARGB(255, 244, 238, 227),
+              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+              textColor: Color.fromARGB(255, 244, 238, 227),
             ),
             GButton(
               icon:Icons.star_border_outlined,
-              text: "Favorites"
+              text: "Favorites",
+              iconColor: Color.fromARGB(255, 244, 238, 227),
+              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+              textColor: Color.fromARGB(255, 244, 238, 227),
             ),
             GButton(
               icon:Icons.history,
-              text: "Workout History"
+              text: "Workout History",
+              iconColor: Color.fromARGB(255, 244, 238, 227),
+              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+              textColor: Color.fromARGB(255, 244, 238, 227),
             ),
         ]
       ),

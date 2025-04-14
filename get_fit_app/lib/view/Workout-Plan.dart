@@ -47,7 +47,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 244, 236, 218),
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
@@ -58,7 +58,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                   title: Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(167, 196, 189, 1),
+                      color: Color.fromARGB(255, 46, 105, 70),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -66,7 +66,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(0, 0, 0, 1),
+                        color: Color.fromARGB(255, 244, 238, 227),
                       ),
                     ),
                   ),
@@ -177,7 +177,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       child: Card(
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: Color(0xFFF9F9F9),
+        color: Color.fromARGB(255, 229, 221, 212),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
           child: Column(
@@ -189,16 +189,18 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                     child: Text(
                       workout['name'] ?? 'Unnamed',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 20, 50, 31)),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.edit, color: Colors.black),
+                    icon: Icon(Icons.edit, color: Color.fromARGB(255, 20, 50, 31)),
                     onPressed: _showEditDialog,
                   ),
                   IconButton(
                     icon: Icon(
-                        isExpanded ? Icons.expand_less : Icons.expand_more),
+                        isExpanded ? Icons.expand_less : Icons.expand_more,
+                        color: Color.fromARGB(255, 20, 50, 31)
+                        ),
                     onPressed: () {
                       setState(() {
                         isExpanded = !isExpanded;
@@ -208,16 +210,16 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 ],
               ),
               SizedBox(height: 4),
-              Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}"),
-              Text("Equipment: ${workout['equipment'] ?? 'N/A'}"),
-              Text("Sets: ${workout['sets'] ?? 'N/A'}"),
-              Text("Reps: ${workout['reps'] ?? 'N/A'}"),
+              Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              Text("Equipment: ${workout['equipment'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              Text("Sets: ${workout['sets'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              Text("Reps: ${workout['reps'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     "Instructions: ${workout['instructions'] ?? 'N/A'}",
-                    style: TextStyle(color: Colors.grey[700]),
+                    style: TextStyle(color: Color.fromARGB(255, 49, 112, 75),)
                   ),
                 ),
             ],
