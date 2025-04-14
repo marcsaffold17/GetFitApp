@@ -128,6 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
         title: const Text(""),
         iconTheme: IconThemeData(
