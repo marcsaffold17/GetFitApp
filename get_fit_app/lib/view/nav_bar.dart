@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../view/HomePage.dart';
 import '../view/SettingsPage.dart';
+import '../view/checklist_view.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -84,6 +85,19 @@ class NavBar extends StatelessWidget {
                 //     );
                 //   },
                 // ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.checklist_rounded,
+                    color: Colors.black,
+                  ),
+                  title: const Text("Checklist"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChecklistPage()),
+                    );
+                  },
+                ),
                 ListTile(
                   leading: const Icon(Icons.settings, color: Colors.black),
                   title: const Text("Settings"),
