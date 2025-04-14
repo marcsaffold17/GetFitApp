@@ -46,12 +46,14 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
 
   @override
   Widget build(BuildContext context) {
+  final sortedEntries = workoutsByDate.entries.toList()
+    ..sort((a, b) => b.key.compareTo(a.key));
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
-              children: workoutsByDate.entries.map((entry) {
+              children: sortedEntries.map((entry) {
                 final date = entry.key;
                 final workouts = entry.value;
                 return ExpansionTile(
