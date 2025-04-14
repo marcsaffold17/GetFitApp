@@ -11,7 +11,7 @@ class LoginButtonPage extends StatelessWidget {
   children: [
     Container(
       decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 12,53,37),
+        color: Color.fromARGB(255, 20, 50, 31),
       ),
     ),
         Positioned.fill(
@@ -22,19 +22,19 @@ class LoginButtonPage extends StatelessWidget {
             'assets/images/athass_2.png',
             height: 200,
             width: 200,
-            color: Color.fromARGB(255, 244, 236, 218),
+            color: Color.fromARGB(255, 244, 238, 227),
             ),
 
             // SizedBox(height: 230),
             RichText(
               text: TextSpan(
-                style: TextStyle(fontFamily: 'CreatoDisplay', fontSize: 80, color: const Color.fromARGB(255, 244, 236, 218)),
+                style: TextStyle(fontFamily: 'CreatoDisplay', fontSize: 80, color: const Color.fromARGB(255, 244, 238, 227)),
                 children: const <TextSpan>[
                   TextSpan(text: 'Get FIT'),
                 ],
               ),
             ),
-            const Divider(height: 20, thickness: 7, indent: 30, endIndent: 30, color: Color.fromARGB(255, 244, 236, 218)),
+            const Divider(height: 20, thickness: 7, indent: 30, endIndent: 30, color: Color.fromARGB(255, 244, 238, 227)),
             SizedBox(height: 100),
             ElevatedButton(
               onPressed: () {
@@ -49,10 +49,10 @@ class LoginButtonPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 244, 236, 218),
+                backgroundColor: Color.fromARGB(255, 244, 238, 227),
                 minimumSize: const Size(250, 50), 
               ),
-              child: const Text('Create Account', style: TextStyle(color: Color.fromARGB(255, 12,53,37), fontWeight:  FontWeight.w600, fontFamily: 'Garet', fontSize: 25),),
+              child: const Text('Create Account', style: TextStyle(color: Color.fromARGB(255, 20, 50, 31), fontWeight:  FontWeight.w600, fontFamily: 'Garet', fontSize: 25),),
             ),
             SizedBox(height: 30),
             ElevatedButton(
@@ -66,10 +66,10 @@ class LoginButtonPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 244, 236, 218),
+                backgroundColor: Color.fromARGB(255, 244, 238, 227),
                 minimumSize: const Size(250, 50),
               ),
-              child: const Text('Login',style: TextStyle(color: Color.fromARGB(255, 12,53,37), fontWeight: FontWeight.w600, fontFamily: 'Garet', fontSize: 25) ),
+              child: const Text('Login',style: TextStyle(color: Color.fromARGB(255, 20, 50, 31), fontWeight: FontWeight.w600, fontFamily: 'Garet', fontSize: 25) ),
             ),
             SizedBox(height: 100),
           ],
@@ -124,7 +124,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
       appBar: AppBar(
       flexibleSpace: Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 12,53,37),
+          color: Color.fromARGB(255, 20, 50, 31),
         ),
       ),
     ),
@@ -132,7 +132,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
       children: [
         Container(
           decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 12,53,37),
+            color: Color.fromARGB(255, 20, 50, 31),
           ),
         ),
         Align(
@@ -142,7 +142,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
               style: TextStyle(
                 fontFamily: 'Voguella',
                 fontSize: 40,
-                color: const Color.fromARGB(255, 244, 236, 218),
+                color: const Color.fromARGB(255, 244, 238, 227),
               ),
               children: const <TextSpan>[
                 TextSpan(text: '\n   Login'),
@@ -158,8 +158,8 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 244, 236, 218),
-              border: Border.all(width: 5.0, color: Color.fromARGB(255, 244, 236, 218)),
+              color: Color.fromARGB(255, 244, 238, 227),
+              border: Border.all(width: 5.0, color: Color.fromARGB(255, 244, 238, 227)),
               borderRadius: BorderRadius.all(Radius.circular(30.0)),
             ),
             child: SingleChildScrollView( 
@@ -173,7 +173,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 12,53,37),
+                          color: Color.fromARGB(255, 20, 50, 31),
                           width: 2,
                         ),
                       ),
@@ -192,7 +192,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 12,53,37),
+                          color: Color.fromARGB(255, 20, 50, 31),
                           width: 2,
                         ),
                       ),
@@ -208,7 +208,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
               width: 400, 
               height: 60, 
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 12,53,37),
+                color: Color.fromARGB(255, 20, 50, 31),
                 borderRadius: BorderRadius.circular(30.0),
               ),
               child: ElevatedButton(
@@ -240,7 +240,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                 },
                 child: const Text(
                   'Login',
-                  style: TextStyle(fontFamily: 'Garet', fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255)),
+                  style: TextStyle(fontFamily: 'Garet', fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 244, 238, 227)),
                 ),
               ),
             ),
@@ -309,7 +309,7 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       flexibleSpace: Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 12,53,37),
+          color: Color.fromARGB(255, 20, 50, 31),
         ),
       ),
     ),
@@ -317,7 +317,7 @@ Widget build(BuildContext context) {
       children: [
         Container(
           decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 12,53,37),
+            color: Color.fromARGB(255, 20, 50, 31),
           ),
         ),
         Align(
@@ -327,7 +327,7 @@ Widget build(BuildContext context) {
               style: TextStyle(
                 fontFamily: 'CreatoDisplay',
                 fontSize: 40,
-                color: const Color.fromARGB(255, 244, 236, 218),
+                color: const Color.fromARGB(255, 244, 238, 227),
               ),
               children: const <TextSpan>[
                 TextSpan(text: '   Create\n   Account'),
@@ -343,8 +343,8 @@ Widget build(BuildContext context) {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 244, 236, 218),
-              border: Border.all(width: 5.0, color: Color.fromARGB(255, 244, 236, 218)),
+              color: Color.fromARGB(255, 244, 238, 227),
+              border: Border.all(width: 5.0, color: Color.fromARGB(255, 244, 238, 227)),
               borderRadius: BorderRadius.all(Radius.circular(30.0)),
             ),
             child: SingleChildScrollView( 
@@ -360,7 +360,7 @@ Widget build(BuildContext context) {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 12,53,37),
+                          color: Color.fromARGB(255, 20, 50, 31),
                           width: 2,
                         ),
                       ),
@@ -369,7 +369,7 @@ Widget build(BuildContext context) {
                         borderSide: BorderSide(width: 3.0, color: Colors.blue),
                       ),
                       hintText: 'Username',
-                      hintStyle: TextStyle(color: Color.fromARGB(255, 12,53,37)),
+                      hintStyle: TextStyle(color: Color.fromARGB(255, 20, 50, 31)),
                     ),
                   ),
                   SizedBox(height: 12),
@@ -379,7 +379,7 @@ Widget build(BuildContext context) {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 12,53,37),
+                          color: Color.fromARGB(255, 20, 50, 31),
                           width: 2,
                         ),
                       ),
@@ -398,7 +398,7 @@ Widget build(BuildContext context) {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 12,53,37),
+                          color: Color.fromARGB(255, 20, 50, 31),
                           width: 2,
                         ),
                       ),
@@ -417,7 +417,7 @@ Widget build(BuildContext context) {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 12,53,37),
+                          color: Color.fromARGB(255, 20, 50, 31),
                           width: 2,
                         ),
                       ),
@@ -433,7 +433,7 @@ Widget build(BuildContext context) {
                     width: 400, 
                     height: 60, 
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 12,53,37),
+                      color: Color.fromARGB(255, 20, 50, 31),
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     child: ElevatedButton(
@@ -447,7 +447,7 @@ Widget build(BuildContext context) {
                       onPressed: handleCreateAccount,
                       child: const Text(
                         'Create Account',
-                        style: TextStyle(fontFamily: 'Mirage', fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 244, 236, 218)),
+                        style: TextStyle(fontFamily: 'Mirage', fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 244, 238, 227)),
                       ),
                     ),
                   )

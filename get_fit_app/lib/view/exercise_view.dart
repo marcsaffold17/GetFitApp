@@ -112,9 +112,20 @@ String sets = '';
           children: [
             TextField(
               controller: exerciseTypeText,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Muscle type, Cardio, Stretching',
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 20, 50, 31),
+                    width: 2,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide(width: 3.0, color: Colors.blue),
+                ),
               ),
             ),
             SizedBox(height: 15,),
