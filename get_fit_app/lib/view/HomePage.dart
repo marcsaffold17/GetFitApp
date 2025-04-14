@@ -9,9 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import  '../view/Workout-Plan.dart';
-
-
+import '../view/Workout-Plan.dart';
+import '../view/profile_page.dart'; // ✅ Import the Profile Page
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -38,17 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _loadUsername() {
     UserName = globalUsername ?? widget.username;
-  }
-
-  void _logout() {
-    setState(() {
-      globalUsername = null;
-    });
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => LoginButtonPage()),
-      (Route<dynamic> route) => false,
-    );
   }
 
   void _loadChartData() {
@@ -132,41 +120,46 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text(""),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
-          IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(username: UserName),
+                  ),
+                );
+              },
+              child: const CircleAvatar(
+                backgroundImage: AssetImage(
+                  'assets/images/AshtonHall.webp',
+                ), // Replace with your image
+                radius: 18,
+              ),
+            ),
+          ),
         ],
       ),
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
       bottomNavigationBar: GNav(
-        onTabChange: (index)
-        {
+        onTabChange: (index) {
           setState(() {
             _selectedIndex = index;
           });
         },
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         gap: 8,
-        tabBackgroundColor: const Color.fromARGB(255, 211, 208, 208)!,
+        tabBackgroundColor: const Color.fromARGB(255, 211, 208, 208),
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
-          GButton(
-            icon: Icons.home,
-            text: 'Home',
-            ),
-            GButton(
-              icon:Icons.sports_handball_outlined,
-              text: 'Exercise List',
-            ),
-            GButton(
-              icon:Icons.star_border_outlined,
-              text: "Favorites"
-            ),
-            GButton(
-              icon:Icons.history,
-              text: "Workout History"
-            ),
-        ]
+          GButton(icon: Icons.home, text: 'Home'),
+          GButton(icon: Icons.sports_handball_outlined, text: 'Exercise List'),
+          GButton(icon: Icons.star_border_outlined, text: "Favorites"),
+          GButton(icon: Icons.history, text: "Workout History"),
+        ],
       ),
     );
   }
