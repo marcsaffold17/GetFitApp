@@ -130,9 +130,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+        ),
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
         actions: [
-          IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+              color: Color.fromARGB(255, 244, 238, 227)
+              ), 
+            onPressed: _logout,
+            ),
         ],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

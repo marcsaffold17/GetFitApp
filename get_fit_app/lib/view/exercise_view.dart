@@ -103,6 +103,7 @@ String sets = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -116,12 +117,30 @@ String sets = '';
                 hintText: 'Muscle type, Cardio, Stretching',
               ),
             ),
-            TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.blue),
+            SizedBox(height: 15,),
+            Center(
+            child: Container(
+              // alignment: Alignment.center,
+              width: 250, 
+              height: 50, 
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 46, 105, 70),
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
               onPressed: () {
                 getMuscleExercises();
               },
-              child: const Text('Search'),
+              child: const Text('Search', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227), fontSize: 15),textAlign: TextAlign.center,),
+            ),
+            ),
             ),
             const SizedBox(height: 20),
             Expanded(
@@ -138,12 +157,17 @@ String sets = '';
                   final exercise = _exercises[index];
                   final isFavorite = _favoriteExercises.contains(exercise.name);
                   return Card(
+                    color: Color.fromARGB(225, 229, 221, 212),
                     margin: EdgeInsets.all(8),
                     child: ListTile(
-                      title: Text(exercise.name),
+                      title: Text(
+                        exercise.name,
+                        style: TextStyle(color: Color.fromARGB(255 , 20, 50, 31)),
+                        ),
                       subtitle: Text(
                         "Difficulty: ${exercise.difficulty}\n"
-                            "Equipment: ${exercise.equipment}",
+                        "Equipment: ${exercise.equipment}",
+                        style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
                       ),
                       trailing: SizedBox(
                         width: 100,
@@ -153,7 +177,7 @@ String sets = '';
                             IconButton(
                               icon: Icon(
                                 isFavorite ? Icons.star : Icons.star_border,
-                                color: isFavorite ? Colors.amber : Colors.grey,
+                                color: isFavorite ? const Color.fromARGB(255, 81, 163, 108) : Colors.grey,
                               ),
                               onPressed: () async {
                                 setState(() {
@@ -180,6 +204,7 @@ String sets = '';
                             ),
                             IconButton(
                               icon: Icon(Icons.add_outlined),
+                              color: Color.fromARGB(255 ,81, 163, 108),
                               onPressed: () async {
                                   final DateTime? pickedDate = await showDatePicker(
                                     context: context, 
