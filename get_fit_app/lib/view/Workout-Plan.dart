@@ -33,8 +33,6 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
       for (var workoutDoc in workoutSnapshot.docs) {
         final workoutData = workoutDoc.data();
         workoutData['date'] = date;
-        print("works");
-        print(workoutData['date']);
         workoutData['exercise'] = workoutDoc.id;
         grouped.putIfAbsent(date, () => []).add(workoutData);
       }
@@ -49,6 +47,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 236, 218),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(

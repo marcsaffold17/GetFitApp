@@ -130,10 +130,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Color.fromARGB(255, 12,53,37),
         actions: [
           IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          )
+        ),
       ),
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
