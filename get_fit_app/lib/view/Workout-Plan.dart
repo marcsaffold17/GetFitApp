@@ -104,9 +104,10 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: Color.fromARGB(255, 244, 238, 227),
         title: Text(
           'Edit Sets & Reps',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 20, 50, 31)),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -115,7 +116,8 @@ class _WorkoutTileState extends State<_WorkoutTile> {
               controller: setsController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Sets',
+                labelText: 'Sets', 
+                labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -125,6 +127,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: 'Reps',
+                labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -133,12 +136,12 @@ class _WorkoutTileState extends State<_WorkoutTile> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel'),
+            child: Text('Cancel', style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: StadiumBorder(),
-              backgroundColor: Colors.deepPurple,
+              backgroundColor: Color.fromARGB(255, 46, 105, 70),
             ),
             onPressed: () async {
               String updatedSets = setsController.text;
@@ -163,7 +166,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
 
               Navigator.of(context).pop();
             },
-            child: Text('Save'),
+            child: Text('Save', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),),
           ),
         ],
       ),
