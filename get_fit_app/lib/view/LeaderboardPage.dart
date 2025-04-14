@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import '../model/chart_model.dart';
-import '../view/chart_veiw.dart'; // Assuming BarChartWidget is in chart_view.dart
+import '../view/chart_veiw.dart';
 
 class LeaderboardPage extends StatelessWidget {
   const LeaderboardPage({super.key});
 
-  // Dummy data for demonstration
   List<ChartModel> generateDummyData(int multiplier) {
+    List<String> names = ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'];
     return List.generate(
-      5,
-      (index) => ChartModel(x: index, y: (index + 1) * multiplier.toDouble()),
+      names.length,
+      (index) => ChartModel(
+        x: index,
+        y: (index + 1) * multiplier.toDouble(),
+        name: names[index],
+      ),
     );
   }
 

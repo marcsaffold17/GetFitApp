@@ -52,10 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _loadChartData() {
     _chartData = [
-      ChartModel(x: 1, y: 5),
-      ChartModel(x: 2, y: 6),
-      ChartModel(x: 3, y: 7),
-      ChartModel(x: 4, y: 8),
+      ChartModel(x: 1, y: 5, name: "0"),
+      ChartModel(x: 2, y: 6, name: "1"),
+      ChartModel(x: 3, y: 7, name: "2"),
+      ChartModel(x: 4, y: 8, name: "3"),
     ];
   }
 
