@@ -39,18 +39,19 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
   @override
   void initState() {
     super.initState();
+    _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
   }
 
   @override
   void onWorkoutAdded() {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Workout added'),
+      content: Text('Workout Successfully Uploaded!'),
       duration: Duration(seconds: 2),
     ));
 
     // Removing user input text fields after workout is added
     _formKey.currentState?.reset();
-    _dayController.clear();
+    _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
     _descriptionController.clear();
     _distanceController.clear();
     _timeController.clear();
@@ -94,7 +95,40 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add Workout')),
+      appBar: AppBar(
+        title: Text('Add Workout'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Debug Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+            ),
+            ListTile(
+              title: Text('View Old Workouts'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WorkoutHistoryScreen()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+
       body: Form(
         key: _formKey,
         child: Padding(
@@ -102,43 +136,60 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
           child: Column(
             children: [
               TextFormField(
-                controller: _dayController,
-                decoration: InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
-              ),
-              TextFormField(
-                controller: _typeController,
-                decoration: InputDecoration(labelText: 'Type of Workout'),
-              ),
-              TextFormField(
-                controller: _timeController,
-                decoration: InputDecoration(labelText: 'Time (Minutes)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _distanceController,
-                decoration: InputDecoration(labelText: 'Distance (Miles)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Workout Title'),
+                decoration: InputDecoration(
+                  labelText: 'Workout Title',
+                  floatingLabelAlignment: FloatingLabelAlignment.center,
+                ),
+                keyboardType: TextInputType.text,
+                textAlign: TextAlign.center,
               ),
+              SizedBox(height: 16.0),
+
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(labelText: 'Workout Description'),
+                maxLines: 3,
               ),
 
-              ElevatedButton(
+              TextFormField(
+                      controller: _typeController,
+                      decoration: InputDecoration(labelText: 'Type of Workout'),
+                      keyboardType: TextInputType.text,
+                    ),
+
+              TextFormField(
+                      controller: _timeController,
+                      decoration: InputDecoration(labelText: 'Time (Minutes)'),
+                      keyboardType: TextInputType.number,
+                    ),
+                  SizedBox(width: 16.0),
+
+              TextFormField(
+                      controller: _distanceController,
+                      decoration: InputDecoration(labelText: 'Distance (Miles)'),
+                      keyboardType: TextInputType.number,
+                    ),
+              SizedBox(height: 16.0),
+
+              ElevatedButton.icon(
                 onPressed: _pickImage,
-                child: Text('Add Photo'),
+                icon: Icon(Icons.add_a_photo),
+                label: Text('Add Photo'),
               ),
               if (_image != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Image.file(_image!, height: 100),
+                  child: SizedBox(
+                    width: 250.0,
+                    height: 250.0,
+                    child: Image.file(_image!),
+                  ),
                 ),
 
-              ElevatedButton(
+              SizedBox(height: 16.0),
+              Spacer(),
+              ElevatedButton.icon(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     widget.presenter.view = this;
@@ -183,18 +234,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                     widget.presenter.addWorkout(newWorkout);
                   }
                 },
-                child: Text('Add Workout'),
-              ),
-
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WorkoutHistoryScreen()),
-                  );
-                },
-                child: Text('View Old Workouts'),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 75.0, vertical: 25.0),
+                  textStyle: TextStyle(fontSize: 20.0),
+                ),
+                icon: Icon(Icons.upload),
+                label: Text('Upload Workout'),
               ),
             ],
           ),
