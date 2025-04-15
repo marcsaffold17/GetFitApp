@@ -116,9 +116,13 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
         title: const Text(""),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+        ),
+        backgroundColor: Color.fromARGB(255, 20, 50, 31),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
@@ -140,6 +144,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          )
+        ),
       ),
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
@@ -151,15 +161,40 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         padding: const EdgeInsets.all(16),
         gap: 8,
-        tabBackgroundColor: const Color.fromARGB(255, 211, 208, 208),
+        backgroundColor: Color.fromARGB(255, 20,50,31),
+        tabBackgroundColor: Color.fromARGB(255, 49, 112, 75),
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
-          GButton(icon: Icons.home, text: 'Home'),
-          GButton(icon: Icons.sports_handball_outlined, text: 'Exercise List'),
-          GButton(icon: Icons.star_border_outlined, text: "Favorites"),
-          GButton(icon: Icons.history, text: "Workout History"),
-        ],
+          GButton(
+              icon: Icons.home,
+              text: 'Home',
+              iconColor: Color.fromARGB(255, 244, 238, 227),
+              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+              textColor: Color.fromARGB(255, 244, 238, 227),
+            ),
+            GButton(
+              icon:Icons.sports_handball_outlined,
+              text: 'Exercise List',
+              iconColor: Color.fromARGB(255, 244, 238, 227),
+              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+              textColor: Color.fromARGB(255, 244, 238, 227),
+            ),
+            GButton(
+              icon:Icons.star_border_outlined,
+              text: "Favorites",
+              iconColor: Color.fromARGB(255, 244, 238, 227),
+              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+              textColor: Color.fromARGB(255, 244, 238, 227),
+            ),
+            GButton(
+              icon:Icons.history,
+              text: "Workout History",
+              iconColor: Color.fromARGB(255, 244, 238, 227),
+              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+              textColor: Color.fromARGB(255, 244, 238, 227),
+            ),
+        ]
       ),
     );
   }

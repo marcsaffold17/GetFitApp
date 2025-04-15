@@ -20,10 +20,11 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       child: Column(
         children: [
           Container(
-            color: Colors.deepPurple[200],
+            color: Color.fromARGB(255, 20, 50, 31),
             padding: const EdgeInsets.only(top: 40, bottom: 16),
             child: Column(
               children: [
@@ -35,7 +36,7 @@ class NavBar extends StatelessWidget {
                       icon: const Icon(
                         Icons.close,
                         size: 28,
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 244, 238, 227),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -45,7 +46,7 @@ class NavBar extends StatelessWidget {
                 ),
                 const Text(
                   'Menu',
-                  style: TextStyle(fontSize: 24, color: Colors.black),
+                  style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 244, 238, 227)),
                 ),
                 const SizedBox(height: 10),
               ],
@@ -55,8 +56,8 @@ class NavBar extends StatelessWidget {
             child: ListView(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.home_outlined, color: Colors.black),
-                  title: const Text("Home"),
+                  leading: const Icon(Icons.home_outlined, color: Color.fromARGB(255,46, 105, 70)),
+                  title: const Text("Home", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -82,8 +83,8 @@ class NavBar extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.settings, color: Colors.black),
-                  title: const Text("Settings"),
+                  leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
+                  title: const Text("Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
                   onTap: () {
                     Navigator.push(
                       context,

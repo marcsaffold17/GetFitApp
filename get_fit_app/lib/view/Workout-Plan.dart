@@ -33,8 +33,6 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
       for (var workoutDoc in workoutSnapshot.docs) {
         final workoutData = workoutDoc.data();
         workoutData['date'] = date;
-        print("works");
-        print(workoutData['date']);
         workoutData['exercise'] = workoutDoc.id;
         grouped.putIfAbsent(date, () => []).add(workoutData);
       }
@@ -48,18 +46,21 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
 
   @override
   Widget build(BuildContext context) {
+  final sortedEntries = workoutsByDate.entries.toList()
+    ..sort((a, b) => b.key.compareTo(a.key));
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
-              children: workoutsByDate.entries.map((entry) {
+              children: sortedEntries.map((entry) {
                 final date = entry.key;
                 final workouts = entry.value;
                 return ExpansionTile(
                   title: Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(167, 196, 189, 1),
+                      color: Color.fromARGB(255, 46, 105, 70),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -67,7 +68,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(0, 0, 0, 1),
+                        color: Color.fromARGB(255, 244, 238, 227),
                       ),
                     ),
                   ),
@@ -103,9 +104,10 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: Color.fromARGB(255, 244, 238, 227),
         title: Text(
           'Edit Sets & Reps',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 20, 50, 31)),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -114,7 +116,8 @@ class _WorkoutTileState extends State<_WorkoutTile> {
               controller: setsController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Sets',
+                labelText: 'Sets', 
+                labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -124,6 +127,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: 'Reps',
+                labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -132,12 +136,12 @@ class _WorkoutTileState extends State<_WorkoutTile> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel'),
+            child: Text('Cancel', style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: StadiumBorder(),
-              backgroundColor: Colors.deepPurple,
+              backgroundColor: Color.fromARGB(255, 46, 105, 70),
             ),
             onPressed: () async {
               String updatedSets = setsController.text;
@@ -162,7 +166,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
 
               Navigator.of(context).pop();
             },
-            child: Text('Save'),
+            child: Text('Save', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),),
           ),
         ],
       ),
@@ -178,7 +182,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       child: Card(
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: Color(0xFFF9F9F9),
+        color: Color.fromARGB(255, 229, 221, 212),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
           child: Column(
@@ -190,16 +194,18 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                     child: Text(
                       workout['name'] ?? 'Unnamed',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 20, 50, 31)),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.edit, color: Colors.black),
+                    icon: Icon(Icons.edit, color: Color.fromARGB(255, 20, 50, 31)),
                     onPressed: _showEditDialog,
                   ),
                   IconButton(
                     icon: Icon(
-                        isExpanded ? Icons.expand_less : Icons.expand_more),
+                        isExpanded ? Icons.expand_less : Icons.expand_more,
+                        color: Color.fromARGB(255, 20, 50, 31)
+                        ),
                     onPressed: () {
                       setState(() {
                         isExpanded = !isExpanded;
@@ -209,16 +215,16 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 ],
               ),
               SizedBox(height: 4),
-              Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}"),
-              Text("Equipment: ${workout['equipment'] ?? 'N/A'}"),
-              Text("Sets: ${workout['sets'] ?? 'N/A'}"),
-              Text("Reps: ${workout['reps'] ?? 'N/A'}"),
+              Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              Text("Equipment: ${workout['equipment'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              Text("Sets: ${workout['sets'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              Text("Reps: ${workout['reps'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     "Instructions: ${workout['instructions'] ?? 'N/A'}",
-                    style: TextStyle(color: Colors.grey[700]),
+                    style: TextStyle(color: Color.fromARGB(255, 49, 112, 75),)
                   ),
                 ),
             ],
