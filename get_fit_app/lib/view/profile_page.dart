@@ -55,52 +55,125 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Widget _achievementCard({
+    required IconData icon,
+    required Color color,
+    required String title,
+    required String subtitle,
+    required double progress,
+  }) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: color.withOpacity(0.1),
+                  child: Icon(icon, color: color),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        subtitle,
+                        style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            LinearProgressIndicator(
+              value: progress,
+              color: color,
+              backgroundColor: color.withOpacity(0.2),
+              minHeight: 8,
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("Profile"),
+        title: const Text("My Workout Profile"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         child: Column(
           children: [
-            GestureDetector(
-              onTap: _pickImage,
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage:
-                    _image != null
-                        ? FileImage(_image!)
-                        : const AssetImage('assets/images/AshtonHall.webp')
-                            as ImageProvider,
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 18,
-                    child: Icon(Icons.edit, size: 18, color: Colors.grey[800]),
+            Stack(
+              children: [
+                CircleAvatar(
+                  radius: 60,
+                  backgroundImage:
+                      _image != null
+                          ? FileImage(_image!)
+                          : const AssetImage('assets/images/AshtonHall.webp')
+                              as ImageProvider,
+                ),
+                Positioned(
+                  bottom: 4,
+                  right: 4,
+                  child: GestureDetector(
+                    onTap: _pickImage,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 18,
+                      child: Icon(
+                        Icons.edit,
+                        size: 18,
+                        color: Colors.grey[800],
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
             const SizedBox(height: 16),
             Text(
               widget.username,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'About Me',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+            ),
+            const SizedBox(height: 8),
             TextField(
               controller: _bioController,
+              textAlign: TextAlign.center,
               decoration: InputDecoration(
-                labelText: 'Bio',
+                hintText: 'Write something about yourself...',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -112,33 +185,33 @@ class _ProfilePageState extends State<ProfilePage> {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Achievements',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                '🏋️ Achievements',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               ),
             ),
-            const SizedBox(height: 8),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              elevation: 4,
-              child: ListTile(
-                leading: const Icon(Icons.emoji_events, color: Colors.amber),
-                title: const Text('First Workout'),
-                subtitle: const Text('You completed your first workout!'),
-              ),
+            const SizedBox(height: 16),
+            _achievementCard(
+              icon: Icons.emoji_events,
+              color: Colors.amber,
+              title: 'First Workout',
+              subtitle: 'You completed your first workout!',
+              progress: 1.0,
             ),
             const SizedBox(height: 12),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              elevation: 4,
-              child: ListTile(
-                leading: const Icon(Icons.star, color: Colors.orange),
-                title: const Text('Streak Master'),
-                subtitle: const Text('7-day workout streak!'),
-              ),
+            _achievementCard(
+              icon: Icons.local_fire_department,
+              color: Colors.redAccent,
+              title: 'Streak Master',
+              subtitle: '7-day workout streak!',
+              progress: 0.7,
+            ),
+            const SizedBox(height: 12),
+            _achievementCard(
+              icon: Icons.trending_up,
+              color: Colors.green,
+              title: 'Level Up',
+              subtitle: 'You increased your max reps!',
+              progress: 0.4,
             ),
           ],
         ),
