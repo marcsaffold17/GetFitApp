@@ -41,6 +41,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       body: _favoriteExercises.isEmpty
           ? Center(
         child: Text(
@@ -54,16 +55,18 @@ class _FavoritesPageState extends State<FavoritesPage> {
           final exercise = _favoriteExercises[index];
 
           return Card(
+            color: Color.fromARGB(255, 229, 221, 212),
             margin: EdgeInsets.all(8),
             child: ListTile(
-              title: Text(exercise.name),
+              title: Text(exercise.name, style: TextStyle(color: Color.fromARGB(255, 20, 50, 31)),),
               subtitle: Text(
                 "Difficulty: ${exercise.difficulty}\n"
-                    "Equipment: ${exercise.equipment}",
+                "Equipment: ${exercise.equipment}",
+                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
               ),
               onTap: () => _showDetails(exercise),
               trailing: IconButton(
-                icon: Icon(Icons.delete, color: Colors.red),
+                icon: Icon(Icons.delete, color: Color.fromARGB(255, 81, 163, 108)),
                 onPressed: () async {
                   await favoritesRef.doc(exercise.name).delete();
                   setState(() {
@@ -83,12 +86,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(exercise.name),
-          content: Text(exercise.instructions),
+          backgroundColor: Color.fromARGB(255, 244, 238, 227),
+          title: Text(exercise.name, style: TextStyle(color:  Color.fromARGB(255, 20, 50, 31)),),
+          content: Text(exercise.instructions, style: TextStyle(color: Color.fromARGB(255, 46, 105, 70))),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("Close"),
+              child: Text("Close",style: TextStyle(color:  Color.fromARGB(255, 46, 105, 70)),),
             ),
           ],
         );
