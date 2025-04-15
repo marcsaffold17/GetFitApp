@@ -122,6 +122,9 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+      ),
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 20, 50, 31),
@@ -307,6 +310,10 @@ class CreateAccountPage extends State<MyCreateAccountPage>
 Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
+      iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+      ),
+        backgroundColor: Color.fromARGB(255, 20, 50, 31),
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 20, 50, 31),
