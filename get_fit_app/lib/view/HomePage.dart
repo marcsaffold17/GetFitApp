@@ -10,7 +10,8 @@ import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/Workout-Plan.dart';
-import '../view/profile_page.dart'; // ✅ Import the Profile Page
+import '../view/profile_page.dart'; 
+import '../view/checklist_view.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -85,9 +86,35 @@ class _MyHomePageState extends State<MyHomePage> {
           child: displayChart(_chartData, _selectedChart),
         ),
         Positioned(
-          bottom: 50,
+          bottom: 280 ,
           left: 20,
+          child: Container(
+            width: 180,
+            height: 50,
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromARGB(255, 229, 221, 212),
+            ),
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChecklistPage()),
+              );
+            },
+            child: const Text("TODO List", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),),
+          ),
+        ),
+        ),
+        Positioned(
+          bottom: 280,
+          right: 20,
+          child: Container(
+            width: 180,
+            height: 50,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromARGB(255, 229, 221, 212),
+            ),
             onPressed: () async {
               final updatedChart = await Navigator.push(
                 context,
@@ -99,9 +126,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               }
             },
-            child: const Text("Change Chart Settings"),
+            child: const Text("Change Chart Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)), textAlign: TextAlign.center,),
           ),
         ),
+        )
       ],
     );
   }
