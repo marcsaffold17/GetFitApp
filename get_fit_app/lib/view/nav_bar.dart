@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/HomePage.dart';
 import '../view/SettingsPage.dart';
 import '../view/checklist_view.dart';
@@ -69,19 +70,32 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
-                // ListTile(
-                //   leading: const Icon(
-                //     Icons.checklist_rounded,
-                //     color: Colors.black,
-                //   ),
-                //   title: const Text("Checklist"),
-                //   onTap: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => ChecklistPage()),
-                //     );
-                //   },
-                // ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.checklist_rounded,
+                    color: Color.fromARGB(255, 46, 105, 70),
+                  ),
+                  title: const Text("Checklist", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChecklistPage()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.auto_graph_outlined,
+                    color: Color.fromARGB(255, 46, 105, 70),
+                  ),
+                  title: const Text("LeaderBoard", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LeaderboardPage()),
+                    );
+                  },
+                ),
                 ListTile(
                   leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
                   title: const Text("Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
