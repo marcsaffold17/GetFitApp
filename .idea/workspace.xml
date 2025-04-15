@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Before the bif purge">
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Made test files to display badges screen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/model/badge_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/model/badge_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744402236296</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Made test files to display badges screen">
+      <option name="closed" value="true" />
+      <created>1744683676524</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1744683676524</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -142,6 +145,7 @@
     <MESSAGE value="Tweaked view files to remove any errors" />
     <MESSAGE value="Badge icon shows up on navbar" />
     <MESSAGE value="Before the bif purge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Before the bif purge" />
+    <MESSAGE value="Made test files to display badges screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made test files to display badges screen" />
   </component>
 </project>

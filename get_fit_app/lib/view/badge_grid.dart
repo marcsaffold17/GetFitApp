@@ -34,10 +34,10 @@ class BadgeGrid extends StatelessWidget {
               children: [
                 Image.network(
                   badge.iconUrl,
-                  width: 40,
-                  height: 40,
+                  width: 50,
+                  height: 50,
                   errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.image_not_supported, size: 40),
+                  const Icon(Icons.image_not_supported, size: 50),
                 ),
                 const SizedBox(height: 8),
                 Text(

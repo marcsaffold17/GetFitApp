@@ -34,7 +34,10 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Badges')),
+      appBar: AppBar(
+          title: const Text('Badges'),
+          backgroundColor: Colors.deepPurple[200]
+      ),
       body: _badges.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : BadgeGrid(badges: _badges, presenter: presenter,),

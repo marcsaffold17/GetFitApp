@@ -26,11 +26,25 @@ class BadgePresenter {
       Badge(
         id: 'test2',
         Title: 'Locked Badge',
-        description: 'Still locked!',
-        iconUrl: 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png',
+        description: 'You have not completed a streak yet!',
+        iconUrl: 'https://images.icon-icons.com/4018/PNG/512/prohibition_signaling_flame_fireplace_allowed_fire_no_icon_255686.png',
         isUnlocked: false,
       ),
-    ]);
+      Badge(
+        id: 'test3',
+        Title: 'Gym Bros',
+        description: 'You made your first friend!',
+        iconUrl: 'https://i.kym-cdn.com/entries/icons/mobile/000/012/468/shakeee.jpg',
+        isUnlocked: true,
+      ),
+      Badge(
+        id: 'test4',
+        Title: 'I ❤️ Pain',
+        description: 'You did a grueling workout!',
+        iconUrl: 'https://i.pinimg.com/736x/a1/44/f4/a144f4ab354485029bd7ba8f8cf696cb--weight-lifting-first-day.jpg',
+        isUnlocked: true,
+
+      )]);
   }
 
   void unlockBadge(String badgeId) {
