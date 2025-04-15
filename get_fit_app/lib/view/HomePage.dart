@@ -83,7 +83,10 @@ class _MyHomePageState extends State<MyHomePage> {
           top: 120,
           left: 20,
           right: 20,
-          child: displayChart(_chartData, _selectedChart),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            child: displayChart(_chartData, _selectedChart),
+          ),
         ),
         Positioned(
           top: 60,
@@ -136,9 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const CircleAvatar(
-                backgroundImage: AssetImage(
-                  'assets/images/AshtonHall.webp',
-                ), // Replace with your image
+                backgroundImage: AssetImage('assets/images/AshtonHall.webp'),
                 radius: 18,
               ),
             ),
@@ -205,4 +206,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+Widget displayChart(List<ChartModel> chartData, String selectedChart) {
+  if (chartData.isEmpty) return const SizedBox.shrink();
+  return selectedChart == 'Line'
+      ? LineChartWidget(key: const ValueKey('line'), data: chartData)
+      : BarChartWidget(key: const ValueKey('bar'), data: chartData);
 }
