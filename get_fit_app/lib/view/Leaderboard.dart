@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+import '../view/HomePage.dart';
+import '../view/SettingsPage.dart';
+import '../view/LeaderboardPage.dart';
+import 'nav_Bar.dart';
+
+class NavBarWithLeaderboard extends NavBar {
+  const NavBarWithLeaderboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          Container(
+            color: Colors.deepPurple[200],
+            padding: const EdgeInsets.only(top: 40, bottom: 16),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.close,
+                        size: 28,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Menu',
+                  style: TextStyle(fontSize: 24, color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.home_outlined, color: Colors.black),
+                  title: const Text("Home"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) =>
+                                const MyHomePage(title: 'Home', username: ""),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.leaderboard, color: Colors.black),
+                  title: const Text("Leaderboard"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LeaderboardPage(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings, color: Colors.black),
+                  title: const Text("Settings"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsPage(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/login_view.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
@@ -41,10 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _loadChartData() {
     _chartData = [
-      ChartModel(x: 1, y: 5),
-      ChartModel(x: 2, y: 6),
-      ChartModel(x: 3, y: 7),
-      ChartModel(x: 4, y: 8),
+      ChartModel(x: 1, y: 5, name: "0"),
+      ChartModel(x: 2, y: 6, name: "1"),
+      ChartModel(x: 3, y: 7, name: "2"),
+      ChartModel(x: 4, y: 8, name: "3"),
     ];
   }
 
@@ -79,13 +80,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         Positioned(
-          top: 70,
+          top: 120,
           left: 20,
           right: 20,
           child: displayChart(_chartData, _selectedChart),
         ),
         Positioned(
-          bottom: 50,
+          top: 60,
           left: 20,
           child: ElevatedButton(
             onPressed: () async {
@@ -113,15 +114,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ExercisePage(),
       FavoritesPage(),
       WorkoutHistoryByDate(),
+      LeaderboardPage(),
     ];
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
         title: const Text(""),
-        iconTheme: IconThemeData(
-          color: Color.fromARGB(255, 244, 238, 227),
-        ),
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
         actions: [
           Padding(
@@ -148,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
-          )
+          ),
         ),
       ),
       drawer: const NavBar(),
@@ -161,40 +161,47 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         padding: const EdgeInsets.all(16),
         gap: 8,
-        backgroundColor: Color.fromARGB(255, 20,50,31),
+        backgroundColor: Color.fromARGB(255, 20, 50, 31),
         tabBackgroundColor: Color.fromARGB(255, 49, 112, 75),
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
           GButton(
-              icon: Icons.home,
-              text: 'Home',
-              iconColor: Color.fromARGB(255, 244, 238, 227),
-              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
-              textColor: Color.fromARGB(255, 244, 238, 227),
-            ),
-            GButton(
-              icon:Icons.sports_handball_outlined,
-              text: 'Exercise List',
-              iconColor: Color.fromARGB(255, 244, 238, 227),
-              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
-              textColor: Color.fromARGB(255, 244, 238, 227),
-            ),
-            GButton(
-              icon:Icons.star_border_outlined,
-              text: "Favorites",
-              iconColor: Color.fromARGB(255, 244, 238, 227),
-              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
-              textColor: Color.fromARGB(255, 244, 238, 227),
-            ),
-            GButton(
-              icon:Icons.history,
-              text: "Workout History",
-              iconColor: Color.fromARGB(255, 244, 238, 227),
-              iconActiveColor: Color.fromARGB(255, 244, 238, 227),
-              textColor: Color.fromARGB(255, 244, 238, 227),
-            ),
-        ]
+            icon: Icons.home,
+            text: 'Home',
+            iconColor: Color.fromARGB(255, 244, 238, 227),
+            iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+            textColor: Color.fromARGB(255, 244, 238, 227),
+          ),
+          GButton(
+            icon: Icons.sports_handball_outlined,
+            text: 'Exercise List',
+            iconColor: Color.fromARGB(255, 244, 238, 227),
+            iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+            textColor: Color.fromARGB(255, 244, 238, 227),
+          ),
+          GButton(
+            icon: Icons.star_border_outlined,
+            text: "Favorites",
+            iconColor: Color.fromARGB(255, 244, 238, 227),
+            iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+            textColor: Color.fromARGB(255, 244, 238, 227),
+          ),
+          GButton(
+            icon: Icons.history,
+            text: "Workout History",
+            iconColor: Color.fromARGB(255, 244, 238, 227),
+            iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+            textColor: Color.fromARGB(255, 244, 238, 227),
+          ),
+          GButton(
+            icon: Icons.bar_chart_sharp,
+            text: "Leaderboard",
+            iconColor: Color.fromARGB(255, 244, 238, 227),
+            iconActiveColor: Color.fromARGB(255, 244, 238, 227),
+            textColor: Color.fromARGB(255, 244, 238, 227),
+          ),
+        ],
       ),
     );
   }
