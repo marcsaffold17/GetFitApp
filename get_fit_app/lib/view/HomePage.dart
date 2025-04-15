@@ -90,13 +90,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         Positioned(
-          top: 70,
+          top: 120,
           left: 20,
           right: 20,
           child: displayChart(_chartData, _selectedChart),
         ),
         Positioned(
-          bottom: 50,
+          top: 60,
           left: 20,
           child: ElevatedButton(
             onPressed: () async {

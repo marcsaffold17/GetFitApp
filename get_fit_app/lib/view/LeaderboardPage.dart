@@ -6,7 +6,7 @@ class LeaderboardPage extends StatelessWidget {
   const LeaderboardPage({super.key});
 
   List<ChartModel> generateDummyData(int multiplier) {
-    List<String> names = ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'];
+    List<String> names = ['Alice', 'Bob', 'Carol', 'Dave', 'you'];
     return List.generate(
       names.length,
       (index) => ChartModel(
@@ -22,7 +22,7 @@ class LeaderboardPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Leaderboard'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: const Color.fromARGB(255, 67, 10, 14),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
