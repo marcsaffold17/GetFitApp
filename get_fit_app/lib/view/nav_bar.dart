@@ -69,19 +69,19 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.checklist_rounded,
-                    color: Colors.black,
-                  ),
-                  title: const Text("Checklist"),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChecklistPage()),
-                    );
-                  },
-                ),
+                // ListTile(
+                //   leading: const Icon(
+                //     Icons.checklist_rounded,
+                //     color: Colors.black,
+                //   ),
+                //   title: const Text("Checklist"),
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => ChecklistPage()),
+                //     );
+                //   },
+                // ),
                 ListTile(
                   leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
                   title: const Text("Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
@@ -99,8 +99,8 @@ class NavBar extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.logout, color: Colors.black),
-            title: const Text("Logout"),
+            leading: const Icon(Icons.logout, color: Color.fromARGB(255, 46, 105, 70)),
+            title: const Text("Logout", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
             onTap: () => _logout(context),
           ),
         ],

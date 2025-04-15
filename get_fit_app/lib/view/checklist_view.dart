@@ -49,10 +49,20 @@ class _ChecklistPageState extends State<ChecklistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
-        title: const Text('My Checklist'),
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+        ),
+        title: const Text('My Checklist', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),),
         centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Color.fromARGB(255, 20, 50, 31),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          )
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -61,11 +71,12 @@ class _ChecklistPageState extends State<ChecklistPage> {
             Material(
               elevation: 4,
               borderRadius: BorderRadius.circular(12),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 229, 221, 212), // full background color
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 child: Row(
                   children: [
                     Expanded(
@@ -73,6 +84,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                         controller: _textController,
                         decoration: const InputDecoration(
                           hintText: 'Add a new item',
+                          hintStyle: TextStyle(color: Color.fromARGB(200, 46, 105, 70)),
                           border: InputBorder.none,
                         ),
                         onSubmitted: (text) {
@@ -83,7 +95,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                     IconButton(
                       icon: const Icon(
                         Icons.add_circle_rounded,
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 81, 163, 108),
                       ),
                       onPressed: () {
                         if (_textController.text.isNotEmpty) {
@@ -107,7 +119,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                       )
                       : ListView.separated(
                         itemCount: items.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 10),
+                        separatorBuilder: (_, __) => const SizedBox(height: 20),
                         itemBuilder: (context, index) {
                           final item = items[index];
                           return Dismissible(
@@ -129,7 +141,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                                 color:
                                     item.isChecked
                                         ? Colors.green.withOpacity(0.1)
-                                        : Theme.of(context).cardColor,
+                                        : Color.fromARGB(255, 229, 221, 212),
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [
                                   BoxShadow(
