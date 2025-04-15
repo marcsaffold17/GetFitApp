@@ -189,9 +189,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 20, 50, 31),
-                          width: 2,
-                        ),
+                    color: Color.fromARGB(255, 20, 50, 31),
+                    width: 2,
+                  ),
                 ),
               ),
               maxLines: 3,

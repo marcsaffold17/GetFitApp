@@ -108,3 +108,5 @@ class NavBar extends StatelessWidget {
     );
   }
 }
+
+// Credit for UI help and emotional support during UI work: Eva :>

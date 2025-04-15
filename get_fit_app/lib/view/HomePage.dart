@@ -13,6 +13,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/Workout-Plan.dart';
 import '../view/profile_page.dart'; 
 import '../view/checklist_view.dart';
+import '../view/LeaderboardPage.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -90,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         Positioned(
-          bottom: 280 ,
+          bottom: 240,
           left: 20,
           child: Container(
             width: 180,
@@ -110,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         ),
         Positioned(
-          bottom: 280,
+          bottom: 240,
           right: 20,
           child: Container(
             width: 180,
@@ -122,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () async {
               final updatedChart = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
+                MaterialPageRoute(builder: (context) => LeaderboardPage()),
               );
               if (updatedChart != null) {
                 setState(() {
@@ -130,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               }
             },
-            child: const Text("Change Chart Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)), textAlign: TextAlign.center,),
+            child: const Text("LeaderBoard", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)), textAlign: TextAlign.center,),
           ),
         ),
         )
@@ -145,7 +146,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ExercisePage(),
       FavoritesPage(),
       WorkoutHistoryByDate(),
-      LeaderboardPage(),
     ];
 
     return Scaffold(
@@ -219,13 +219,6 @@ class _MyHomePageState extends State<MyHomePage> {
           GButton(
             icon: Icons.history,
             text: "Workout History",
-            iconColor: Color.fromARGB(255, 244, 238, 227),
-            iconActiveColor: Color.fromARGB(255, 244, 238, 227),
-            textColor: Color.fromARGB(255, 244, 238, 227),
-          ),
-          GButton(
-            icon: Icons.bar_chart_sharp,
-            text: "Leaderboard",
             iconColor: Color.fromARGB(255, 244, 238, 227),
             iconActiveColor: Color.fromARGB(255, 244, 238, 227),
             textColor: Color.fromARGB(255, 244, 238, 227),

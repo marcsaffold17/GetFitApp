@@ -22,7 +22,16 @@ class LeaderboardPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
-        title: const Text('Leaderboard'),
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          )
+        ),
+        title: const Text('Leaderboard', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),),
         backgroundColor: const Color.fromARGB(255, 20, 50, 31),
       ),
       body: SingleChildScrollView(
