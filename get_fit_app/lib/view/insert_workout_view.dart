@@ -34,6 +34,24 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
   final _timeController = TextEditingController();
   final _titleController = TextEditingController();
   final _typeController = TextEditingController();
+  String? _workoutType;
+
+  // List of workout types the user can choose from
+  // Constantly expanding based on demand
+  final List<Map<String, dynamic>> _workoutTypes = [
+    {'name': 'Run', 'icon': Icons.directions_run},
+    {'name': 'Bike', 'icon': Icons.directions_bike},
+    {'name': 'Hike', 'icon': Icons.hiking},
+    {'name': 'Weight Training', 'icon': Icons.fitness_center},
+
+    // hike, walk, roller ski, inline skate,
+    // Swim, canoe, kayak,
+    // alpine ski, nordic ski, ice skate, snowboard, snowshoe
+    // weight training, rock climb, yoga, boxing, kickboxing, crossfit,
+    // basketball, football, tennis, pickleball, volleyball, badminton, soccer, golf, table tennis,
+    // any other types of workouts I can think of
+
+  ];
   File? _image;
 
   @override
@@ -104,7 +122,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color.fromARGB(255, 81, 163, 108),
               ),
               child: Text(
                 'Debug Menu',
@@ -135,54 +153,267 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
           padding: EdgeInsets.all(16.0),
           child: Column(
             children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Title',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
               TextFormField(
                 controller: _titleController,
+                textAlign: TextAlign.center,
+                cursorColor: Color.fromARGB(255, 81, 163, 108),
                 decoration: InputDecoration(
-                  labelText: 'Workout Title',
-                  floatingLabelAlignment: FloatingLabelAlignment.center,
+                  fillColor: Color.fromARGB(255, 255, 255, 255),
+                  filled: true,
+                  hintText: 'Enter your workout title here!',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 81, 163, 108),
+                      width: 2.0,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 81, 163, 108),
+                      width: 2.0,
+                    ),
+                  ),
                 ),
                 keyboardType: TextInputType.text,
-                textAlign: TextAlign.center,
               ),
               SizedBox(height: 16.0),
 
-              TextFormField(
-                controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Workout Description'),
-                maxLines: 3,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Description',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
               ),
 
               TextFormField(
-                      controller: _typeController,
-                      decoration: InputDecoration(labelText: 'Type of Workout'),
-                      keyboardType: TextInputType.text,
+                controller: _descriptionController,
+                textAlign: TextAlign.center,
+                cursorColor: Color.fromARGB(255, 81, 163, 108),
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(255, 255, 255, 255),
+                    filled: true,
+                    hintText: 'Tell us about your workout! How did it go?',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(255, 81, 163, 108),
+                        width: 2.0,
+                      ),
                     ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 81, 163, 108),
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+                maxLines: 3,
+              ),
+              SizedBox(height: 16.0),
 
-              TextFormField(
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Type of Workout',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+
+              DropdownButtonFormField<String>(
+                value: _workoutType,
+                decoration: InputDecoration(
+                  fillColor: Color.fromARGB(255, 255, 255, 255),
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 81, 163, 108),
+                      width: 2.0,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 81, 163, 108),
+                      width: 2.0,
+                    ),
+                  )
+                ),
+                items: _workoutTypes.map((workout) {
+                  return DropdownMenuItem<String>(
+                    value: workout['name'],
+                    child: Row(
+                      children: [
+                        Icon(workout['icon'], color: Color.fromARGB(255, 81, 163, 108)),
+                        SizedBox(width: 8.0),
+                        Text(workout['name']),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _workoutType = newValue;
+                    _typeController.text = newValue ?? '';
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a workout type';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+
+              Row(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Time (Minutes)',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 70.0),
+
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Distance (Miles)',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.20,
+                    child: TextFormField(
                       controller: _timeController,
-                      decoration: InputDecoration(labelText: 'Time (Minutes)'),
+                      textAlign: TextAlign.center,
+                      cursorColor: Color.fromARGB(255, 81, 163, 108),
+                      decoration: InputDecoration(
+                          hintText: '0.0',
+                          fillColor: Color.fromARGB(255, 255, 255, 255),
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(255, 81, 163, 108),
+                              width: 2.0,
+                            ),
+                          ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 81, 163, 108),
+                            width: 2.0,
+                          ),
+                        ),
+                      ),
                       keyboardType: TextInputType.number,
                     ),
-                  SizedBox(width: 16.0),
+                  ),
 
-              TextFormField(
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'mins',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 65.0),
+
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.20,
+                    child: TextFormField(
                       controller: _distanceController,
-                      decoration: InputDecoration(labelText: 'Distance (Miles)'),
+                      textAlign: TextAlign.center,
+                      cursorColor: Color.fromARGB(255, 81, 163, 108),
+                      decoration: InputDecoration(
+                          hintText: '0.0',
+                          fillColor: Color.fromARGB(255, 255, 255, 255),
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(255, 81, 163, 108),
+                              width: 2.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color.fromARGB(255, 81, 163, 108),
+                            width: 2.0,
+                          ),
+                        ),
+                      ),
                       keyboardType: TextInputType.number,
                     ),
+                  ),
+
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'mi',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+
               SizedBox(height: 16.0),
 
               ElevatedButton.icon(
                 onPressed: _pickImage,
-                icon: Icon(Icons.add_a_photo),
-                label: Text('Add Photo'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                ),
+                icon: Icon(Icons.add_a_photo, color: Color.fromARGB(255, 81, 163, 108)),
+                label: Text('Add Photo', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
               ),
               if (_image != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: SizedBox(
-                    width: 250.0,
-                    height: 250.0,
+                    width: 175.0,
+                    height: 175.0,
                     child: Image.file(_image!),
                   ),
                 ),
@@ -235,11 +466,14 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen> implements Work
                   }
                 },
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 255, 255, 255),
                   padding: EdgeInsets.symmetric(horizontal: 75.0, vertical: 25.0),
                   textStyle: TextStyle(fontSize: 20.0),
                 ),
-                icon: Icon(Icons.upload),
-                label: Text('Upload Workout'),
+                icon: Icon(Icons.upload, color: Color.fromARGB(255, 81, 163, 108)),
+
+                label: Text('Upload Workout', style: TextStyle(color: Color.fromARGB(
+                    255, 0, 0, 0))),
               ),
             ],
           ),

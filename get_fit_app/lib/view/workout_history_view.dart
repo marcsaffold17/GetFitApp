@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../view/photo_view.dart';
 
 // Screen that shows old workouts submitted to the "Workouts"
 // collection in Firestore
-class WorkoutHistoryScreen extends StatelessWidget {
+class WorkoutHistoryScreen extends StatefulWidget {
+  @override
+  _WorkoutHistoryScreenState createState() => _WorkoutHistoryScreenState();
+}
+
+class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
+
+  void _showFullScreenImage(String imageUrl) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return ImageScreen(imageUrl: imageUrl);
+        },
+      ),
+    );
+  }
 
   String timeFormat(int totalMinutes) {
     if (totalMinutes < 60) {
@@ -61,7 +78,7 @@ class WorkoutHistoryScreen extends StatelessWidget {
                       Text(data['Title'] ?? 'No Title'),
                       if (data['Day'] != null && data['Day'] is Timestamp)
                         Text(
-                          'Date: ${DateFormat('yyyy-MM-dd').format(
+                          '${DateFormat('yyyy-MM-dd').format(
                               (data['Day'] as Timestamp).toDate())}',
                         ),
                       if (data['Day'] == null || data['Day'] is! Timestamp)
@@ -82,7 +99,9 @@ class WorkoutHistoryScreen extends StatelessWidget {
                               ? averageSpeed(data['Distance'], data['Time'])
                               : 'No Data'}'),
                           if (data['imageURL'] != null)
-                            Padding(
+                            GestureDetector(
+                              onTap: () => _showFullScreenImage(data['imageURL']),
+                            child: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Image.network(
                                 data['imageURL'],
@@ -91,6 +110,7 @@ class WorkoutHistoryScreen extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
                               ),
+                            ),
                             ),
                         ],
                       ),
