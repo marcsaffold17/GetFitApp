@@ -65,6 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      color: Color.fromARGB(255, 229, 221, 212),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -114,14 +115,23 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("My Workout Profile"),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text("My Workout Profile", style: TextStyle(color:  Color.fromARGB(255, 244, 238, 227)),),
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+        ),
+        backgroundColor: Color.fromARGB(255, 20, 50, 31),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          )
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -173,9 +183,15 @@ class _ProfilePageState extends State<ProfilePage> {
               controller: _bioController,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
+                fillColor: Color.fromARGB(255, 229, 221, 212),
+                filled: true,
                 hintText: 'Write something about yourself...',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 20, 50, 31),
+                          width: 2,
+                        ),
                 ),
               ),
               maxLines: 3,
