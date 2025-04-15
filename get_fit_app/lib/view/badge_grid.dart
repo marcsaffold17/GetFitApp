@@ -10,6 +10,9 @@ class BadgeGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 🔍 Debugging: Print how many badges we're showing
+    print("🟡 BadgeGrid received ${badges.length} badges");
+
     return GridView.builder(
       padding: const EdgeInsets.all(16.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -17,6 +20,7 @@ class BadgeGrid extends StatelessWidget {
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
       ),
+      itemCount: badges.length, // ✅ Important: specify how many items to show
       itemBuilder: (context, index) {
         final badge = badges[index];
         return GestureDetector(
@@ -29,30 +33,31 @@ class BadgeGrid extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.network(
-                badge.iconUrl,
-                width: 40,
-                height: 40,
-                errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported, size: 40),
+                  badge.iconUrl,
+                  width: 40,
+                  height: 40,
+                  errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.image_not_supported, size: 40),
                 ),
                 const SizedBox(height: 8),
-                Text(badge.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                Text(badge.description),
-                Image.network(
-                    badge.iconUrl,
-                    width: 40,
-                    height: 40,
-                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported, size: 40),
+                Text(
+                  badge.Title, // ✅ Corrected casing
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  textAlign: TextAlign.center,
                 ),
-
-                const SizedBox(height: 8),
-                Text(badge.title, style: const TextStyle(fontSize: 16)),
                 const SizedBox(height: 4),
-                Text(badge.description),
+                Text(
+                  badge.description,
+                  textAlign: TextAlign.center,
+                ),
                 if (!badge.isUnlocked)
                   const Padding(
                     padding: EdgeInsets.only(top: 4),
-                    child: Text("Locked", style: TextStyle(color: Colors.red))
-                  )
+                    child: Text(
+                      "Locked",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
               ],
             ),
           ),

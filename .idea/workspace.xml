@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Badge icon shows up on navbar">
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Before the bif purge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/model/badge_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/model/badge_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/nav_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/nav_bar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugins.cmake" afterDir="false" />
@@ -126,7 +125,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744227354842</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Before the bif purge">
+      <option name="closed" value="true" />
+      <created>1744402236296</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1744402236296</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -134,6 +141,7 @@
     <MESSAGE value="Made presenter and view files for the badge system, just needs a few tweaks." />
     <MESSAGE value="Tweaked view files to remove any errors" />
     <MESSAGE value="Badge icon shows up on navbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Badge icon shows up on navbar" />
+    <MESSAGE value="Before the bif purge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Before the bif purge" />
   </component>
 </project>

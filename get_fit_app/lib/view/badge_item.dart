@@ -21,7 +21,7 @@ class BadgeItem extends StatelessWidget {
         children: [
           Image.network(badge.iconUrl, height: 60, width: 60),
           SizedBox(height: 4),
-          Text(badge.title, style: TextStyle(fontSize: 12)),
+          Text(badge.Title, style: TextStyle(fontSize: 12)),
           Icon(
             badge.isUnlocked ? Icons.check_circle : Icons.lock,
             color: badge.isUnlocked ? Colors.green : Colors.grey,

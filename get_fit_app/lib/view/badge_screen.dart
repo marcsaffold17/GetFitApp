@@ -23,11 +23,11 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
   void initState() {
     super.initState();
     // Replace with actual logic to get the current user's ID
-    String userId = "exampleUserId";
+    String userId = "Daniel";
 
-    final repository = BadgeRepository(userId: userId);
-    presenter = BadgePresenter(repository: repository);
-    presenter.view = this;
+    final repository = badge_model.BadgeRepository(userId: userId);
+    presenter = BadgePresenter(repository: repository, view: this);
+    
     presenter.loadBadges();
   }
 
@@ -37,12 +37,13 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
       appBar: AppBar(title: const Text('Badges')),
       body: _badges.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : BadgeGrid(badges: _badges),
+          : BadgeGrid(badges: _badges, presenter: presenter,),
     );
   }
 
   @override
   void displayBadges(List<badge_model.Badge> badges) {
+    print("Display called with ${badges.length} badges");
     setState(() {
       _badges = badges;
     });
