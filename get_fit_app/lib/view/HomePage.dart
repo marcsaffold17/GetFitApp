@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/login_view.dart';
@@ -11,7 +12,7 @@ import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/Workout-Plan.dart';
-import '../view/profile_page.dart'; 
+import '../view/profile_page.dart';
 import '../view/checklist_view.dart';
 import '../view/LeaderboardPage.dart';
 
@@ -29,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late String UserName;
   List<ChartModel> _chartData = [];
   String _selectedChart = 'Line';
+  File? _profileImage;
 
   @override
   void initState() {
@@ -36,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _loadUsername();
     _loadChartData();
     _loadChartPreference();
+    _loadProfileImage();
   }
 
   void _loadUsername() {
@@ -56,6 +59,20 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _selectedChart = prefs.getString('selectedChart') ?? 'Line';
     });
+  }
+
+  Future<void> _loadProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? imagePath = prefs.getString('profileImage');
+    if (imagePath != null && File(imagePath).existsSync()) {
+      setState(() {
+        _profileImage = File(imagePath);
+      });
+    } else {
+      setState(() {
+        _profileImage = null;
+      });
+    }
   }
 
   @override
@@ -96,19 +113,22 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Container(
             width: 180,
             height: 50,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 229, 221, 212),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 229, 221, 212),
+              ),
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChecklistPage()),
+                );
+              },
+              child: const Text(
+                "TODO List",
+                style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+              ),
             ),
-            onPressed: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ChecklistPage()),
-              );
-            },
-            child: const Text("TODO List", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),),
           ),
-        ),
         ),
         Positioned(
           bottom: 240,
@@ -116,25 +136,29 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Container(
             width: 180,
             height: 50,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 229, 221, 212),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 229, 221, 212),
+              ),
+              onPressed: () async {
+                final updatedChart = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LeaderboardPage()),
+                );
+                if (updatedChart != null) {
+                  setState(() {
+                    _selectedChart = updatedChart;
+                  });
+                }
+              },
+              child: const Text(
+                "LeaderBoard",
+                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                textAlign: TextAlign.center,
+              ),
             ),
-            onPressed: () async {
-              final updatedChart = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LeaderboardPage()),
-              );
-              if (updatedChart != null) {
-                setState(() {
-                  _selectedChart = updatedChart;
-                });
-              }
-            },
-            child: const Text("LeaderBoard", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)), textAlign: TextAlign.center,),
           ),
         ),
-        )
       ],
     );
   }
@@ -158,17 +182,22 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(username: UserName),
                   ),
                 );
+                _loadProfileImage();
               },
-              child: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/AshtonHall.webp'),
+              child: CircleAvatar(
                 radius: 18,
+                backgroundImage:
+                    _profileImage != null
+                        ? FileImage(_profileImage!)
+                        : const AssetImage('assets/images/AshtonHall.webp')
+                            as ImageProvider,
               ),
             ),
           ),
