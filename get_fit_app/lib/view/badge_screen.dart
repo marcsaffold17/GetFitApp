@@ -23,7 +23,7 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
   void initState() {
     super.initState();
     // Replace with actual logic to get the current user's ID
-    String userId = "Daniel";
+    String userId = "UserId";
 
     final repository = badge_model.BadgeRepository(userId: userId);
     presenter = BadgePresenter(repository: repository, view: this);
@@ -36,7 +36,7 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
     return Scaffold(
       appBar: AppBar(
           title: const Text('Badges'),
-          backgroundColor: Colors.deepPurple[200]
+          backgroundColor: Colors.greenAccent[200]
       ),
       body: _badges.isEmpty
           ? const Center(child: CircularProgressIndicator())

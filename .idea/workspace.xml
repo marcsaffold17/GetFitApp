@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Made test files to display badges screen">
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Added more detail to badges">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -136,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744683676524</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added more detail to badges">
+      <option name="closed" value="true" />
+      <created>1744743519272</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744743519272</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -146,6 +152,7 @@
     <MESSAGE value="Badge icon shows up on navbar" />
     <MESSAGE value="Before the bif purge" />
     <MESSAGE value="Made test files to display badges screen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made test files to display badges screen" />
+    <MESSAGE value="Added more detail to badges" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more detail to badges" />
   </component>
 </project>
