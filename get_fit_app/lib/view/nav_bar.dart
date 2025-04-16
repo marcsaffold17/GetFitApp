@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/HomePage.dart';
 import '../view/SettingsPage.dart';
-import '../view/checklist_view.dart';
-import '../view/login_view.dart';
-import '../presenter/global_presenter.dart';
+
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -65,7 +63,7 @@ class NavBar extends StatelessWidget {
                       MaterialPageRoute(
                         builder:
                             (context) =>
-                                const MyHomePage(title: 'Home', username: ""),
+                        const MyHomePage(title: 'Home', username: ""),
                       ),
                     );
                   },
@@ -96,6 +94,24 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
+
+                // ✅ Updated Badge ListTile to pass in the presenter
+                ListTile(
+                  leading: const Icon(
+                    Icons.badge_outlined,
+                    color: Colors.black,
+                  ),
+                  title: const Text("Badges"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BadgeScreen(),
+                      ),
+                    );
+                  },
+                ),
+
                 ListTile(
                   leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
                   title: const Text("Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),

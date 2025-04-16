@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b424f84-6c03-44d4-a8a2-38f561c85ed8" name="Changes" comment="Got code startup for the notification services user stories">
-      <change afterPath="$PROJECT_DIR$/get_fit_app/lib/view/workout_history_view.dart" afterDir="false" />
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Preparing for merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,36 +25,45 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Notifications" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
+  &quot;associatedIndex&quot;: 2
 }</component>
-  <component name="ProjectId" id="2uaxdHfTmbiLcfNKFjCRWrAGJXd" />
+  <component name="ProjectId" id="2vBlbITNGNoFcUoZKpRDC6HPl5D" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "Merging main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/danie/StudioProjects/Bug-Hunters",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Badges&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\danie\StudioProjects\Bug-Hunters\get_fit_app\lib\model" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration name="main" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/get_fit_app/lib/main.dart" />
       <method v="2" />
     </configuration>
@@ -63,44 +71,96 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2b424f84-6c03-44d4-a8a2-38f561c85ed8" name="Changes" comment="" />
-      <created>1742500572105</created>
+      <changelist id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="" />
+      <created>1743626419885</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1742500572105</updated>
+      <updated>1743626419885</updated>
     </task>
-    <task id="LOCAL-00001" summary="Got code startup for the notification services user stories">
+    <task id="LOCAL-00001" summary="badge_model.dart is done, just neet to connect to firestore.">
       <option name="closed" value="true" />
-      <created>1742908017158</created>
+      <created>1743709997132</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1742908017158</updated>
+      <updated>1743709997132</updated>
     </task>
-    <task id="LOCAL-00002" summary="Got code startup for the notification services user stories">
+    <task id="LOCAL-00002" summary="badge_model.dart is done, just neet to connect to firestore.">
       <option name="closed" value="true" />
-      <created>1742908090304</created>
+      <created>1743710303143</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1742908090304</updated>
+      <updated>1743710303143</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Made presenter and view files for the badge system, just needs a few tweaks.">
+      <option name="closed" value="true" />
+      <created>1744135266315</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1744135266315</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Tweaked view files to remove any errors">
+      <option name="closed" value="true" />
+      <created>1744139129057</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1744139129057</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Badge icon shows up on navbar">
+      <option name="closed" value="true" />
+      <created>1744227354842</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1744227354842</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Before the bif purge">
+      <option name="closed" value="true" />
+      <created>1744402236296</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1744402236296</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Made test files to display badges screen">
+      <option name="closed" value="true" />
+      <created>1744683676524</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1744683676524</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added more detail to badges">
+      <option name="closed" value="true" />
+      <created>1744743519272</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744743519272</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Preparing for merge">
+      <option name="closed" value="true" />
+      <created>1744809967276</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744809967276</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Got code startup for the notification services user stories" />
-    <option name="LAST_COMMIT_MESSAGE" value="Got code startup for the notification services user stories" />
+    <MESSAGE value="badge_model.dart is done, just neet to connect to firestore." />
+    <MESSAGE value="Made presenter and view files for the badge system, just needs a few tweaks." />
+    <MESSAGE value="Tweaked view files to remove any errors" />
+    <MESSAGE value="Badge icon shows up on navbar" />
+    <MESSAGE value="Before the bif purge" />
+    <MESSAGE value="Made test files to display badges screen" />
+    <MESSAGE value="Added more detail to badges" />
+    <MESSAGE value="Preparing for merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Preparing for merge" />
   </component>
 </project>
