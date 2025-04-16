@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Added more detail to badges">
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Preparing for merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +141,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744743519272</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Preparing for merge">
+      <option name="closed" value="true" />
+      <created>1744809967276</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744809967276</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -153,6 +160,7 @@
     <MESSAGE value="Before the bif purge" />
     <MESSAGE value="Made test files to display badges screen" />
     <MESSAGE value="Added more detail to badges" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more detail to badges" />
+    <MESSAGE value="Preparing for merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Preparing for merge" />
   </component>
 </project>
