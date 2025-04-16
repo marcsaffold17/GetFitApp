@@ -54,6 +54,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
           ? Center(child: CircularProgressIndicator())
           : ListView(
               children: sortedEntries.map((entry) {
+                SizedBox(height: 20,);
                 final date = entry.key;
                 final workouts = entry.value;
                 return ExpansionTile(
@@ -233,4 +234,32 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       ),
     );
   }
+}
+
+@override
+Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(title: const Text('Settings')),
+      // drawer: const NavBar(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(  
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(0, 18, 7, 7),
+                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              onPressed: () {
+              },
+              child: const Text('Search', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227), fontSize: 15),textAlign: TextAlign.center,),
+            ),
+          ]
+        )
+      )
+    );
 }

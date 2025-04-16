@@ -5,6 +5,8 @@ import '../view/SettingsPage.dart';
 import '../view/checklist_view.dart';
 import '../view/login_view.dart';
 import '../presenter/global_presenter.dart';
+import '../view/workout_history_view.dart';
+import '../view/insert_workout_view.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -104,6 +106,18 @@ class NavBar extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const SettingsPage(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
+                  title: const Text("History", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WorkoutHistoryScreen(),
                       ),
                     );
                   },
