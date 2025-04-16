@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import '../view/login_view.dart';
 import 'nav_bar.dart';
@@ -10,7 +11,7 @@ import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/Workout-Plan.dart';
-import '../view/profile_page.dart'; // ✅ Import the Profile Page
+import '../view/profile_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -26,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late String UserName;
   List<ChartModel> _chartData = [];
   String _selectedChart = 'Line';
+  File? _profileImage;
 
   @override
   void initState() {
@@ -33,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _loadUsername();
     _loadChartData();
     _loadChartPreference();
+    _loadProfileImage();
   }
 
   void _loadUsername() {
@@ -55,10 +58,21 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> _loadProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final path = prefs.getString('profileImage');
+    if (path != null && File(path).existsSync()) {
+      setState(() {
+        _profileImage = File(path);
+      });
+    }
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _loadChartPreference();
+    _loadProfileImage(); // refresh on widget change
   }
 
   void _onItemTapped(int index) {
@@ -123,18 +137,21 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(username: UserName),
                   ),
                 );
+                _loadProfileImage(); // refresh after returning from profile page
               },
-              child: const CircleAvatar(
-                backgroundImage: AssetImage(
-                  'assets/images/AshtonHall.webp',
-                ), // Replace with your image
+              child: CircleAvatar(
+                backgroundImage:
+                    _profileImage != null
+                        ? FileImage(_profileImage!)
+                        : const AssetImage('assets/images/AshtonHall.webp')
+                            as ImageProvider,
                 radius: 18,
               ),
             ),
