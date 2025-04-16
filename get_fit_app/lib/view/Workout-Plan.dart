@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../presenter/global_presenter.dart';
+import '../view/insert_workout_view.dart';
+import '../presenter/insert_workout_presenter.dart';
+import '../model/insert_workout_model.dart';
 
 class WorkoutHistoryByDate extends StatefulWidget {
   @override
@@ -91,7 +94,15 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
           ),
         ),
         onPressed: () {
-          // TODO: Add your action here
+          final repository = WorkoutRepository(); // Make sure this exists and is imported
+          final presenter = WorkoutPresenter(repository);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WorkoutEntryScreen(presenter: presenter),
+            ),
+          );
         },
         child: Text(
           'Add Workout',

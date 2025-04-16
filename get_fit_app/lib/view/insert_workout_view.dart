@@ -117,36 +117,36 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
       appBar: AppBar(
         title: Text('Add Workout'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 81, 163, 108),
-              ),
-              child: Text(
-                'Debug Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-            ),
-            ListTile(
-              title: Text('View Old Workouts'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WorkoutHistoryScreen()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      // drawer: Drawer(
+      //   child: ListView(
+      //     padding: EdgeInsets.zero,
+      //     children: <Widget>[
+      //       DrawerHeader(
+      //         decoration: BoxDecoration(
+      //           color: Color.fromARGB(255, 81, 163, 108),
+      //         ),
+      //         child: Text(
+      //           'Debug Menu',
+      //             style: TextStyle(
+      //               color: Colors.white,
+      //               fontSize: 24,
+      //             ),
+      //           ),
+      //       ),
+      //       ListTile(
+      //         title: Text('View Old Workouts'),
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //                 builder: (context) => WorkoutHistoryScreen()),
+      //           );
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      // ),
 
       body: Form(
         key: _formKey,
@@ -418,7 +418,21 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     child: Image.file(_image!),
                   ),
                 ),
-
+              IconButton(
+                icon: Icon(Icons.add_outlined),
+                color: Color.fromARGB(255 ,81, 163, 108),
+                onPressed: () async {
+                    final DateTime? pickedDate = await showDatePicker(
+                      context: context, 
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000), 
+                      lastDate: DateTime(2100),
+                    );
+                    if (pickedDate != null) {
+                                    String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
+                    }
+                }
+              ),
               SizedBox(height: 16.0),
               Spacer(),
               ElevatedButton.icon(
