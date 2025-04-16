@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../presenter/global_presenter.dart';
 
 // Required when needing to authenticate user
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -109,7 +110,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
       return null;
     }
   }
-
+  String? FormattedDate;
   // Startup UI, should probably adjust later to fit
   @override
   Widget build(BuildContext context) {
@@ -429,7 +430,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       lastDate: DateTime(2100),
                     );
                     if (pickedDate != null) {
-                                    String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
+                      FormattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
                     }
                 }
               ),
@@ -444,43 +445,54 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     int? time = int.tryParse(_timeController.text) ?? 0;
 
                     String? uploadedImageUrl;
-                    if (_image != null) {
-                      uploadedImageUrl = await uploadImage(_image!);
-                      if (uploadedImageUrl == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Photo upload failed, uploading without photo'),
-                              duration: Duration(seconds: 3)),
-                        );
+                      if (_image != null) {
+                        uploadedImageUrl = await uploadImage(_image!);
+                        if (uploadedImageUrl == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Photo upload failed, uploading without photo'),
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
 
-                        // Workout without image
-                        final newWorkout = Workout(
-                          day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
-                          description: _descriptionController.text,
-                          distance: distance,
-                          time: time,
-                          title: _titleController.text,
-                          type: _typeController.text,
-                          image: null,
-                        );
-                        widget.presenter.addWorkout(newWorkout);
-                        return;
+                          // Workout without image
+                          final newWorkout = Workout(
+                            day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
+                            description: _descriptionController.text,
+                            distance: distance,
+                            time: time,
+                            title: _titleController.text,
+                            type: _typeController.text,
+                            image: null,
+                          );
+
+                          // ⬇️ Make sure globalUsername is not null
+                          if (globalUsername != null) {
+                            widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                          } else {
+                            print("Error: Username is null");
+                          }
+                          return;
+                        }
                       }
-                    }
+                      // Workout with image
+                      final newWorkout = Workout(
+                        day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
+                        description: _descriptionController.text,
+                        distance: distance,
+                        time: time,
+                        title: _titleController.text,
+                        type: _typeController.text,
+                        image: uploadedImageUrl,
+                      );
 
-                    // Workout with image
-                    final newWorkout = Workout(
-                      day: Timestamp.fromDate(
-                        DateTime.parse(_dayController.text),
-                      ),
-                      description: _descriptionController.text,
-                      distance: distance,
-                      time: time,
-                      title: _titleController.text,
-                      type: _typeController.text,
-                      image: uploadedImageUrl,
-                    );
-                    widget.presenter.addWorkout(newWorkout);
-                  }
+                      // ⬇️ Again, check for null
+                      if (globalUsername != null) {
+                        widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                      } else {
+                        print("Error: Username is null");
+                      }
+                }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 255, 255, 255),
