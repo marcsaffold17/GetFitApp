@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/HomePage.dart';
-import '../view/SettingsPage.dart';
+import 'SettingsPage.dart';
+import '../view/checklist_view.dart';
+import '../view/login_view.dart';
+import '../presenter/global_presenter.dart';
+import '../view/badge_screen.dart';
 
 
 class NavBar extends StatelessWidget {
@@ -98,10 +102,10 @@ class NavBar extends StatelessWidget {
                 // ✅ Updated Badge ListTile to pass in the presenter
                 ListTile(
                   leading: const Icon(
-                    Icons.badge_outlined,
-                    color: Colors.black,
+                      Icons.badge_outlined,
+                      color: Color.fromARGB(255, 46, 105, 70)
                   ),
-                  title: const Text("Badges"),
+                  title: const Text("Badges", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
                   onTap: () {
                     Navigator.push(
                       context,
