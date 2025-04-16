@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
-import '../view/favorites_page.dart';
+import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/HomePage.dart';
-import '../view/login_view.dart';
-import '../view/exercise_view.dart';
 import '../view/SettingsPage.dart';
-import '../view/badge_screen.dart';
 
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
 
+  void _logout(BuildContext context) {
+    globalUsername = null;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LoginButtonPage()),
+      (Route<dynamic> route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       child: Column(
         children: [
           Container(
-            color: Colors.deepPurple[200],
+            color: Color.fromARGB(255, 20, 50, 31),
             padding: const EdgeInsets.only(top: 40, bottom: 16),
             child: Column(
               children: [
@@ -29,7 +35,7 @@ class NavBar extends StatelessWidget {
                       icon: const Icon(
                         Icons.close,
                         size: 28,
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 244, 238, 227),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -39,7 +45,7 @@ class NavBar extends StatelessWidget {
                 ),
                 const Text(
                   'Menu',
-                  style: TextStyle(fontSize: 24, color: Colors.black),
+                  style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 244, 238, 227)),
                 ),
                 const SizedBox(height: 10),
               ],
@@ -49,8 +55,8 @@ class NavBar extends StatelessWidget {
             child: ListView(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.home_outlined, color: Colors.black),
-                  title: const Text("Home"),
+                  leading: const Icon(Icons.home_outlined, color: Color.fromARGB(255,46, 105, 70)),
+                  title: const Text("Home", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -64,29 +70,27 @@ class NavBar extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(
-                    Icons.star_border_outlined,
-                    color: Colors.black,
+                    Icons.checklist_rounded,
+                    color: Color.fromARGB(255, 46, 105, 70),
                   ),
-                  title: const Text("Favorites"),
+                  title: const Text("Checklist", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const FavoritesPage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => ChecklistPage()),
                     );
                   },
                 ),
                 ListTile(
                   leading: const Icon(
-                    Icons.sports_handball_outlined,
-                    color: Colors.black,
+                    Icons.auto_graph_outlined,
+                    color: Color.fromARGB(255, 46, 105, 70),
                   ),
-                  title: const Text("Exercises"),
+                  title: const Text("LeaderBoard", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ExercisePage()),
+                      MaterialPageRoute(builder: (context) => LeaderboardPage()),
                     );
                   },
                 ),
@@ -109,8 +113,8 @@ class NavBar extends StatelessWidget {
                 ),
 
                 ListTile(
-                  leading: const Icon(Icons.settings, color: Colors.black),
-                  title: const Text("Settings"),
+                  leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
+                  title: const Text("Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -123,8 +127,16 @@ class NavBar extends StatelessWidget {
               ],
             ),
           ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Color.fromARGB(255, 46, 105, 70)),
+            title: const Text("Logout", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+            onTap: () => _logout(context),
+          ),
         ],
       ),
     );
   }
 }
+
+// Credit for UI help and emotional support during UI work: Eva :>
