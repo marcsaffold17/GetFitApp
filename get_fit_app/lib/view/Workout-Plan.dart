@@ -255,10 +255,22 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 ],
               ),
               SizedBox(height: 4),
-              Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              Text("Equipment: ${workout['equipment'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              Text("Sets: ${workout['sets'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              Text("Reps: ${workout['reps'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['difficulty'] != null && workout['difficulty'] != 'N/A')
+                Text("Difficulty: ${workout['difficulty']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['equipment'] != null && workout['equipment'] != 'N/A')
+                Text("Equipment: ${workout['equipment']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['sets'] != null && workout['sets'] != 'N/A')
+                Text("Sets: ${workout['sets']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['reps'] != null && workout['reps'] != 'N/A')
+                Text("Reps: ${workout['reps']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Distance'] != null && workout['Distance'] != 'N/A')
+                Text("Distance: ${workout['Distance']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Time'] != null && workout['Time'] != 'N/A')
+                Text("Time: ${workout['Time']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Type'] != null && workout['Type'] != 'N/A')
+                Text("Type: ${workout['Type']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+                
+
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
