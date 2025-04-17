@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
+import '../presenter/global_presenter.dart';
 
 // Code mainly deals with user inputted code from the view.
 // Converts user inputted data into strings Firestore can understand.
@@ -42,11 +43,11 @@ class Workout {
   // Convert workout to a map for Firestore storage
   Map<String, dynamic> toMap() {
     return {
+      'name': title,
       'Day': day,
-      'Description': description,
+      'instructions': description,
       'Distance': distance,
       'Time': time,
-      'Title': title,
       'Type': type,
       'imageURL': image,
     };

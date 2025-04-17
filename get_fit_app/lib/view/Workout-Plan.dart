@@ -269,8 +269,6 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 Text("Time: ${workout['Time']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
               if (workout['Type'] != null && workout['Type'] != 'N/A')
                 Text("Type: ${workout['Type']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-                
-
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
