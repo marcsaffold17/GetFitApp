@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../model/checklist_item.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../presenter/checklist_presenter.dart';
+import '../presenter/global_presenter.dart';
 
 class ChecklistPage extends StatefulWidget {
   @override
@@ -11,6 +13,11 @@ class _ChecklistPageState extends State<ChecklistPage> {
   List<ChecklistItem> items = [];
   final _textController = TextEditingController();
   final ChecklistPresenter presenter = ChecklistPresenter();
+
+  final favoritesRef = FirebaseFirestore.instance
+      .collection('Login-Info')
+      .doc(globalUsername)
+      .collection('checklist');
 
   @override
   void initState() {
@@ -51,17 +58,18 @@ class _ChecklistPageState extends State<ChecklistPage> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Color.fromARGB(255, 244, 238, 227),
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
+        title: const Text(
+          'My Checklist',
+          style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
         ),
-        title: const Text('My Checklist', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
-          )
+          ),
         ),
       ),
       body: Padding(
@@ -73,10 +81,18 @@ class _ChecklistPageState extends State<ChecklistPage> {
               borderRadius: BorderRadius.circular(12),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 229, 221, 212), // full background color
+                  color: Color.fromARGB(
+                    255,
+                    229,
+                    221,
+                    212,
+                  ), // full background color
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 child: Row(
                   children: [
                     Expanded(
@@ -84,7 +100,9 @@ class _ChecklistPageState extends State<ChecklistPage> {
                         controller: _textController,
                         decoration: const InputDecoration(
                           hintText: 'Add a new item',
-                          hintStyle: TextStyle(color: Color.fromARGB(200, 46, 105, 70)),
+                          hintStyle: TextStyle(
+                            color: Color.fromARGB(200, 46, 105, 70),
+                          ),
                           border: InputBorder.none,
                         ),
                         onSubmitted: (text) {
