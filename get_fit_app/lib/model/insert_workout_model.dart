@@ -43,11 +43,11 @@ class Workout {
   // Convert workout to a map for Firestore storage
   Map<String, dynamic> toMap() {
     return {
-      'name': title,
       'Day': day,
-      'instructions': description,
+      'Description': description,
       'Distance': distance,
       'Time': time,
+      'name': title,
       'Type': type,
       'imageURL': image,
     };
@@ -71,6 +71,12 @@ class WorkoutRepository {
           .collection('Workout')
           .doc(workout.title) // use title as document ID
           .set(workout.toMap());
+          await _firestore
+          .collection('Login-Info')
+          .doc(username)
+          .collection('Workout-Plan')
+          .doc(formattedDate)
+          .set;
     } catch (e) {
       print("Error adding workout: $e");
     }

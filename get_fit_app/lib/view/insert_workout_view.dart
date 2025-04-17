@@ -115,8 +115,13 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
-        title: Text('Add Workout'),
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+        ),
+        backgroundColor: Color.fromARGB(255, 20, 50, 31),
+        title: Text('Add Workout', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),),
       ),
       // drawer: Drawer(
       //   child: ListView(
@@ -153,6 +158,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
         key: _formKey,
         child: Padding(
           padding: EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
           child: Column(
             children: [
               Align(
@@ -435,7 +441,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                 }
               ),
               SizedBox(height: 16.0),
-              Spacer(),
               ElevatedButton.icon(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -475,7 +480,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           return;
                         }
                       }
-                      // Workout with image
                       final newWorkout = Workout(
                         day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
                         description: _descriptionController.text,
@@ -508,6 +512,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
           ),
         ),
       ),
+      )
     );
   }
 }

@@ -4,6 +4,7 @@ import '../presenter/global_presenter.dart';
 import '../view/insert_workout_view.dart';
 import '../presenter/insert_workout_presenter.dart';
 import '../model/insert_workout_model.dart';
+import '../view/photo_view.dart';
 
 class WorkoutHistoryByDate extends StatefulWidget {
   @override
@@ -213,6 +214,18 @@ class _WorkoutTileState extends State<_WorkoutTile> {
     );
   }
 
+
+  void _showFullScreenImage(String imageUrl) {
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return ImageScreen(imageUrl: imageUrl);
+          },
+        ),
+      );
+    }
+
   @override
   Widget build(BuildContext context) {
     final workout = widget.workout;
@@ -263,12 +276,28 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 Text("Sets: ${workout['sets']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
               if (workout['reps'] != null && workout['reps'] != 'N/A')
                 Text("Reps: ${workout['reps']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              if (workout['Distance'] != null && workout['Distance'] != 'N/A')
-                Text("Distance: ${workout['Distance']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              if (workout['Time'] != null && workout['Time'] != 'N/A')
-                Text("Time: ${workout['Time']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
               if (workout['Type'] != null && workout['Type'] != 'N/A')
                 Text("Type: ${workout['Type']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Distance'] != null && workout['Distance'] != 'N/A')
+                Text("Distance: ${workout['Distance']} miles", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Time'] != null && workout['Time'] != 'N/A')
+                Text("Time: ${workout['Time']} mins", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Description'] != null && workout['Description'] != 'N/A')
+                Text("Description: ${workout['Description']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['imageURL'] != null)
+                GestureDetector(
+                  onTap: () => _showFullScreenImage(workout['imageURL']),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Image.network(
+                    workout['imageURL'],
+                    height: 100,
+                    width: 100,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                  ),
+                ),
+                ),
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
