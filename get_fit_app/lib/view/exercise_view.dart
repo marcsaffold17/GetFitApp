@@ -211,6 +211,9 @@ String sets = '';
                                 } else {
                                   await favoritesRef.doc(exercise.name).delete();
                                 }
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('${exercise.name} added to favorites')),
+                                );
                               },
                             ),
                             IconButton(

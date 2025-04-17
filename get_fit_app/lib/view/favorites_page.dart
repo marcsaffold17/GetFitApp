@@ -91,6 +91,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       setState(() {
                         _favoriteExercises.removeAt(index);
                       });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('${exercise.name} removed from favorites')),
+                      );
                     },
                   ),
                   IconButton(
@@ -140,10 +143,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         );
                         if (pickedDate != null) {
                           String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
-                          // print(formattedDate);
-                          //   await workoutPlanRef.doc(exercise.name).set({
-                          //     'date': formattedDate,
-                          // });
+
                           await workoutPlanRef.doc(formattedDate).set({
                             'date': formattedDate,
                           });
@@ -158,6 +158,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           });
                         };
 
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('${exercise.name} added to workout plan for ${pickedDate?.day}/${pickedDate?.month}/${pickedDate?.year}')),
+                        );
                       }
                   ),
                 ],
