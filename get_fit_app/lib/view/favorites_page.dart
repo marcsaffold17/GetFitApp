@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import '../model/exercies_model.dart';
 import '../presenter/global_presenter.dart';
 
@@ -10,6 +11,11 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> {
   List<Exercise> _favoriteExercises = [];
+  Set<String> _WorkoutPlan = {};
+  String reps = '';
+  String sets = '';
+  TextEditingController setsController = TextEditingController();
+  TextEditingController repsController = TextEditingController();
 
   final favoritesRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('favorites');
   final workoutPlanRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('Workout-Plan');
@@ -18,6 +24,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
   void initState() {
     super.initState();
     _loadFavorites();
+    _LoadWorkoutPlan();
+
   }
 
   void _loadFavorites() async {
@@ -36,6 +44,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
           isFavorite: true,
         );
       }).toList();
+    });
+  }
+
+  void _LoadWorkoutPlan() async{
+    final snapshot = await workoutPlanRef.get();
+    setState(() {
+      _WorkoutPlan = snapshot.docs.map((doc) => doc.id).toSet();
     });
   }
 
@@ -79,21 +94,71 @@ class _FavoritesPageState extends State<FavoritesPage> {
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.add, color: Color.fromARGB(255, 81, 163, 108)),
-                    onPressed: () async {
-                      await workoutPlanRef.doc(exercise.name).set({
-                        'name': exercise.name,
-                        'type': exercise.type,
-                        'muscle': exercise.muscle,
-                        'difficulty': exercise.difficulty,
-                        'equipment': exercise.equipment,
-                        'instructions': exercise.instructions,
-                      });
+                      icon: Icon(Icons.add_outlined),
+                      color: Color.fromARGB(255 ,81, 163, 108),
+                      onPressed: () async {
+                        final DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${exercise.name} added to workout plan')),
-                      );
-                    },
+                        await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Edit Workout'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextField(
+                                    controller: setsController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: const InputDecoration(labelText: 'Sets'),
+                                  ),
+                                  TextField(
+                                    controller: repsController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: const InputDecoration(labelText: 'Reps'),
+                                  ),
+                                ],
+
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    sets = setsController.text;
+                                    reps = repsController.text;
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Proceed'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        if (pickedDate != null) {
+                          String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
+                          // print(formattedDate);
+                          //   await workoutPlanRef.doc(exercise.name).set({
+                          //     'date': formattedDate,
+                          // });
+                          await workoutPlanRef.doc(formattedDate).set({
+                            'date': formattedDate,
+                          });
+                          await workoutPlanRef.doc(formattedDate).collection("Workout").doc(exercise.name).set({
+                            'name': exercise.name,
+                            'difficulty': exercise.difficulty,
+                            'equipment': exercise.equipment,
+                            'instructions': exercise.instructions,
+                            'date': formattedDate,
+                            'reps': reps,
+                            'sets': sets
+                          });
+                        };
+
+                      }
                   ),
                 ],
               ),
