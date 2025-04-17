@@ -12,6 +12,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   List<Exercise> _favoriteExercises = [];
 
   final favoritesRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('favorites');
+  final workoutPlanRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('Workout-Plan');
 
   @override
   void initState() {
@@ -65,15 +66,38 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
               ),
               onTap: () => _showDetails(exercise),
-              trailing: IconButton(
-                icon: Icon(Icons.delete, color: Color.fromARGB(255, 81, 163, 108)),
-                onPressed: () async {
-                  await favoritesRef.doc(exercise.name).delete();
-                  setState(() {
-                    _favoriteExercises.removeAt(index);
-                  });
-                },
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.delete, color: Color.fromARGB(255, 81, 163, 108)),
+                    onPressed: () async {
+                      await favoritesRef.doc(exercise.name).delete();
+                      setState(() {
+                        _favoriteExercises.removeAt(index);
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.add, color: Color.fromARGB(255, 81, 163, 108)),
+                    onPressed: () async {
+                      await workoutPlanRef.doc(exercise.name).set({
+                        'name': exercise.name,
+                        'type': exercise.type,
+                        'muscle': exercise.muscle,
+                        'difficulty': exercise.difficulty,
+                        'equipment': exercise.equipment,
+                        'instructions': exercise.instructions,
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('${exercise.name} added to workout plan')),
+                      );
+                    },
+                  ),
+                ],
               ),
+
             ),
           );
         },
