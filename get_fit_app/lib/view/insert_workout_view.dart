@@ -38,19 +38,10 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   final _typeController = TextEditingController();
   String? _workoutType;
 
-  // List of workout types the user can choose from
-  // Constantly expanding based on demand
   final List<Map<String, dynamic>> _workoutTypes = [
     {'name': 'Run', 'icon': Icons.directions_run},
     {'name': 'Bike', 'icon': Icons.directions_bike},
     {'name': 'Hike', 'icon': Icons.hiking},
-
-    // hike, walk, roller ski, inline skate,
-    // Swim, canoe, kayak,
-    // alpine ski, nordic ski, ice skate, snowboard, snowshoe
-    // weight training, rock climb, yoga, boxing, kickboxing, crossfit,
-    // basketball, football, tennis, pickleball, volleyball, badminton, soccer, golf, table tennis,
-    // any other types of workouts I can think of
   ];
   File? _image;
 
@@ -69,7 +60,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
       ),
     );
 
-    // Removing user input text fields after workout is added
     _formKey.currentState?.reset();
     _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
     _descriptionController.clear();
@@ -81,7 +71,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     setState(() {});
   }
 
-  // User adds photo from camera roll to workout
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -114,7 +103,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   }
 
   String? FormattedDate;
-  // Startup UI, should probably adjust later to fit
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +129,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color.fromARGB(255, 20, 50, 31),
                     ),
                   ),
                 ),
@@ -157,7 +145,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color.fromARGB(255, 20, 50, 31),
                     ),
                   ),
                 ),
@@ -173,7 +161,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color.fromARGB(255, 20, 50, 31),
                     ),
                   ),
                 ),
@@ -185,7 +173,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
-                            width: 200,
+                            width: 100,
                             height: 50,
                             child: DropdownButtonFormField<String>(
                               value: _workoutType,
@@ -215,20 +203,16 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                             workout['icon'],
                                             color: Color.fromARGB(
                                               255,
-                                              196,
-                                              76,
-                                              76,
+                                              46,
+                                              105,
+                                              70,
                                             ),
-                                            size: 16, // smaller icon
+                                            size: 16,
                                           ),
-                                          SizedBox(
-                                            width: 6.0,
-                                          ), // smaller spacing
+                                          SizedBox(width: 6.0),
                                           Text(
                                             workout['name'],
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                            ), // smaller text
+                                            style: TextStyle(fontSize: 13),
                                           ),
                                         ],
                                       ),
@@ -251,7 +235,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         ),
                       ],
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 26),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -266,7 +250,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 229, 221, 212),
-                            minimumSize: const Size(150, 50),
+                            minimumSize: const Size(110, 50),
                           ),
                           icon: Icon(
                             Icons.calendar_today_outlined,
@@ -281,6 +265,29 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                               fontFamily: 'Garet',
                               fontSize: 15,
                             ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 26),
+                    Column(
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: _pickImage,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                            minimumSize: const Size(110, 50),
+                          ),
+                          icon: Icon(
+                            Icons.add_a_photo,
+                            color: Color.fromARGB(255, 81, 163, 108),
+                          ),
+                          label: Text(
+                            'Add\nPhoto',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
@@ -300,7 +307,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: Color.fromARGB(255, 20, 50, 31),
                             ),
                           ),
                         ),
@@ -339,7 +346,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: Color.fromARGB(255, 20, 50, 31),
                             ),
                           ),
                         ),
@@ -368,30 +375,10 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       ],
                     ),
                     SizedBox(width: 10),
-                    Column(
-                      children: [
-                        SizedBox(height: 20),
-                        ElevatedButton.icon(
-                          onPressed: _pickImage,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 229, 221, 212),
-                          ),
-                          icon: Icon(
-                            Icons.add_a_photo,
-                            color: Color.fromARGB(255, 81, 163, 108),
-                          ),
-                          label: Text(
-                            'Add\nPhoto',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
+                    Column(children: [SizedBox(height: 20)]),
                   ],
                 ),
+
                 SizedBox(height: 10),
                 if (_image != null)
                   Padding(
