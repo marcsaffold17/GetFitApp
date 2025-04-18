@@ -521,6 +521,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ],
                 ),
+                SizedBox(height: 10),
                 if (_image != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -601,13 +602,14 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     backgroundColor: Color.fromARGB(255, 38, 92, 60),
                     padding: EdgeInsets.symmetric(
                       horizontal: 75.0,
-                      vertical: 25.0,
+                      vertical: 20.0,
                     ),
                     textStyle: TextStyle(fontSize: 20.0),
                   ),
                   icon: Icon(
                     Icons.upload,
-                    color: Color.fromARGB(255, 196, 255, 216),
+                    color: Color.fromARGB(255, 244, 238, 227),
+                    size: 25,
                   ),
 
                   label: Text(
