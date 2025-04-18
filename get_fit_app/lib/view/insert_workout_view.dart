@@ -127,37 +127,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
           style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
         ),
       ),
-
-      // drawer: Drawer(
-      //   child: ListView(
-      //     padding: EdgeInsets.zero,
-      //     children: <Widget>[
-      //       DrawerHeader(
-      //         decoration: BoxDecoration(
-      //           color: Color.fromARGB(255, 81, 163, 108),
-      //         ),
-      //         child: Text(
-      //           'Debug Menu',
-      //             style: TextStyle(
-      //               color: Colors.white,
-      //               fontSize: 24,
-      //             ),
-      //           ),
-      //       ),
-      //       ListTile(
-      //         title: Text('View Old Workouts'),
-      //         onTap: () {
-      //           Navigator.pop(context);
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //                 builder: (context) => WorkoutHistoryScreen()),
-      //           );
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -176,29 +145,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ),
                 ),
-                TextFormField(
-                  controller: _titleController,
-                  // textAlign: TextAlign.center,
-                  cursorColor: Color.fromARGB(255, 81, 163, 108),
-                  decoration: InputDecoration(
-                    fillColor: Color.fromARGB(255, 229, 221, 212),
-                    filled: true,
-                    hintText: 'Enter your workout title here!',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 81, 163, 108),
-                        width: 2.0,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 81, 163, 108),
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  keyboardType: TextInputType.text,
+                BigTextFormEditing(
+                  titleController: _titleController,
+                  maxLine: 1,
                 ),
                 SizedBox(height: 16.0),
                 Align(
@@ -212,29 +161,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ),
                 ),
-                TextFormField(
-                  controller: _descriptionController,
-                  // textAlign: TextAlign.center,
-                  cursorColor: Color.fromARGB(255, 81, 163, 108),
-                  decoration: InputDecoration(
-                    fillColor: Color.fromARGB(255, 229, 221, 212),
-                    filled: true,
-                    hintText: 'Tell us about your workout! How did it go?',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 81, 163, 108),
-                        width: 2.0,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 81, 163, 108),
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  maxLines: 3,
+                BigTextFormEditing(
+                  titleController: _titleController,
+                  maxLine: 3,
                 ),
                 SizedBox(height: 16.0),
                 Align(
@@ -334,7 +263,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2100),
                             );
-                            // Handle pickedDate if needed
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 229, 221, 212),
@@ -355,24 +283,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             ),
                           ),
                         ),
-
-                        // IconButton(
-                        //   icon: Icon(Icons.calendar_month_outlined),
-                        //   color: Color.fromARGB(255, 81, 163, 108),
-                        // onPressed: () async {
-                        //   final DateTime? pickedDate = await showDatePicker(
-                        //     context: context,
-                        //     initialDate: DateTime.now(),
-                        //     firstDate: DateTime(2000),
-                        //     lastDate: DateTime(2100),
-                        //   );
-                        //     if (pickedDate != null) {
-                        //       FormattedDate = DateFormat(
-                        //         'MM-dd-yyyy',
-                        //       ).format(pickedDate);
-                        //     }
-                        //   },
-                        // ),
                       ],
                     ),
                   ],
@@ -398,29 +308,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           children: [
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.20,
-                              child: TextFormField(
-                                controller: _timeController,
-                                textAlign: TextAlign.center,
-                                cursorColor: Color.fromARGB(255, 81, 163, 108),
-                                decoration: InputDecoration(
-                                  hintText: '0.0',
-                                  fillColor: Color.fromARGB(255, 229, 221, 212),
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 81, 163, 108),
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 81, 163, 108),
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                                keyboardType: TextInputType.number,
+                              child: SmallTextFormField(
+                                timeController: _timeController,
+                                hintText: '0.0',
                               ),
                             ),
                             SizedBox(width: 5),
@@ -457,29 +347,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           children: [
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.20,
-                              child: TextFormField(
-                                controller: _distanceController,
-                                textAlign: TextAlign.center,
-                                cursorColor: Color.fromARGB(255, 81, 163, 108),
-                                decoration: InputDecoration(
-                                  hintText: '0.0',
-                                  fillColor: Color.fromARGB(255, 229, 221, 212),
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 81, 163, 108),
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 81, 163, 108),
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                                keyboardType: TextInputType.number,
+                              child: SmallTextFormField(
+                                timeController: _distanceController,
+                                hintText: '0.0',
                               ),
                             ),
                             SizedBox(width: 5),
@@ -515,6 +385,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             style: TextStyle(
                               color: Color.fromARGB(255, 0, 0, 0),
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
@@ -539,7 +410,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       double? distance =
                           double.tryParse(_distanceController.text) ?? 0.0;
                       int? time = int.tryParse(_timeController.text) ?? 0;
-
                       String? uploadedImageUrl;
                       if (_image != null) {
                         uploadedImageUrl = await uploadImage(_image!);
@@ -552,8 +422,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                               duration: Duration(seconds: 3),
                             ),
                           );
-
-                          // Workout without image
                           final newWorkout = Workout(
                             day: Timestamp.fromDate(
                               DateTime.parse(_dayController.text),
@@ -565,8 +433,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             type: _typeController.text,
                             image: null,
                           );
-
-                          // ⬇️ Make sure globalUsername is not null
                           if (globalUsername != null) {
                             widget.presenter.addWorkout(
                               newWorkout,
@@ -589,8 +455,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         type: _typeController.text,
                         image: uploadedImageUrl,
                       );
-
-                      // ⬇️ Again, check for null
                       if (globalUsername != null) {
                         widget.presenter.addWorkout(newWorkout, FormattedDate!);
                       } else {
@@ -622,6 +486,84 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
           ),
         ),
       ),
+    );
+  }
+}
+
+class BigTextFormEditing extends StatelessWidget {
+  const BigTextFormEditing({
+    super.key,
+    required TextEditingController titleController,
+    required this.maxLine,
+  }) : _titleController = titleController;
+
+  final TextEditingController _titleController;
+  final int maxLine;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _titleController,
+      // textAlign: TextAlign.center,
+      cursorColor: Color.fromARGB(255, 81, 163, 108),
+      decoration: InputDecoration(
+        fillColor: Color.fromARGB(255, 229, 221, 212),
+        filled: true,
+        hintText: 'Enter your workout title here!',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 81, 163, 108),
+            width: 2.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 81, 163, 108),
+            width: 2.0,
+          ),
+        ),
+      ),
+      maxLines: maxLine,
+      keyboardType: TextInputType.text,
+    );
+  }
+}
+
+class SmallTextFormField extends StatelessWidget {
+  const SmallTextFormField({
+    super.key,
+    required TextEditingController timeController,
+    required this.hintText,
+  }) : _timeController = timeController;
+
+  final TextEditingController _timeController;
+  final String hintText;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _timeController,
+      textAlign: TextAlign.center,
+      cursorColor: Color.fromARGB(255, 81, 163, 108),
+      decoration: InputDecoration(
+        hintText: hintText,
+        fillColor: Color.fromARGB(255, 229, 221, 212),
+        filled: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 81, 163, 108),
+            width: 2.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 81, 163, 108),
+            width: 2.0,
+          ),
+        ),
+      ),
+      keyboardType: TextInputType.number,
     );
   }
 }
