@@ -282,30 +282,48 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 Text("Distance: ${workout['Distance']} miles", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
               if (workout['Time'] != null && workout['Time'] != 'N/A')
                 Text("Time: ${workout['Time']} mins", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              if (workout['Description'] != null && workout['Description'] != 'N/A')
-                Text("Description: ${workout['Description']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              if (workout['imageURL'] != null)
-                GestureDetector(
-                  onTap: () => _showFullScreenImage(workout['imageURL']),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Image.network(
-                    workout['imageURL'],
-                    height: 100,
-                    width: 100,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
-                  ),
-                ),
-                ),
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "Instructions: ${workout['instructions'] ?? 'N/A'}",
-                    style: TextStyle(color: Color.fromARGB(255, 49, 112, 75),)
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (workout['Description'] != null && workout['Description'] != 'N/A')
+                        Text(
+                          "Description: ${workout['Description']}",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 49, 112, 75),
+                          ),
+                        ),
+                      if (workout['instructions'] != null && workout['instructions'] != 'N/A')
+                        Text(
+                          "Instructions: ${workout['instructions']}",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 49, 112, 75),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          if (workout['imageURL'] != null)
+                          GestureDetector(
+                            onTap: () => _showFullScreenImage(workout['imageURL']),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Image.network(
+                              workout['imageURL'],
+                              height: 200,
+                              width: 200,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                            ),
+                          ),
+                          ),
+                          ],
+                        ),
+                    ],
                   ),
-                ),
+                )
             ],
           ),
         ),

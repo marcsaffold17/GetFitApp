@@ -110,18 +110,6 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
-                ListTile(
-                  leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
-                  title: const Text("History", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WorkoutHistoryScreen(),
-                      ),
-                    );
-                  },
-                ),
               ],
             ),
           ),

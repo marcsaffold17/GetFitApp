@@ -68,15 +68,17 @@ class WorkoutRepository {
           .doc(username)
           .collection('Workout-Plan')
           .doc(formattedDate)
-          .collection('Workout')
-          .doc(workout.title) // use title as document ID
-          .set(workout.toMap());
-          await _firestore
+          .set({
+            'date': formattedDate
+          });
+      await _firestore
           .collection('Login-Info')
           .doc(username)
           .collection('Workout-Plan')
           .doc(formattedDate)
-          .set;
+          .collection('Workout')
+          .doc(workout.title) // use title as document ID
+          .set(workout.toMap());
     } catch (e) {
       print("Error adding workout: $e");
     }
