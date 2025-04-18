@@ -150,7 +150,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   ),
                 ),
                 BigTextFormEditing(
-                  titleController: _titleController,
+                  titleController: _descriptionController,
                   maxLine: 3,
                 ),
                 SizedBox(height: 16.0),
@@ -247,6 +247,17 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2100),
                             );
+
+                            if (pickedDate != null) {
+                              setState(() {
+                                _dayController.text = DateFormat(
+                                  'MM-dd-yyyy',
+                                ).format(pickedDate);
+                                FormattedDate = DateFormat(
+                                  'MM-dd-yyyy',
+                                ).format(pickedDate);
+                              });
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 229, 221, 212),
@@ -431,10 +442,11 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           return;
                         }
                       }
+                      DateTime parsedDate = DateFormat(
+                        'MM-dd-yyyy',
+                      ).parse(_dayController.text);
                       final newWorkout = Workout(
-                        day: Timestamp.fromDate(
-                          DateTime.parse(_dayController.text),
-                        ),
+                        day: Timestamp.fromDate(parsedDate),
                         description: _descriptionController.text,
                         distance: distance,
                         time: time,
@@ -442,6 +454,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         type: _typeController.text,
                         image: uploadedImageUrl,
                       );
+                      print(parsedDate);
                       if (globalUsername != null) {
                         widget.presenter.addWorkout(newWorkout, FormattedDate!);
                       } else {
