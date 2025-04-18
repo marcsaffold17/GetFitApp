@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
+import '../presenter/global_presenter.dart';
 
 // Code mainly deals with user inputted code from the view.
 // Converts user inputted data into strings Firestore can understand.
@@ -46,7 +47,7 @@ class Workout {
       'Description': description,
       'Distance': distance,
       'Time': time,
-      'Title': title,
+      'name': title,
       'Type': type,
       'imageURL': image,
     };
@@ -54,14 +55,33 @@ class Workout {
 }
 
 class WorkoutRepository {
-  final CollectionReference workoutsCollection = FirebaseFirestore.instance.collection('Workouts');
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Add workout to "Workouts" database in Firestore
-  Future<void> addWorkout(Workout workout) async {
+  Future<void> addWorkout({
+    required String username,
+    required String formattedDate,
+    required Workout workout,
+  }) async {
     try {
-      await workoutsCollection.add(workout.toMap());
+      await _firestore
+          .collection('Login-Info')
+          .doc(username)
+          .collection('Workout-Plan')
+          .doc(formattedDate)
+          .set({
+            'date': formattedDate
+          });
+      await _firestore
+          .collection('Login-Info')
+          .doc(username)
+          .collection('Workout-Plan')
+          .doc(formattedDate)
+          .collection('Workout')
+          .doc(workout.title) // use title as document ID
+          .set(workout.toMap());
     } catch (e) {
       print("Error adding workout: $e");
     }
   }
 }
+

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../presenter/global_presenter.dart';
+import '../view/insert_workout_view.dart';
+import '../presenter/insert_workout_presenter.dart';
+import '../model/insert_workout_model.dart';
+import '../view/photo_view.dart';
 
 class WorkoutHistoryByDate extends StatefulWidget {
   @override
@@ -53,33 +57,70 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView(
-              children: sortedEntries.map((entry) {
-                final date = entry.key;
-                final workouts = entry.value;
-                return ExpansionTile(
-                  title: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 46, 105, 70),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      date,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 244, 238, 227),
-                      ),
-                    ),
-                  ),
-                  children: workouts
-                      .map((workout) => _WorkoutTile(workout: workout))
-                      .toList(),
-                );
-              }).toList(),
+  padding: EdgeInsets.only(bottom: 24), // to give space for the button
+  children: [
+    ...sortedEntries.map((entry) {
+      final date = entry.key;
+      final workouts = entry.value;
+      return ExpansionTile(
+        title: Container(
+          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 46, 105, 70),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            date,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 244, 238, 227),
             ),
+          ),
+        ),
+        children: workouts
+            .map((workout) => _WorkoutTile(workout: workout))
+            .toList(),
+      );
+    }).toList(),
+    SizedBox(height: 20),
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color.fromARGB(255, 46, 105, 70),
+          padding: EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        onPressed: () {
+          final repository = WorkoutRepository(); // Make sure this exists and is imported
+          final presenter = WorkoutPresenter(repository);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WorkoutEntryScreen(presenter: presenter),
+            ),
+          );
+        },
+        child: Text(
+          'Add Workout',
+          style: TextStyle(
+            color: Color.fromARGB(255, 244, 238, 227),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+    SizedBox(height: 40),
+  ],
+),
     );
-  }
+
+}
 }
 
 class _WorkoutTile extends StatefulWidget {
@@ -173,6 +214,18 @@ class _WorkoutTileState extends State<_WorkoutTile> {
     );
   }
 
+
+  void _showFullScreenImage(String imageUrl) {
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return ImageScreen(imageUrl: imageUrl);
+          },
+        ),
+      );
+    }
+
   @override
   Widget build(BuildContext context) {
     final workout = widget.workout;
@@ -215,18 +268,62 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 ],
               ),
               SizedBox(height: 4),
-              Text("Difficulty: ${workout['difficulty'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              Text("Equipment: ${workout['equipment'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              Text("Sets: ${workout['sets'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
-              Text("Reps: ${workout['reps'] ?? 'N/A'}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['difficulty'] != null && workout['difficulty'] != 'N/A')
+                Text("Difficulty: ${workout['difficulty']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['equipment'] != null && workout['equipment'] != 'N/A')
+                Text("Equipment: ${workout['equipment']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['sets'] != null && workout['sets'] != 'N/A')
+                Text("Sets: ${workout['sets']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['reps'] != null && workout['reps'] != 'N/A')
+                Text("Reps: ${workout['reps']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Type'] != null && workout['Type'] != 'N/A')
+                Text("Type: ${workout['Type']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Distance'] != null && workout['Distance'] != 'N/A')
+                Text("Distance: ${workout['Distance']} miles", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['Time'] != null && workout['Time'] != 'N/A')
+                Text("Time: ${workout['Time']} mins", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "Instructions: ${workout['instructions'] ?? 'N/A'}",
-                    style: TextStyle(color: Color.fromARGB(255, 49, 112, 75),)
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (workout['Description'] != null && workout['Description'] != 'N/A')
+                        Text(
+                          "Description: ${workout['Description']}",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 49, 112, 75),
+                          ),
+                        ),
+                      if (workout['instructions'] != null && workout['instructions'] != 'N/A')
+                        Text(
+                          "Instructions: ${workout['instructions']}",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 49, 112, 75),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          if (workout['imageURL'] != null)
+                          GestureDetector(
+                            onTap: () => _showFullScreenImage(workout['imageURL']),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Image.network(
+                              workout['imageURL'],
+                              height: 200,
+                              width: 200,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                            ),
+                          ),
+                          ),
+                          ],
+                        ),
+                    ],
                   ),
-                ),
+                )
             ],
           ),
         ),
