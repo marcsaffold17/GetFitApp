@@ -10,8 +10,16 @@ class LoginButtonPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/UMDGYM.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Container(
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 20, 50, 31),
+              color: Color.fromARGB(160, 20, 50, 31),
             ),
           ),
           Positioned.fill(
@@ -24,8 +32,6 @@ class LoginButtonPage extends StatelessWidget {
                   width: 200,
                   color: Color.fromARGB(255, 244, 238, 227),
                 ),
-
-                // SizedBox(height: 230),
                 RichText(
                   text: TextSpan(
                     style: TextStyle(
@@ -145,151 +151,157 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 20, 50, 31),
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 20, 50, 31),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: RichText(
-              text: TextSpan(
-                style: TextStyle(
-                  fontFamily: 'Voguella',
-                  fontSize: 40,
-                  color: const Color.fromARGB(255, 244, 238, 227),
+      resizeToAvoidBottomInset: true,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              SizedBox(height: 100),
+              Container(
+                height: constraints.maxHeight,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/UMDGYM.jpg"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                children: const <TextSpan>[TextSpan(text: '\n   Login')],
               ),
-            ),
-          ),
-          Positioned(
-            left: -5,
-            right: -5,
-            top: 200,
-            bottom: -15,
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 238, 227),
-                border: Border.all(
-                  width: 5.0,
-                  color: Color.fromARGB(255, 244, 238, 227),
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+              Container(
+                height: constraints.maxHeight,
+                color: const Color.fromARGB(160, 20, 50, 31),
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(height: 50),
-                    TextField(
-                      controller: userNameText,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
+              SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
                             color: Color.fromARGB(255, 20, 50, 31),
-                            width: 2,
                           ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(
-                            width: 3.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        hintText: 'Username',
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    TextField(
-                      controller: passWordText,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 20, 50, 31),
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(
-                            width: 3.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        hintText: 'Password',
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      width: 400,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 20, 50, 31),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 12.0,
-                            horizontal: 16.0,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                        onPressed: () async {
-                          bool isValid = await presenter.CheckAccountInfo(
-                            userNameText.text,
-                            passWordText.text,
-                          );
-                          if (isValid) {
-                            globalUsername = userNameText.text;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => MyHomePage(
-                                      title: 'Home Page',
-                                      username: userNameText.text,
-                                    ),
+                        SizedBox(height: 160),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontFamily: 'Voguella',
+                                fontSize: 40,
+                                color: const Color.fromARGB(255, 244, 238, 227),
                               ),
-                            );
-                          }
-                        },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                            fontFamily: 'Garet',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 244, 238, 227),
+                              children: const <TextSpan>[
+                                TextSpan(text: '\n   Login'),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                        SizedBox(height: 80),
+                        Positioned(
+                          left: -5,
+                          right: -5,
+                          top: 200,
+                          bottom: -15,
+                          child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 244, 238, 227),
+                              border: Border.all(
+                                width: 5.0,
+                                color: Color.fromARGB(255, 244, 238, 227),
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30.0),
+                              ),
+                            ),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(height: 20),
+                                  LoginTextField(
+                                    userNameText: userNameText,
+                                    hintText: 'Username',
+                                    obscure: false,
+                                  ),
+                                  SizedBox(height: 12),
+                                  LoginTextField(
+                                    userNameText: passWordText,
+                                    hintText: 'Password',
+                                    obscure: true,
+                                  ),
+                                  SizedBox(height: 20),
+                                  Container(
+                                    width: 400,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 20, 50, 31),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.transparent,
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            30.0,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        bool isValid =
+                                            await presenter.CheckAccountInfo(
+                                              userNameText.text,
+                                              passWordText.text,
+                                            );
+                                        if (isValid) {
+                                          globalUsername = userNameText.text;
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (context) => MyHomePage(
+                                                    title: 'Home Page',
+                                                    username: userNameText.text,
+                                                  ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: const Text(
+                                        'Login',
+                                        style: TextStyle(
+                                          fontFamily: 'Garet',
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(
+                                            255,
+                                            244,
+                                            238,
+                                            227,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ],
+              backButton(context),
+            ],
+          );
+        },
       ),
     );
   }
@@ -346,184 +358,201 @@ class CreateAccountPage extends State<MyCreateAccountPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
-        backgroundColor: Color.fromARGB(255, 20, 50, 31),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 20, 50, 31),
-          ),
+      resizeToAvoidBottomInset: true,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              SizedBox(height: 100),
+              Container(
+                height: constraints.maxHeight,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/UMDGYM.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                height: constraints.maxHeight,
+                color: const Color.fromARGB(160, 20, 50, 31),
+              ),
+              SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 160),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontFamily: 'CreatoDisplay',
+                                fontSize: 40,
+                                color: const Color.fromARGB(255, 244, 238, 227),
+                              ),
+                              children: const <TextSpan>[
+                                TextSpan(text: '   Create\n   Account'),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 80),
+                        Positioned(
+                          left: -5,
+                          right: -5,
+                          top: 200,
+                          bottom: -15,
+                          child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 244, 238, 227),
+                              border: Border.all(
+                                width: 5.0,
+                                color: Color.fromARGB(255, 244, 238, 227),
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30.0),
+                              ),
+                            ),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(height: 30),
+                                  LoginTextField(
+                                    userNameText: userNameText,
+                                    hintText: 'Username',
+                                    obscure: false,
+                                  ),
+                                  SizedBox(height: 12),
+                                  LoginTextField(
+                                    userNameText: emailText,
+                                    hintText: 'Email',
+                                    obscure: false,
+                                  ),
+                                  SizedBox(height: 12),
+                                  LoginTextField(
+                                    userNameText: passWordText,
+                                    hintText: 'Password',
+                                    obscure: true,
+                                  ),
+                                  SizedBox(height: 12),
+                                  LoginTextField(
+                                    userNameText: confirmPassWordText,
+                                    hintText: 'Confirm Password',
+                                    obscure: true,
+                                  ),
+                                  SizedBox(height: 30),
+                                  Container(
+                                    width: 400,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 20, 50, 31),
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.transparent,
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            30.0,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: handleCreateAccount,
+                                      child: const Text(
+                                        'Create Account',
+                                        style: TextStyle(
+                                          fontFamily: 'Mirage',
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(
+                                            255,
+                                            244,
+                                            238,
+                                            227,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            //container
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              backButton(context),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+// Credit: Eva Elvarsdottir from BIG sleeperzzz
+Widget backButton(BuildContext context) {
+  return Stack(
+    children: [
+      Positioned(
+        top: 35,
+        left: 10,
+        child: IconButton(
+          icon: Icon(Icons.arrow_back),
+          iconSize: 35,
+          color: Color.fromARGB(255, 244, 238, 227),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 20, 50, 31),
-            ),
+    ],
+  );
+}
+
+class LoginTextField extends StatelessWidget {
+  const LoginTextField({
+    super.key,
+    required this.userNameText,
+    required this.hintText,
+    required this.obscure,
+  });
+
+  final TextEditingController userNameText;
+  final String hintText;
+  final bool obscure;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: userNameText,
+      obscureText: obscure,
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Color.fromARGB(255, 20, 50, 31),
+            width: 2,
           ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: RichText(
-              text: TextSpan(
-                style: TextStyle(
-                  fontFamily: 'CreatoDisplay',
-                  fontSize: 40,
-                  color: const Color.fromARGB(255, 244, 238, 227),
-                ),
-                children: const <TextSpan>[
-                  TextSpan(text: '   Create\n   Account'),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            left: -5,
-            right: -5,
-            top: 200,
-            bottom: -15,
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 238, 227),
-                border: Border.all(
-                  width: 5.0,
-                  color: Color.fromARGB(255, 244, 238, 227),
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(height: 30),
-                    TextField(
-                      controller: userNameText,
-                      decoration: InputDecoration(
-                        // filled: true,
-                        // fillColor: Color.fromARGB(255,221,212,191),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 20, 50, 31),
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(
-                            width: 3.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        hintText: 'Username',
-                        hintStyle: TextStyle(
-                          color: Color.fromARGB(255, 20, 50, 31),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    TextField(
-                      controller: emailText,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 20, 50, 31),
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(
-                            width: 3.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        hintText: 'Email',
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    TextField(
-                      controller: passWordText,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 20, 50, 31),
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(
-                            width: 3.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        hintText: 'Password',
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    TextField(
-                      controller: confirmPassWordText,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 20, 50, 31),
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(
-                            width: 3.0,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        hintText: 'Confirm Password',
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    Container(
-                      width: 400,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 20, 50, 31),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 12.0,
-                            horizontal: 16.0,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                        onPressed: handleCreateAccount,
-                        child: const Text(
-                          'Create Account',
-                          style: TextStyle(
-                            fontFamily: 'Mirage',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 244, 238, 227),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(width: 3.0, color: Colors.blue),
+        ),
+        hintText: hintText,
       ),
     );
   }
