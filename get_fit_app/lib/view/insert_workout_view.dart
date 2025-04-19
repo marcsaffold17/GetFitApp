@@ -41,7 +41,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     {'name': 'Bike', 'icon': Icons.directions_bike},
     {'name': 'Hike', 'icon': Icons.hiking},
   ];
+
   File? _image;
+  String? _dropdownError;
 
   @override
   void initState() {
@@ -222,12 +224,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                   _typeController.text = newValue ?? '';
                                 });
                               },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please select a workout type';
-                                }
-                                return null;
-                              },
                             ),
                           ),
                         ),
@@ -263,7 +259,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           ),
                           icon: Icon(
                             Icons.calendar_today_outlined,
-                            color: Color.fromARGB(255, 20, 50, 31),
+                            color: Color.fromARGB(255, 81, 163, 108),
                             size: 18,
                           ),
                           label: Text(
@@ -398,6 +394,14 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       child: Image.file(_image!),
                     ),
                   ),
+                if (_dropdownError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      _dropdownError!,
+                      style: TextStyle(color: Colors.red, fontSize: 14),
+                    ),
+                  ),
                 SizedBox(height: 16.0),
                 ElevatedButton.icon(
                   onPressed: () async {
@@ -458,6 +462,17 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       } else {
                         print("Error: Username is null");
                       }
+                    }
+                    setState(() {
+                      _dropdownError =
+                          _workoutType == null
+                              ? 'Please select a workout type'
+                              : null;
+                    });
+
+                    if (_formKey.currentState!.validate() &&
+                        _dropdownError == null) {
+                      // Proceed with uploading logic
                     }
                   },
                   style: ElevatedButton.styleFrom(
