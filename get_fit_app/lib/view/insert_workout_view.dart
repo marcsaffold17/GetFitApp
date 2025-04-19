@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../presenter/insert_workout_presenter.dart';
 import '../model/insert_workout_model.dart';
-import '../view/workout_history_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../presenter/global_presenter.dart';
 
