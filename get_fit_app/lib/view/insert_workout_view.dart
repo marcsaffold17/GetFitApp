@@ -44,6 +44,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
 
   File? _image;
   String? _dropdownError;
+  String? _dateError;
 
   @override
   void initState() {
@@ -69,6 +70,18 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     _typeController.clear();
     _image = null;
     setState(() {});
+  }
+
+  String? _validateDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please select a date';
+    }
+    try {
+      DateFormat('MM-dd-yyyy').parse(value);
+      return null; // Return null if valid
+    } catch (e) {
+      return 'Please enter a valid date (MM-DD-YYYY)';
+    }
   }
 
   Future<void> _pickImage() async {
@@ -250,6 +263,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                 FormattedDate = DateFormat(
                                   'MM-dd-yyyy',
                                 ).format(pickedDate);
+                                _dateError = _validateDate(
+                                  _dayController.text,
+                                ); // Validate here
                               });
                             }
                           },
@@ -284,7 +300,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             minimumSize: const Size(110, 50),
                           ),
                           icon: Icon(
-                            Icons.add_a_photo,
+                            Icons.add_a_photo_outlined,
                             color: Color.fromARGB(255, 81, 163, 108),
                           ),
                           label: Text(
@@ -383,7 +399,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     Column(children: [SizedBox(height: 20)]),
                   ],
                 ),
-
                 SizedBox(height: 10),
                 if (_image != null)
                   Padding(
@@ -394,23 +409,39 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       child: Image.file(_image!),
                     ),
                   ),
-                if (_dropdownError != null)
+                if (_dateError != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                      _dropdownError!,
+                      _dateError!,
                       style: TextStyle(color: Colors.red, fontSize: 14),
                     ),
                   ),
                 SizedBox(height: 16.0),
                 ElevatedButton.icon(
                   onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
+                    // First validate all fields
+                    setState(() {
+                      print(_dateError);
+                      _dropdownError =
+                          _workoutType == null
+                              ? 'Please select a workout type'
+                              : null;
+                      _dateError = _validateDate(
+                        _dayController.text,
+                      ); // Validate date
+                    });
+
+                    // Only proceed if all validations pass
+                    if (_formKey.currentState!.validate() &&
+                        _dropdownError == null &&
+                        _dateError == null) {
                       widget.presenter.view = this;
                       double? distance =
                           double.tryParse(_distanceController.text) ?? 0.0;
                       int? time = int.tryParse(_timeController.text) ?? 0;
                       String? uploadedImageUrl;
+
                       if (_image != null) {
                         uploadedImageUrl = await uploadImage(_image!);
                         if (uploadedImageUrl == null) {
@@ -456,23 +487,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         type: _typeController.text,
                         image: uploadedImageUrl,
                       );
-                      print(parsedDate);
-                      if (globalUsername != null) {
+
+                      if (globalUsername != null && FormattedDate != null) {
                         widget.presenter.addWorkout(newWorkout, FormattedDate!);
                       } else {
                         print("Error: Username is null");
                       }
-                    }
-                    setState(() {
-                      _dropdownError =
-                          _workoutType == null
-                              ? 'Please select a workout type'
-                              : null;
-                    });
-
-                    if (_formKey.currentState!.validate() &&
-                        _dropdownError == null) {
-                      // Proceed with uploading logic
                     }
                   },
                   style: ElevatedButton.styleFrom(
