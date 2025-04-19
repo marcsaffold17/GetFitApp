@@ -170,6 +170,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                                 ],
                               ),
                               child: CheckboxListTile(
+                                activeColor: Color.fromARGB(255, 46, 105, 70),
                                 title: Text(
                                   item.text,
                                   style: TextStyle(
