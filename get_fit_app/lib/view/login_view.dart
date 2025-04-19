@@ -219,58 +219,15 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  SizedBox(height: 50),
-                                  TextField(
-                                    controller: userNameText,
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(
-                                          color: Color.fromARGB(
-                                            255,
-                                            20,
-                                            50,
-                                            31,
-                                          ),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                        borderSide: BorderSide(
-                                          width: 3.0,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      hintText: 'Username',
-                                    ),
+                                  SizedBox(height: 20),
+                                  LoginTextField(
+                                    userNameText: userNameText,
+                                    hintText: 'Username',
                                   ),
                                   SizedBox(height: 12),
-                                  TextField(
-                                    controller: passWordText,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(
-                                          color: Color.fromARGB(
-                                            255,
-                                            20,
-                                            50,
-                                            31,
-                                          ),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                        borderSide: BorderSide(
-                                          width: 3.0,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      hintText: 'Password',
-                                    ),
+                                  LoginTextField(
+                                    userNameText: passWordText,
+                                    hintText: 'Password',
                                   ),
                                   SizedBox(height: 20),
                                   Container(
@@ -343,6 +300,38 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class LoginTextField extends StatelessWidget {
+  const LoginTextField({
+    super.key,
+    required this.userNameText,
+    required this.hintText,
+  });
+
+  final TextEditingController userNameText;
+  final String hintText;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: userNameText,
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Color.fromARGB(255, 20, 50, 31),
+            width: 2,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(width: 3.0, color: Colors.blue),
+        ),
+        hintText: hintText,
       ),
     );
   }
@@ -463,113 +452,24 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   SizedBox(height: 30),
-                                  TextField(
-                                    controller: userNameText,
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(
-                                          color: Color.fromARGB(
-                                            255,
-                                            20,
-                                            50,
-                                            31,
-                                          ),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                        borderSide: BorderSide(
-                                          width: 3.0,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      hintText: 'Username',
-                                      hintStyle: TextStyle(
-                                        color: Color.fromARGB(255, 20, 50, 31),
-                                      ),
-                                    ),
+                                  LoginTextField(
+                                    userNameText: userNameText,
+                                    hintText: 'Username',
                                   ),
                                   SizedBox(height: 12),
-                                  TextField(
-                                    controller: emailText,
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(
-                                          color: Color.fromARGB(
-                                            255,
-                                            20,
-                                            50,
-                                            31,
-                                          ),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                        borderSide: BorderSide(
-                                          width: 3.0,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      hintText: 'Email',
-                                    ),
+                                  LoginTextField(
+                                    userNameText: emailText,
+                                    hintText: 'Email',
                                   ),
                                   SizedBox(height: 12),
-                                  TextField(
-                                    controller: passWordText,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(
-                                          color: Color.fromARGB(
-                                            255,
-                                            20,
-                                            50,
-                                            31,
-                                          ),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                        borderSide: BorderSide(
-                                          width: 3.0,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      hintText: 'Password',
-                                    ),
+                                  LoginTextField(
+                                    userNameText: passWordText,
+                                    hintText: 'Password',
                                   ),
                                   SizedBox(height: 12),
-                                  TextField(
-                                    controller: confirmPassWordText,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(
-                                          color: Color.fromARGB(
-                                            255,
-                                            20,
-                                            50,
-                                            31,
-                                          ),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(25),
-                                        borderSide: BorderSide(
-                                          width: 3.0,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      hintText: 'Confirm Password',
-                                    ),
+                                  LoginTextField(
+                                    userNameText: confirmPassWordText,
+                                    hintText: 'Confirm Password',
                                   ),
                                   SizedBox(height: 30),
                                   Container(
@@ -612,6 +512,7 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                                 ],
                               ),
                             ),
+                            //container
                           ),
                         ),
                       ],
