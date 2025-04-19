@@ -539,7 +539,7 @@ class LoginTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: userNameText,
-      obscureText: true,
+      obscureText: obscure,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
