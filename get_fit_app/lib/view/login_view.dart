@@ -223,11 +223,13 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                                   LoginTextField(
                                     userNameText: userNameText,
                                     hintText: 'Username',
+                                    obscure: false,
                                   ),
                                   SizedBox(height: 12),
                                   LoginTextField(
                                     userNameText: passWordText,
                                     hintText: 'Password',
+                                    obscure: true,
                                   ),
                                   SizedBox(height: 20),
                                   Container(
@@ -300,38 +302,6 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
             ],
           );
         },
-      ),
-    );
-  }
-}
-
-class LoginTextField extends StatelessWidget {
-  const LoginTextField({
-    super.key,
-    required this.userNameText,
-    required this.hintText,
-  });
-
-  final TextEditingController userNameText;
-  final String hintText;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: userNameText,
-      decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Color.fromARGB(255, 20, 50, 31),
-            width: 2,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: BorderSide(width: 3.0, color: Colors.blue),
-        ),
-        hintText: hintText,
       ),
     );
   }
@@ -455,21 +425,25 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                                   LoginTextField(
                                     userNameText: userNameText,
                                     hintText: 'Username',
+                                    obscure: false,
                                   ),
                                   SizedBox(height: 12),
                                   LoginTextField(
                                     userNameText: emailText,
                                     hintText: 'Email',
+                                    obscure: false,
                                   ),
                                   SizedBox(height: 12),
                                   LoginTextField(
                                     userNameText: passWordText,
                                     hintText: 'Password',
+                                    obscure: true,
                                   ),
                                   SizedBox(height: 12),
                                   LoginTextField(
                                     userNameText: confirmPassWordText,
                                     hintText: 'Confirm Password',
+                                    obscure: true,
                                   ),
                                   SizedBox(height: 30),
                                   Container(
@@ -529,6 +503,7 @@ class CreateAccountPage extends State<MyCreateAccountPage>
   }
 }
 
+// Credit: Eva Elvarsdottir from BIG sleeperzzz
 Widget backButton(BuildContext context) {
   return Stack(
     children: [
@@ -546,4 +521,39 @@ Widget backButton(BuildContext context) {
       ),
     ],
   );
+}
+
+class LoginTextField extends StatelessWidget {
+  const LoginTextField({
+    super.key,
+    required this.userNameText,
+    required this.hintText,
+    required this.obscure,
+  });
+
+  final TextEditingController userNameText;
+  final String hintText;
+  final bool obscure;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: userNameText,
+      obscureText: true,
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Color.fromARGB(255, 20, 50, 31),
+            width: 2,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(width: 3.0, color: Colors.blue),
+        ),
+        hintText: hintText,
+      ),
+    );
+  }
 }
