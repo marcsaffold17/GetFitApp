@@ -22,11 +22,12 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
   }
 
   Future<void> fetchAndGroupWorkouts() async {
-    final planSnapshot = await FirebaseFirestore.instance
-        .collection('Login-Info')
-        .doc(globalUsername)
-        .collection('Workout-Plan')
-        .get();
+    final planSnapshot =
+        await FirebaseFirestore.instance
+            .collection('Login-Info')
+            .doc(globalUsername)
+            .collection('Workout-Plan')
+            .get();
     final Map<String, List<Map<String, dynamic>>> grouped = {};
 
     for (var planDoc in planSnapshot.docs) {
@@ -50,83 +51,98 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
 
   @override
   Widget build(BuildContext context) {
-  final sortedEntries = workoutsByDate.entries.toList()
-    ..sort((a, b) => b.key.compareTo(a.key));
+    final sortedEntries =
+        workoutsByDate.entries.toList()..sort((a, b) => b.key.compareTo(a.key));
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView(
-  padding: EdgeInsets.only(bottom: 24), // to give space for the button
-  children: [
-    ...sortedEntries.map((entry) {
-      final date = entry.key;
-      final workouts = entry.value;
-      return ExpansionTile(
-        title: Container(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 46, 105, 70),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Text(
-            date,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 244, 238, 227),
-            ),
-          ),
-        ),
-        children: workouts
-            .map((workout) => _WorkoutTile(workout: workout))
-            .toList(),
-      );
-    }).toList(),
-    SizedBox(height: 20),
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Color.fromARGB(255, 46, 105, 70),
-          padding: EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-        ),
-        onPressed: () {
-          final repository = WorkoutRepository(); // Make sure this exists and is imported
-          final presenter = WorkoutPresenter(repository);
+      body:
+          isLoading
+              ? Center(child: CircularProgressIndicator())
+              : ListView(
+                padding: EdgeInsets.only(
+                  bottom: 24,
+                ), // to give space for the button
+                children: [
+                  ...sortedEntries.map((entry) {
+                    final date = entry.key;
+                    final workouts = entry.value;
+                    return ExpansionTile(
+                      title: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 46, 105, 70),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          date,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 244, 238, 227),
+                          ),
+                        ),
+                      ),
+                      children:
+                          workouts
+                              .map(
+                                (workout) => _WorkoutTile(
+                                  workout: workout,
+                                  onDelete: fetchAndGroupWorkouts,
+                                ),
+                              )
+                              .toList(),
+                    );
+                  }).toList(),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 46, 105, 70),
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        final repository =
+                            WorkoutRepository(); // Make sure this exists and is imported
+                        final presenter = WorkoutPresenter(repository);
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WorkoutEntryScreen(presenter: presenter),
-            ),
-          );
-        },
-        child: Text(
-          'Add Workout',
-          style: TextStyle(
-            color: Color.fromARGB(255, 244, 238, 227),
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    ),
-    SizedBox(height: 40),
-  ],
-),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    WorkoutEntryScreen(presenter: presenter),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Add Workout',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                ],
+              ),
     );
-
-}
+  }
 }
 
 class _WorkoutTile extends StatefulWidget {
   final Map<String, dynamic> workout;
+  final VoidCallback onDelete;
 
-  const _WorkoutTile({required this.workout});
+  const _WorkoutTile({required this.workout, required this.onDelete});
 
   @override
   State<_WorkoutTile> createState() => _WorkoutTileState();
@@ -135,96 +151,126 @@ class _WorkoutTile extends StatefulWidget {
 class _WorkoutTileState extends State<_WorkoutTile> {
   bool isExpanded = false;
 
+  Future<void> _deleteWorkout() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Login-Info')
+          .doc(globalUsername)
+          .collection('Workout-Plan')
+          .doc(widget.workout['date'])
+          .collection('Workout')
+          .doc(widget.workout['exercise'])
+          .delete();
+      widget.onDelete();
+    } catch (e) {
+      print('Error deleting workout: $e');
+    }
+  }
+
   void _showEditDialog() {
-    final setsController =
-        TextEditingController(text: widget.workout['sets']?.toString() ?? '');
-    final repsController =
-        TextEditingController(text: widget.workout['reps']?.toString() ?? '');
+    final setsController = TextEditingController(
+      text: widget.workout['sets']?.toString() ?? '',
+    );
+    final repsController = TextEditingController(
+      text: widget.workout['reps']?.toString() ?? '',
+    );
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        backgroundColor: Color.fromARGB(255, 244, 238, 227),
-        title: Text(
-          'Edit Sets & Reps',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 20, 50, 31)),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: setsController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Sets', 
-                labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                border: OutlineInputBorder(),
+      builder:
+          (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            backgroundColor: Color.fromARGB(255, 244, 238, 227),
+            title: Text(
+              'Edit Sets & Reps',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 20, 50, 31),
               ),
             ),
-            SizedBox(height: 12),
-            TextField(
-              controller: repsController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Reps',
-                labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                border: OutlineInputBorder(),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: setsController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Sets',
+                    labelStyle: TextStyle(
+                      color: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 12),
+                TextField(
+                  controller: repsController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Reps',
+                    labelStyle: TextStyle(
+                      color: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                ),
               ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel', style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: StadiumBorder(),
+                  backgroundColor: Color.fromARGB(255, 46, 105, 70),
+                ),
+                onPressed: () async {
+                  String updatedSets = setsController.text;
+                  String updatedReps = repsController.text;
+
+                  await FirebaseFirestore.instance
+                      .collection('Login-Info')
+                      .doc(globalUsername)
+                      .collection('Workout-Plan')
+                      .doc(widget.workout['date'])
+                      .collection('Workout')
+                      .doc(widget.workout['exercise'])
+                      .update({'sets': updatedSets, 'reps': updatedReps});
+
+                  setState(() {
+                    widget.workout['sets'] = updatedSets;
+                    widget.workout['reps'] = updatedReps;
+                  });
+
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Save',
+                  style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+                ),
+              ),
+            ],
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: StadiumBorder(),
-              backgroundColor: Color.fromARGB(255, 46, 105, 70),
-            ),
-            onPressed: () async {
-              String updatedSets = setsController.text;
-              String updatedReps = repsController.text;
-
-              await FirebaseFirestore.instance
-                  .collection('Login-Info')
-                  .doc(globalUsername)
-                  .collection('Workout-Plan')
-                  .doc(widget.workout['date'])
-                  .collection('Workout')
-                  .doc(widget.workout['exercise'])
-                  .update({
-                'sets': updatedSets,
-                'reps': updatedReps,
-              });
-
-              setState(() {
-                widget.workout['sets'] = updatedSets;
-                widget.workout['reps'] = updatedReps;
-              });
-
-              Navigator.of(context).pop();
-            },
-            child: Text('Save', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),),
-          ),
-        ],
-      ),
     );
   }
 
-
   void _showFullScreenImage(String imageUrl) {
-      Navigator.of(context).push(
-        PageRouteBuilder(
-          opaque: false,
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return ImageScreen(imageUrl: imageUrl);
-          },
-        ),
-      );
-    }
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return ImageScreen(imageUrl: imageUrl);
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -246,19 +292,32 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   Expanded(
                     child: Text(
                       workout['name'] ?? 'Unnamed',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 20, 50, 31)),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Color.fromARGB(255, 20, 50, 31),
+                      ),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.edit, color: Color.fromARGB(255, 20, 50, 31)),
+                    icon: Icon(
+                      Icons.edit,
+                      color: Color.fromARGB(255, 20, 50, 31),
+                    ),
                     onPressed: _showEditDialog,
                   ),
                   IconButton(
                     icon: Icon(
-                        isExpanded ? Icons.expand_less : Icons.expand_more,
-                        color: Color.fromARGB(255, 20, 50, 31)
-                        ),
+                      Icons.delete,
+                      color: Color.fromARGB(255, 20, 50, 31),
+                    ),
+                    onPressed: _deleteWorkout,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      isExpanded ? Icons.expand_less : Icons.expand_more,
+                      color: Color.fromARGB(255, 20, 50, 31),
+                    ),
                     onPressed: () {
                       setState(() {
                         isExpanded = !isExpanded;
@@ -268,62 +327,90 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 ],
               ),
               SizedBox(height: 4),
-              if (workout['difficulty'] != null && workout['difficulty'] != 'N/A')
-                Text("Difficulty: ${workout['difficulty']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+              if (workout['difficulty'] != null &&
+                  workout['difficulty'] != 'N/A')
+                Text(
+                  "Difficulty: ${workout['difficulty']}",
+                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                ),
               if (workout['equipment'] != null && workout['equipment'] != 'N/A')
-                Text("Equipment: ${workout['equipment']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+                Text(
+                  "Equipment: ${workout['equipment']}",
+                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                ),
               if (workout['sets'] != null && workout['sets'] != 'N/A')
-                Text("Sets: ${workout['sets']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+                Text(
+                  "Sets: ${workout['sets']}",
+                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                ),
               if (workout['reps'] != null && workout['reps'] != 'N/A')
-                Text("Reps: ${workout['reps']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+                Text(
+                  "Reps: ${workout['reps']}",
+                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                ),
               if (workout['Type'] != null && workout['Type'] != 'N/A')
-                Text("Type: ${workout['Type']}", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+                Text(
+                  "Type: ${workout['Type']}",
+                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                ),
               if (workout['Distance'] != null && workout['Distance'] != 'N/A')
-                Text("Distance: ${workout['Distance']} miles", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+                Text(
+                  "Distance: ${workout['Distance']} miles",
+                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                ),
               if (workout['Time'] != null && workout['Time'] != 'N/A')
-                Text("Time: ${workout['Time']} mins", style: TextStyle(color: Color.fromARGB(255, 49, 112, 75))),
+                Text(
+                  "Time: ${workout['Time']} mins",
+                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                ),
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (workout['Description'] != null && workout['Description'] != 'N/A')
+                      if (workout['Description'] != null &&
+                          workout['Description'] != 'N/A')
                         Text(
                           "Description: ${workout['Description']}",
                           style: TextStyle(
                             color: Color.fromARGB(255, 49, 112, 75),
                           ),
                         ),
-                      if (workout['instructions'] != null && workout['instructions'] != 'N/A')
+                      if (workout['instructions'] != null &&
+                          workout['instructions'] != 'N/A')
                         Text(
                           "Instructions: ${workout['instructions']}",
                           style: TextStyle(
                             color: Color.fromARGB(255, 49, 112, 75),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           if (workout['imageURL'] != null)
-                          GestureDetector(
-                            onTap: () => _showFullScreenImage(workout['imageURL']),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Image.network(
-                              workout['imageURL'],
-                              height: 200,
-                              width: 200,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                            GestureDetector(
+                              onTap:
+                                  () =>
+                                      _showFullScreenImage(workout['imageURL']),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Image.network(
+                                  workout['imageURL'],
+                                  height: 200,
+                                  width: 200,
+                                  fit: BoxFit.cover,
+                                  errorBuilder:
+                                      (context, error, stackTrace) =>
+                                          Icon(Icons.error),
+                                ),
+                              ),
                             ),
-                          ),
-                          ),
-                          ],
-                        ),
+                        ],
+                      ),
                     ],
                   ),
-                )
+                ),
             ],
           ),
         ),
