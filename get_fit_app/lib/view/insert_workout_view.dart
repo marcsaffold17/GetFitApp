@@ -139,7 +139,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
             },
             activeColor: Color.fromARGB(255, 81, 163, 108),
           ),
-          Text(value, style: TextStyle(fontSize: 20)),
+          Text(value, style: TextStyle(fontSize: 18)),
         ],
       ),
     );
@@ -218,15 +218,23 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             ),
                           ),
                           SizedBox(height: 6),
-                          Wrap(
-                            spacing: 20.0,
-                            runSpacing: 8.0,
-                            alignment: WrapAlignment.center,
-                            children: [
-                              _buildRadioOption('Run'),
-                              _buildRadioOption('Hike'),
-                              _buildRadioOption('Bike'),
-                            ],
+                          Container(
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Wrap(
+                              spacing: 20.0,
+                              runSpacing: 8.0,
+                              alignment: WrapAlignment.center,
+                              children: [
+                                _buildRadioOption('Run'),
+                                _buildRadioOption('Hike'),
+                                _buildRadioOption('Bike'),
+                              ],
+                            ),
                           ),
                         ],
                       ),
