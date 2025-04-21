@@ -207,9 +207,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   children: [
                     Center(
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .center, // Center content horizontally
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Type of Workout',
@@ -247,7 +245,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // SizedBox(width: 10),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
                             child: Text(
@@ -270,13 +267,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                 ),
                               ),
                               SizedBox(width: 5),
-                              // Text(
-                              //   'mins',
-                              //   style: TextStyle(
-                              //     fontSize: 16.0,
-                              //     color: Colors.black,
-                              //   ),
-                              // ),
                             ],
                           ),
                         ],
@@ -307,13 +297,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                 ),
                               ),
                               SizedBox(width: 5),
-                              // Text(
-                              //   'miles',
-                              //   style: TextStyle(
-                              //     fontSize: 16.0,
-                              //     color: Colors.black,
-                              //   ),
-                              // ),
                             ],
                           ),
                         ],
@@ -322,23 +305,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   ),
                 ),
                 SizedBox(height: 10),
-                if (_image != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SizedBox(
-                      width: 175.0,
-                      height: 175.0,
-                      child: Image.file(_image!),
-                    ),
-                  ),
-                if (_dateError != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      _dateError!,
-                      style: TextStyle(color: Colors.red, fontSize: 14),
-                    ),
-                  ),
                 Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -348,17 +314,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  'Date',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 20, 50, 31),
-                                  ),
-                                ),
-                              ),
                               SizedBox(height: 6),
                               SizedBox(
                                 width: 200,
@@ -417,65 +372,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                   ),
                                 ),
                               ),
-                              // ElevatedButton.icon(
-                              // onPressed: () async {
-                              //   final DateTime? pickedDate = await showDatePicker(
-                              //     context: context,
-                              //     initialDate: DateTime.now(),
-                              //     firstDate: DateTime(2000),
-                              //     lastDate: DateTime(2100),
-                              //   );
-
-                              //   if (pickedDate != null) {
-                              //     setState(() {
-                              //       _dayController.text = DateFormat(
-                              //         'MM-dd-yyyy',
-                              //       ).format(pickedDate);
-                              //       FormattedDate = DateFormat(
-                              //         'MM-dd-yyyy',
-                              //       ).format(pickedDate);
-                              //       _dateError = _validateDate(
-                              //         _dayController.text,
-                              //       ); // Validate here
-                              //     });
-                              //   }
-                              // },
-                              //   style: ElevatedButton.styleFrom(
-                              //     backgroundColor: Color.fromARGB(255, 229, 221, 212),
-                              //     minimumSize: const Size(110, 50),
-                              //   ),
-                              //   icon: Icon(
-                              //     Icons.calendar_today_outlined,
-                              //     color: Color.fromARGB(255, 81, 163, 108),
-                              //     size: 18,
-                              //   ),
-                              //   label: Text(
-                              //     'Date',
-                              //     style: TextStyle(
-                              //       color: Color.fromARGB(255, 20, 50, 31),
-                              //       fontWeight: FontWeight.w600,
-                              //       fontFamily: 'Garet',
-                              //       fontSize: 15,
-                              //     ),
-                              //   ),
-                              // ),
                             ],
                           ),
                           SizedBox(width: 15),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  'Photo',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 20, 50, 31),
-                                  ),
-                                ),
-                              ),
                               SizedBox(
                                 width: 150,
                                 height: 60,
@@ -510,33 +412,24 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ],
                   ),
                 ),
+                if (_image != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SizedBox(
+                      width: 175.0,
+                      height: 175.0,
+                      child: Image.file(_image!),
+                    ),
+                  ),
+                if (_dateError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      _dateError!,
+                      style: TextStyle(color: Colors.red, fontSize: 14),
+                    ),
+                  ),
                 SizedBox(height: 20),
-                // Row(
-                //   children: [
-                //     Column(
-                //       children: [
-                //         ElevatedButton.icon(
-                //           onPressed: _pickImage,
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: Color.fromARGB(255, 229, 221, 212),
-                //             minimumSize: const Size(110, 50),
-                //           ),
-                //           icon: Icon(
-                //             Icons.add_a_photo_outlined,
-                //             color: Color.fromARGB(255, 81, 163, 108),
-                //           ),
-                //           label: Text(
-                //             'Add Photo',
-                //             style: TextStyle(
-                //               color: Color.fromARGB(255, 0, 0, 0),
-                //             ),
-                //             textAlign: TextAlign.center,
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ],
-                // ),
                 SizedBox(height: 16.0),
                 ElevatedButton.icon(
                   onPressed: () async {
@@ -547,9 +440,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           _workoutType == null
                               ? 'Please select a workout type'
                               : null;
-                      _dateError = _validateDate(
-                        _dayController.text,
-                      ); // Validate date
+                      _dateError = _validateDate(_dayController.text);
                     });
 
                     // Only proceed if all validations pass
