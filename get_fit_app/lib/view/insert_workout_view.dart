@@ -36,6 +36,10 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   final _typeController = TextEditingController();
   String? _workoutType;
 
+  String? selectedType;
+
+  final List<String> workoutTypes = ['Run', 'Bike', 'Hike'];
+
   final List<Map<String, dynamic>> _workoutTypes = [
     {'name': 'Run', 'icon': Icons.directions_run},
     {'name': 'Bike', 'icon': Icons.directions_bike},
@@ -115,6 +119,32 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     }
   }
 
+  Widget _buildRadioOption(String value) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment:
+            MainAxisAlignment.center, // Center contents inside the Row
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Radio<String>(
+            value: value,
+            groupValue: _workoutType,
+            onChanged: (String? newValue) {
+              setState(() {
+                _workoutType = newValue;
+                _typeController.text = newValue ?? '';
+              });
+            },
+            activeColor: Color.fromARGB(255, 81, 163, 108),
+          ),
+          Text(value, style: TextStyle(fontSize: 20)),
+        ],
+      ),
+    );
+  }
+
   String? FormattedDate;
   @override
   Widget build(BuildContext context) {
@@ -126,6 +156,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
         title: Text(
           'Add Workout',
           style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
         ),
       ),
       body: Form(
@@ -140,7 +176,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   child: Text(
                     'Title',
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 20, 50, 31),
                     ),
@@ -156,7 +192,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   child: Text(
                     'Description',
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 20, 50, 31),
                     ),
@@ -167,82 +203,144 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   maxLine: 3,
                 ),
                 SizedBox(height: 16.0),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Type of Workout',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 20, 50, 31),
-                    ),
-                  ),
-                ),
                 Row(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            width: 100,
-                            height: 50,
-                            child: DropdownButtonFormField<String>(
-                              value: _workoutType,
-                              decoration: InputDecoration(
-                                fillColor: Color.fromARGB(255, 229, 221, 212),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 81, 163, 108),
-                                    width: 2.0,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 81, 163, 108),
-                                    width: 2.0,
-                                  ),
-                                ),
-                              ),
-                              items:
-                                  _workoutTypes.map((workout) {
-                                    return DropdownMenuItem<String>(
-                                      value: workout['name'],
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            workout['icon'],
-                                            color: Color.fromARGB(
-                                              255,
-                                              46,
-                                              105,
-                                              70,
-                                            ),
-                                            size: 16,
-                                          ),
-                                          SizedBox(width: 6.0),
-                                          Text(
-                                            workout['name'],
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  _workoutType = newValue;
-                                  _typeController.text = newValue ?? '';
-                                });
-                              },
+                    Center(
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment
+                                .center, // Center content horizontally
+                        children: [
+                          Text(
+                            'Type of Workout',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 20, 50, 31),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 6),
+                          Wrap(
+                            spacing: 20.0,
+                            runSpacing: 8.0,
+                            alignment: WrapAlignment.center,
+                            children: [
+                              _buildRadioOption('Run'),
+                              _buildRadioOption('Hike'),
+                              _buildRadioOption('Bike'),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(width: 26),
+                  ],
+                ),
+                // SizedBox(height: 16.0),
+                Center(
+                  child: Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment
+                            .center, // Centers the children within the Row
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // SizedBox(width: 10),
+                          Padding(
+                            padding: EdgeInsets.only(left: 22),
+                            child: Text(
+                              'Time',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 20, 50, 31),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 150,
+                                height: 50,
+                                child: SmallTextFormField(
+                                  timeController: _timeController,
+                                  hintText: '0:00 Mins',
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              // Text(
+                              //   'mins',
+                              //   style: TextStyle(
+                              //     fontSize: 16.0,
+                              //     color: Colors.black,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 1.5),
+                            child: Text(
+                              '  Distance',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 20, 50, 31),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 200,
+                                height: 50,
+                                child: SmallTextFormField(
+                                  timeController: _distanceController,
+                                  hintText: '0.0 Miles',
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              // Text(
+                              //   'miles',
+                              //   style: TextStyle(
+                              //     fontSize: 16.0,
+                              //     color: Colors.black,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                if (_image != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SizedBox(
+                      width: 175.0,
+                      height: 175.0,
+                      child: Image.file(_image!),
+                    ),
+                  ),
+                if (_dateError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      _dateError!,
+                      style: TextStyle(color: Colors.red, fontSize: 14),
+                    ),
+                  ),
+                Row(
+                  children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -291,6 +389,11 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       ],
                     ),
                     SizedBox(width: 26),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
                     Column(
                       children: [
                         ElevatedButton.icon(
@@ -304,7 +407,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             color: Color.fromARGB(255, 81, 163, 108),
                           ),
                           label: Text(
-                            'Add\nPhoto',
+                            'Add Photo',
                             style: TextStyle(
                               color: Color.fromARGB(255, 0, 0, 0),
                             ),
@@ -315,108 +418,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Time',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 20, 50, 31),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.20,
-                              child: SmallTextFormField(
-                                timeController: _timeController,
-                                hintText: '0.0',
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'mins',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Distance',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 20, 50, 31),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.20,
-                              child: SmallTextFormField(
-                                timeController: _distanceController,
-                                hintText: '0.0',
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'miles',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                    Column(children: [SizedBox(height: 20)]),
-                  ],
-                ),
-                SizedBox(height: 10),
-                if (_image != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SizedBox(
-                      width: 175.0,
-                      height: 175.0,
-                      child: Image.file(_image!),
-                    ),
-                  ),
-                if (_dateError != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      _dateError!,
-                      style: TextStyle(color: Colors.red, fontSize: 14),
-                    ),
-                  ),
                 SizedBox(height: 16.0),
                 ElevatedButton.icon(
                   onPressed: () async {

@@ -11,7 +11,6 @@ class WorkoutHistoryScreen extends StatefulWidget {
 }
 
 class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
-
   void _showFullScreenImage(String imageUrl) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -41,12 +40,13 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar
-        (title: Text('Workout History')
-      ),
+      appBar: AppBar(title: Text('Workout History')),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('Workouts')
-            .orderBy('Day', descending: true).snapshots(),
+        stream:
+            FirebaseFirestore.instance
+                .collection('Workouts')
+                .orderBy('Day', descending: true)
+                .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
@@ -62,13 +62,15 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
               final data = workout.data() as Map<String, dynamic>;
               return Theme(
                 data: Theme.of(context).copyWith(
-
                   // Will probably need to rework the color scheming
                   expansionTileTheme: ExpansionTileThemeData(
                     backgroundColor: Colors.grey[200],
                     collapsedBackgroundColor: Colors.white,
                     tilePadding: EdgeInsets.symmetric(horizontal: 16),
-                    childrenPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    childrenPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                   ),
                 ),
                 child: ExpansionTile(
@@ -78,8 +80,7 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
                       Text(data['Title'] ?? 'No Title'),
                       if (data['Day'] != null && data['Day'] is Timestamp)
                         Text(
-                          '${DateFormat('yyyy-MM-dd').format(
-                              (data['Day'] as Timestamp).toDate())}',
+                          '${DateFormat('yyyy-MM-dd').format((data['Day'] as Timestamp).toDate())}',
                         ),
                       if (data['Day'] == null || data['Day'] is! Timestamp)
                         Text('Date: No Date'),
@@ -93,24 +94,30 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
                           Text('${data['Description'] ?? 'No Description'}'),
                           Text('Type: ${data['Type'] ?? 'No Type'}'),
                           Text(
-                              'Time: ${data['Time'] != null ? timeFormat(data['Time']) : 'No Time'}'),
-                          Text('Distance: ${data['Distance'] ?? 'No Distance'} mi'),
-                          Text('Average Speed: ${data['Distance'] != null && data['Time'] != null
-                              ? averageSpeed(data['Distance'], data['Time'])
-                              : 'No Data'}'),
+                            'Time: ${data['Time'] != null ? timeFormat(data['Time']) : 'No Time'}',
+                          ),
+                          Text(
+                            'Distance: ${data['Distance'] ?? 'No Distance'} mi',
+                          ),
+                          Text(
+                            'Average Speed: ${data['Distance'] != null && data['Time'] != null ? averageSpeed(data['Distance'], data['Time']) : 'No Data'}',
+                          ),
                           if (data['imageURL'] != null)
                             GestureDetector(
-                              onTap: () => _showFullScreenImage(data['imageURL']),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Image.network(
-                                data['imageURL'],
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                              onTap:
+                                  () => _showFullScreenImage(data['imageURL']),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Image.network(
+                                  data['imageURL'],
+                                  height: 100,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                  errorBuilder:
+                                      (context, error, stackTrace) =>
+                                          Icon(Icons.error),
+                                ),
                               ),
-                            ),
                             ),
                         ],
                       ),
