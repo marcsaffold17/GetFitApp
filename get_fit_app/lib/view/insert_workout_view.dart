@@ -249,7 +249,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         children: [
                           // SizedBox(width: 10),
                           Padding(
-                            padding: EdgeInsets.only(left: 22),
+                            padding: EdgeInsets.only(left: 5),
                             child: Text(
                               'Time',
                               style: TextStyle(
@@ -286,7 +286,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 1.5),
+                            padding: EdgeInsets.only(left: 5),
                             child: Text(
                               '  Distance',
                               style: TextStyle(
@@ -339,85 +339,204 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       style: TextStyle(color: Colors.red, fontSize: 14),
                     ),
                   ),
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            final DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2100),
-                            );
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 5),
+                                child: Text(
+                                  'Date',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 20, 50, 31),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 6),
+                              SizedBox(
+                                width: 200,
+                                child: TextFormField(
+                                  controller: _dayController,
+                                  decoration: InputDecoration(
+                                    // fillColor:,
+                                    // filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(
+                                          255,
+                                          81,
+                                          163,
+                                          108,
+                                        ),
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    hintText: 'MM-DD-YYYY',
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        Icons.calendar_today_outlined,
+                                        color: Color.fromARGB(
+                                          255,
+                                          81,
+                                          163,
+                                          108,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        final DateTime? pickedDate =
+                                            await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(2100),
+                                            );
 
-                            if (pickedDate != null) {
-                              setState(() {
-                                _dayController.text = DateFormat(
-                                  'MM-dd-yyyy',
-                                ).format(pickedDate);
-                                FormattedDate = DateFormat(
-                                  'MM-dd-yyyy',
-                                ).format(pickedDate);
-                                _dateError = _validateDate(
-                                  _dayController.text,
-                                ); // Validate here
-                              });
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 229, 221, 212),
-                            minimumSize: const Size(110, 50),
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            _dayController.text = DateFormat(
+                                              'MM-dd-yyyy',
+                                            ).format(pickedDate);
+                                            FormattedDate = DateFormat(
+                                              'MM-dd-yyyy',
+                                            ).format(pickedDate);
+                                            _dateError = _validateDate(
+                                              _dayController.text,
+                                            ); // Validate here
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // ElevatedButton.icon(
+                              // onPressed: () async {
+                              //   final DateTime? pickedDate = await showDatePicker(
+                              //     context: context,
+                              //     initialDate: DateTime.now(),
+                              //     firstDate: DateTime(2000),
+                              //     lastDate: DateTime(2100),
+                              //   );
+
+                              //   if (pickedDate != null) {
+                              //     setState(() {
+                              //       _dayController.text = DateFormat(
+                              //         'MM-dd-yyyy',
+                              //       ).format(pickedDate);
+                              //       FormattedDate = DateFormat(
+                              //         'MM-dd-yyyy',
+                              //       ).format(pickedDate);
+                              //       _dateError = _validateDate(
+                              //         _dayController.text,
+                              //       ); // Validate here
+                              //     });
+                              //   }
+                              // },
+                              //   style: ElevatedButton.styleFrom(
+                              //     backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                              //     minimumSize: const Size(110, 50),
+                              //   ),
+                              //   icon: Icon(
+                              //     Icons.calendar_today_outlined,
+                              //     color: Color.fromARGB(255, 81, 163, 108),
+                              //     size: 18,
+                              //   ),
+                              //   label: Text(
+                              //     'Date',
+                              //     style: TextStyle(
+                              //       color: Color.fromARGB(255, 20, 50, 31),
+                              //       fontWeight: FontWeight.w600,
+                              //       fontFamily: 'Garet',
+                              //       fontSize: 15,
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
                           ),
-                          icon: Icon(
-                            Icons.calendar_today_outlined,
-                            color: Color.fromARGB(255, 81, 163, 108),
-                            size: 18,
+                          SizedBox(width: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 5),
+                                child: Text(
+                                  'Photo',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 20, 50, 31),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 150,
+                                height: 60,
+                                child: ElevatedButton.icon(
+                                  onPressed: _pickImage,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color.fromARGB(
+                                      255,
+                                      229,
+                                      221,
+                                      212,
+                                    ),
+                                    minimumSize: const Size(110, 50),
+                                  ),
+                                  icon: Icon(
+                                    Icons.add_a_photo_outlined,
+                                    color: Color.fromARGB(255, 81, 163, 108),
+                                  ),
+                                  label: Text(
+                                    'Add Photo',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          label: Text(
-                            'Date',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 20, 50, 31),
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Garet',
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 26),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20),
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: _pickImage,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 229, 221, 212),
-                            minimumSize: const Size(110, 50),
-                          ),
-                          icon: Icon(
-                            Icons.add_a_photo_outlined,
-                            color: Color.fromARGB(255, 81, 163, 108),
-                          ),
-                          label: Text(
-                            'Add Photo',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Column(
+                //       children: [
+                //         ElevatedButton.icon(
+                //           onPressed: _pickImage,
+                //           style: ElevatedButton.styleFrom(
+                //             backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                //             minimumSize: const Size(110, 50),
+                //           ),
+                //           icon: Icon(
+                //             Icons.add_a_photo_outlined,
+                //             color: Color.fromARGB(255, 81, 163, 108),
+                //           ),
+                //           label: Text(
+                //             'Add Photo',
+                //             style: TextStyle(
+                //               color: Color.fromARGB(255, 0, 0, 0),
+                //             ),
+                //             textAlign: TextAlign.center,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 16.0),
                 ElevatedButton.icon(
                   onPressed: () async {
