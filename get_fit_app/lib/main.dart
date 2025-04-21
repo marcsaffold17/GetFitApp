@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Program',
       theme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(
-          cursorColor: Color.fromARGB(255, 111, 138, 183),
-          selectionColor: Color.fromARGB(100, 46, 105, 70),
-          selectionHandleColor: Color.fromARGB(255, 46, 105, 70),
+        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        progressIndicatorTheme: ProgressIndicatorThemeData(
+          color: const Color.fromARGB(255, 46, 105, 70),
         ),
       ),
       home: LoginButtonPage(),
