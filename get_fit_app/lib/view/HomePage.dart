@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
           top: 20,
           left: 20,
           child: Text(
-            "Welcome Back, $UserName",
+            "Welcome Back, \n$UserName",
             style: const TextStyle(fontSize: 30),
           ),
         ),
@@ -102,9 +102,17 @@ class _MyHomePageState extends State<MyHomePage> {
           top: 120,
           left: 20,
           right: 20,
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: displayChart(_chartData, _selectedChart),
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            height: 300,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 229, 221, 212),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              child: displayChart(_chartData, _selectedChart),
+            ),
           ),
         ),
         Positioned(
