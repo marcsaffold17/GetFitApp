@@ -112,9 +112,32 @@ class _FavoritesPageState extends State<FavoritesPage> {
         ),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            "Difficulty: ${exercise.difficulty}\nEquipment: ${exercise.equipment}",
-            style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.fitness_center,
+                      size: 18, color: Color.fromARGB(255, 46, 105, 70)),
+                  SizedBox(width: 6),
+                  Text(
+                    "Difficulty: ${exercise.difficulty}",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
+                ],
+              ),
+              SizedBox(height: 4),
+              Row(
+                children: [
+                  Icon(Icons.build, size: 18, color: Color.fromARGB(255, 46, 105, 70)),
+                  SizedBox(width: 6),
+                  Text(
+                    "Equipment: ${exercise.equipment}",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
         onTap: () => _showDetails(exercise),
@@ -122,7 +145,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: Icon(Icons.delete, color: Color.fromARGB(255, 81, 163, 108)),
+              icon: Icon(Icons.delete,
+                  color: Color.fromARGB(255, 81, 163, 108)),
               onPressed: () async {
                 await favoritesRef.doc(exercise.name).delete();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -131,8 +155,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
               },
             ),
             IconButton(
-              icon: Icon(Icons.add_outlined, color: Color.fromARGB(255, 81, 163, 108)),
-              onPressed: () => _addToWorkoutPlan(exercise),
+              icon: Icon(Icons.add_outlined,
+                  color: Color.fromARGB(255, 81, 163, 108)), onPressed: () => _addToWorkoutPlan(exercise),
             ),
           ],
         ),
@@ -206,8 +230,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(
-                '${exercise.name} added to workout plan for ${pickedDate.day}/${pickedDate.month}/${pickedDate.year}')),
+            content: Text('${exercise.name} added to workout plan for ${pickedDate.month}/${pickedDate.day}/${pickedDate.year}')),
       );
     }
   }
