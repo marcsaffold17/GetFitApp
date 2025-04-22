@@ -18,6 +18,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Color.fromARGB(255, 46, 105, 70),
+          selectionColor: Color.fromARGB(100, 81, 163, 108),
+          selectionHandleColor: Color.fromARGB(255, 46, 105, 70),
+        ),
         progressIndicatorTheme: ProgressIndicatorThemeData(
           color: const Color.fromARGB(255, 46, 105, 70),
         ),

@@ -138,16 +138,16 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
               Set<WidgetState> states,
             ) {
               if (states.contains(WidgetState.selected)) {
-                return Color.fromARGB(210, 229, 221, 212);
+                return Color.fromARGB(210, 244, 238, 227);
               }
-              return Color.fromARGB(255, 46, 105, 70);
+              return Color.fromARGB(255, 81, 163, 108);
             }),
           ),
           Text(
             value,
             style: TextStyle(
               fontSize: 18,
-              color: Color.fromARGB(255, 20, 50, 31),
+              color: Color.fromARGB(255, 244, 238, 227),
             ),
           ),
         ],
@@ -235,8 +235,8 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             width: 370,
                             padding: EdgeInsets.all(7),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(100, 46, 105, 70),
-                              border: Border.all(color: Colors.grey, width: 1),
+                              color: Color.fromARGB(255, 46, 105, 70),
+                              border: Border.all(),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Align(
@@ -433,106 +433,198 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ),
                 SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    // First validate all fields
-                    setState(() {
-                      print(_dateError);
-                      _dropdownError =
-                          _workoutType == null
-                              ? 'Please select a workout type'
-                              : null;
-                      _dateError = _validateDate(_dayController.text);
-                    });
+                // ElevatedButton.icon(
+                //   onPressed: () async {
+                //     // First validate all fields
+                //     setState(() {
+                //       print(_dateError);
+                //       _dropdownError =
+                //           _workoutType == null
+                //               ? 'Please select a workout type'
+                //               : null;
+                //       _dateError = _validateDate(_dayController.text);
+                //     });
 
-                    // Only proceed if all validations pass
-                    if (_formKey.currentState!.validate() &&
-                        _dropdownError == null &&
-                        _dateError == null) {
-                      widget.presenter.view = this;
-                      double? distance =
-                          double.tryParse(_distanceController.text) ?? 0.0;
-                      int? time = int.tryParse(_timeController.text) ?? 0;
-                      String? uploadedImageUrl;
+                //     // Only proceed if all validations pass
+                //     if (_formKey.currentState!.validate() &&
+                //         _dropdownError == null &&
+                //         _dateError == null) {
+                //       widget.presenter.view = this;
+                //       double? distance =
+                //           double.tryParse(_distanceController.text) ?? 0.0;
+                //       int? time = int.tryParse(_timeController.text) ?? 0;
+                //       String? uploadedImageUrl;
 
-                      if (_image != null) {
-                        uploadedImageUrl = await uploadImage(_image!);
-                        if (uploadedImageUrl == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Photo upload failed, uploading without photo',
-                              ),
-                              duration: Duration(seconds: 3),
-                            ),
-                          );
-                          final newWorkout = Workout(
-                            day: Timestamp.fromDate(
-                              DateTime.parse(_dayController.text),
-                            ),
-                            description: _descriptionController.text,
-                            distance: distance,
-                            time: time,
-                            title: _titleController.text,
-                            type: _typeController.text,
-                            image: null,
-                          );
-                          if (globalUsername != null) {
-                            widget.presenter.addWorkout(
-                              newWorkout,
-                              FormattedDate!,
-                            );
-                          } else {
-                            print("Error: Username is null");
-                          }
-                          return;
-                        }
-                      }
-                      DateTime parsedDate = DateFormat(
-                        'MM-dd-yyyy',
-                      ).parse(_dayController.text);
-                      final newWorkout = Workout(
-                        day: Timestamp.fromDate(parsedDate),
-                        description: _descriptionController.text,
-                        distance: distance,
-                        time: time,
-                        title: _titleController.text,
-                        type: _typeController.text,
-                        image: uploadedImageUrl,
-                      );
+                //       if (_image != null) {
+                //         uploadedImageUrl = await uploadImage(_image!);
+                //         if (uploadedImageUrl == null) {
+                //           ScaffoldMessenger.of(context).showSnackBar(
+                //             SnackBar(
+                //               content: Text(
+                //                 'Photo upload failed, uploading without photo',
+                //               ),
+                //               duration: Duration(seconds: 3),
+                //             ),
+                //           );
+                //           final newWorkout = Workout(
+                //             day: Timestamp.fromDate(
+                //               DateTime.parse(_dayController.text),
+                //             ),
+                //             description: _descriptionController.text,
+                //             distance: distance,
+                //             time: time,
+                //             title: _titleController.text,
+                //             type: _typeController.text,
+                //             image: null,
+                //           );
+                //           if (globalUsername != null) {
+                //             widget.presenter.addWorkout(
+                //               newWorkout,
+                //               FormattedDate!,
+                //             );
+                //           } else {
+                //             print("Error: Username is null");
+                //           }
+                //           return;
+                //         }
+                //       }
+                //       DateTime parsedDate = DateFormat(
+                //         'MM-dd-yyyy',
+                //       ).parse(_dayController.text);
+                //       final newWorkout = Workout(
+                //         day: Timestamp.fromDate(parsedDate),
+                //         description: _descriptionController.text,
+                //         distance: distance,
+                //         time: time,
+                //         title: _titleController.text,
+                //         type: _typeController.text,
+                //         image: uploadedImageUrl,
+                //       );
 
-                      if (globalUsername != null && FormattedDate != null) {
-                        widget.presenter.addWorkout(newWorkout, FormattedDate!);
-                        if (widget.onWorkoutUploaded != null) {
-                          widget.onWorkoutUploaded!(); // Call the callback
-                        }
-                        Navigator.pop(context);
-                      } else {
-                        print("Error: Username is null");
-                      }
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 38, 92, 60),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 75.0,
-                      vertical: 20.0,
-                    ),
-                    textStyle: TextStyle(fontSize: 20.0),
-                  ),
-                  icon: Icon(
-                    Icons.upload,
-                    color: Color.fromARGB(255, 244, 238, 227),
-                    size: 25,
-                  ),
+                //       if (globalUsername != null && FormattedDate != null) {
+                //         widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                //         if (widget.onWorkoutUploaded != null) {
+                //           widget.onWorkoutUploaded!(); // Call the callback
+                //         }
+                //         Navigator.pop(context);
+                //       } else {
+                //         print("Error: Username is null");
+                //       }
+                //     }
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Color.fromARGB(255, 38, 92, 60),
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 75.0,
+                //       vertical: 20.0,
+                //     ),
+                //     textStyle: TextStyle(fontSize: 20.0),
+                //   ),
+                //   icon: Icon(
+                //     Icons.upload,
+                //     color: Color.fromARGB(255, 244, 238, 227),
+                //     size: 25,
+                //   ),
 
-                  label: Text(
-                    'Upload Workout',
-                    style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
-                  ),
-                ),
+                //   label: Text(
+                //     'Upload Workout',
+                //     style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+                //   ),
+                // ),
               ],
             ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: Color.fromARGB(255, 244, 238, 227),
+        padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
+        child: ElevatedButton.icon(
+          onPressed: () async {
+            setState(() {
+              print(_dateError);
+              _dropdownError =
+                  _workoutType == null ? 'Please select a workout type' : null;
+              _dateError = _validateDate(_dayController.text);
+            });
+
+            if (_formKey.currentState!.validate() &&
+                _dropdownError == null &&
+                _dateError == null) {
+              widget.presenter.view = this;
+              double? distance =
+                  double.tryParse(_distanceController.text) ?? 0.0;
+              int? time = int.tryParse(_timeController.text) ?? 0;
+              String? uploadedImageUrl;
+
+              if (_image != null) {
+                uploadedImageUrl = await uploadImage(_image!);
+                if (uploadedImageUrl == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Photo upload failed, uploading without photo',
+                      ),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                  final newWorkout = Workout(
+                    day: Timestamp.fromDate(
+                      DateTime.parse(_dayController.text),
+                    ),
+                    description: _descriptionController.text,
+                    distance: distance,
+                    time: time,
+                    title: _titleController.text,
+                    type: _typeController.text,
+                    image: null,
+                  );
+                  if (globalUsername != null) {
+                    widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                  } else {
+                    print("Error: Username is null");
+                  }
+                  return;
+                }
+              }
+
+              DateTime parsedDate = DateFormat(
+                'MM-dd-yyyy',
+              ).parse(_dayController.text);
+              final newWorkout = Workout(
+                day: Timestamp.fromDate(parsedDate),
+                description: _descriptionController.text,
+                distance: distance,
+                time: time,
+                title: _titleController.text,
+                type: _typeController.text,
+                image: uploadedImageUrl,
+              );
+
+              if (globalUsername != null && FormattedDate != null) {
+                widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                if (widget.onWorkoutUploaded != null) {
+                  widget.onWorkoutUploaded!();
+                }
+                Navigator.pop(context);
+              } else {
+                print("Error: Username is null");
+              }
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 38, 92, 60),
+            padding: EdgeInsets.symmetric(horizontal: 75.0, vertical: 20.0),
+            textStyle: TextStyle(fontSize: 20.0),
+          ),
+          icon: Icon(
+            Icons.upload,
+            color: Color.fromARGB(255, 244, 238, 227),
+            size: 25,
+          ),
+          label: Text(
+            'Upload Workout',
+            style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
           ),
         ),
       ),
