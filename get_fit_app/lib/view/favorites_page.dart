@@ -41,17 +41,17 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 244, 238, 227),
+      backgroundColor: const Color.fromARGB(255, 244, 238, 227),
       body: StreamBuilder<QuerySnapshot>(
         stream: favoritesRef.snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           final docs = snapshot.data!.docs;
           if (docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text(
                 "No favorites right now",
                 style: TextStyle(fontSize: 18, color: Colors.grey),
@@ -72,8 +72,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
             );
           }).toList();
 
-          return ListView.builder(
+          return ListView.separated(
+            padding: const EdgeInsets.all(12),
             itemCount: exercises.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               return _buildExerciseCard(exercises[index]);
             },
@@ -84,14 +86,36 @@ class _FavoritesPageState extends State<FavoritesPage> {
   }
 
   Widget _buildExerciseCard(Exercise exercise) {
-    return Card(
-      color: Color.fromARGB(255, 229, 221, 212),
-      margin: EdgeInsets.all(8),
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 229, 221, 212),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 6,
+            offset: Offset(0, 3),
+          )
+        ],
+      ),
       child: ListTile(
-        title: Text(exercise.name, style: TextStyle(color: Color.fromARGB(255, 20, 50, 31))),
-        subtitle: Text(
-          "Difficulty: ${exercise.difficulty}\nEquipment: ${exercise.equipment}",
-          style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+        contentPadding: const EdgeInsets.all(16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          exercise.name,
+          style: TextStyle(
+            color: Color.fromARGB(255, 20, 50, 31),
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            "Difficulty: ${exercise.difficulty}\nEquipment: ${exercise.equipment}",
+            style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+          ),
         ),
         onTap: () => _showDetails(exercise),
         trailing: Row(
@@ -107,79 +131,85 @@ class _FavoritesPageState extends State<FavoritesPage> {
               },
             ),
             IconButton(
-              icon: Icon(Icons.add_outlined),
-              color: Color.fromARGB(255, 81, 163, 108),
-              onPressed: () async {
-                final DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100),
-                );
-
-                await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Edit Workout'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: setsController,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(labelText: 'Sets'),
-                          ),
-                          TextField(
-                            controller: repsController,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(labelText: 'Reps'),
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            sets = setsController.text;
-                            reps = repsController.text;
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Proceed'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-
-                setsController.clear();
-                repsController.clear();
-
-                if (pickedDate != null) {
-                  String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
-
-                  await workoutPlanRef.doc(formattedDate).set({
-                    'date': formattedDate,
-                  });
-                  await workoutPlanRef.doc(formattedDate).collection("Workout").doc(exercise.name).set({
-                    'name': exercise.name,
-                    'difficulty': exercise.difficulty,
-                    'equipment': exercise.equipment,
-                    'instructions': exercise.instructions,
-                    'date': formattedDate,
-                    'reps': reps,
-                    'sets': sets
-                  });
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${exercise.name} added to workout plan for ${pickedDate.day}/${pickedDate.month}/${pickedDate.year}')),
-                  );
-                }
-              },
+              icon: Icon(Icons.add_outlined, color: Color.fromARGB(255, 81, 163, 108)),
+              onPressed: () => _addToWorkoutPlan(exercise),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _addToWorkoutPlan(Exercise exercise) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Workout'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: setsController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Sets'),
+              ),
+              TextField(
+                controller: repsController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Reps'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                sets = setsController.text;
+                reps = repsController.text;
+                Navigator.of(context).pop();
+              },
+              child: Text('Proceed'),
+            ),
+          ],
+        );
+      },
+    );
+
+    setsController.clear();
+    repsController.clear();
+
+    if (pickedDate != null) {
+      String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
+
+      await workoutPlanRef.doc(formattedDate).set({'date': formattedDate});
+
+      await workoutPlanRef
+          .doc(formattedDate)
+          .collection("Workout")
+          .doc(exercise.name)
+          .set({
+        'name': exercise.name,
+        'difficulty': exercise.difficulty,
+        'equipment': exercise.equipment,
+        'instructions': exercise.instructions,
+        'date': formattedDate,
+        'reps': reps,
+        'sets': sets
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                '${exercise.name} added to workout plan for ${pickedDate.day}/${pickedDate.month}/${pickedDate.year}')),
+      );
+    }
   }
 
   void _showDetails(Exercise exercise) {
@@ -188,12 +218,15 @@ class _FavoritesPageState extends State<FavoritesPage> {
       builder: (context) {
         return AlertDialog(
           backgroundColor: Color.fromARGB(255, 244, 238, 227),
-          title: Text(exercise.name, style: TextStyle(color: Color.fromARGB(255, 20, 50, 31))),
-          content: Text(exercise.instructions, style: TextStyle(color: Color.fromARGB(255, 46, 105, 70))),
+          title: Text(exercise.name,
+              style: TextStyle(color: Color.fromARGB(255, 20, 50, 31))),
+          content: Text(exercise.instructions,
+              style: TextStyle(color: Color.fromARGB(255, 46, 105, 70))),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("Close", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70))),
+              child: Text("Close",
+                  style: TextStyle(color: Color.fromARGB(255, 46, 105, 70))),
             ),
           ],
         );
