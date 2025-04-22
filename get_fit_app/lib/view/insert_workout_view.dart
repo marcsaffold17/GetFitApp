@@ -1,3 +1,5 @@
+// import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../presenter/insert_workout_presenter.dart';
@@ -36,17 +38,18 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   final _typeController = TextEditingController();
   String? _workoutType;
 
-  final List<Map<String, dynamic>> _workoutTypes = [
-    {'name': 'Run', 'icon': Icons.directions_run},
-    {'name': 'Bike', 'icon': Icons.directions_bike},
-    {'name': 'Hike', 'icon': Icons.hiking},
-  ];
+  String? selectedType;
+
+  final List<String> workoutTypes = ['Run', 'Bike', 'Hike'];
+
   File? _image;
+  String? _dropdownError;
+  String? _dateError;
 
   @override
   void initState() {
     super.initState();
-    _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());
   }
 
   @override
@@ -59,7 +62,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     );
 
     _formKey.currentState?.reset();
-    _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());
     _descriptionController.clear();
     _distanceController.clear();
     _timeController.clear();
@@ -67,6 +70,18 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     _typeController.clear();
     _image = null;
     setState(() {});
+  }
+
+  String? _validateDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please select a date';
+    }
+    try {
+      DateFormat('MM-dd-yyyy').parse(value);
+      return null; // Return null if valid
+    } catch (e) {
+      return 'Please enter a valid date (MM-DD-YYYY)';
+    }
   }
 
   Future<void> _pickImage() async {
@@ -100,6 +115,45 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     }
   }
 
+  Widget _buildRadioOption(String value) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment:
+            MainAxisAlignment.center, // Center contents inside the Row
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Radio<String>(
+            value: value,
+            groupValue: _workoutType,
+            onChanged: (String? newValue) {
+              setState(() {
+                _workoutType = newValue;
+                _typeController.text = newValue ?? '';
+              });
+            },
+            fillColor: WidgetStateProperty.resolveWith<Color>((
+              Set<WidgetState> states,
+            ) {
+              if (states.contains(WidgetState.selected)) {
+                return Color.fromARGB(210, 229, 221, 212);
+              }
+              return Color.fromARGB(255, 46, 105, 70);
+            }),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              color: Color.fromARGB(255, 20, 50, 31),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   String? FormattedDate;
   @override
   Widget build(BuildContext context) {
@@ -111,6 +165,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
         title: Text(
           'Add Workout',
           style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
         ),
       ),
       body: Form(
@@ -125,7 +185,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   child: Text(
                     'Title',
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 20, 50, 31),
                     ),
@@ -134,6 +194,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                 BigTextFormEditing(
                   titleController: _titleController,
                   maxLine: 1,
+                  hintText: 'Enter workout title',
                 ),
                 SizedBox(height: 16.0),
                 Align(
@@ -141,7 +202,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   child: Text(
                     'Description',
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 20, 50, 31),
                     ),
@@ -150,245 +211,209 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                 BigTextFormEditing(
                   titleController: _descriptionController,
                   maxLine: 3,
+                  hintText: 'Enter workout description',
                 ),
-                SizedBox(height: 16.0),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Type of Workout',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 20, 50, 31),
+                SizedBox(height: 15.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Type of Workout',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 20, 50, 31),
+                            ),
+                          ),
+                          SizedBox(height: 6),
+                          Container(
+                            width: 370,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(100, 46, 105, 70),
+                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Wrap(
+                                spacing: 20.0,
+                                runSpacing: 8.0,
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  _buildRadioOption('Run'),
+                                  _buildRadioOption('Hike'),
+                                  _buildRadioOption('Bike'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+                SizedBox(height: 15.0),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // SizedBox(height: 20),
+                      InputFunctions(
+                        timeController: _timeController,
+                        hintText: '0:00 Mins',
+                        text: 'Time',
+                      ),
+                      SizedBox(width: 15),
+                      InputFunctions(
+                        timeController: _distanceController,
+                        hintText: '0.0 Miles',
+                        text: 'Distance',
+                      ),
+                    ],
                   ),
                 ),
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            width: 100,
-                            height: 50,
-                            child: DropdownButtonFormField<String>(
-                              value: _workoutType,
-                              decoration: InputDecoration(
-                                fillColor: Color.fromARGB(255, 229, 221, 212),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 81, 163, 108),
-                                    width: 2.0,
+                SizedBox(height: 15),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 175,
+                                height: 50,
+                                child: TextFormField(
+                                  controller: _dayController,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    color:
+                                        _dateError == null
+                                            ? Color.fromARGB(255, 46, 105, 70)
+                                            : Colors.red,
                                   ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 81, 163, 108),
-                                    width: 2.0,
-                                  ),
-                                ),
-                              ),
-                              items:
-                                  _workoutTypes.map((workout) {
-                                    return DropdownMenuItem<String>(
-                                      value: workout['name'],
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            workout['icon'],
-                                            color: Color.fromARGB(
-                                              255,
-                                              46,
-                                              105,
-                                              70,
-                                            ),
-                                            size: 16,
-                                          ),
-                                          SizedBox(width: 6.0),
-                                          Text(
-                                            workout['name'],
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                        ],
+                                  decoration: InputDecoration(
+                                    fillColor: Color.fromARGB(
+                                      255,
+                                      229,
+                                      221,
+                                      212,
+                                    ),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(
+                                          255,
+                                          81,
+                                          163,
+                                          108,
+                                        ),
+                                        width: 2.0,
                                       ),
-                                    );
-                                  }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  _workoutType = newValue;
-                                  _typeController.text = newValue ?? '';
-                                });
-                              },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please select a workout type';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 26),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            final DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2100),
-                            );
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 46, 105, 70),
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    hintText: 'MM-DD-YYYY',
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        Icons.calendar_today_outlined,
+                                        color: Color.fromARGB(
+                                          255,
+                                          81,
+                                          163,
+                                          108,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        final DateTime? pickedDate =
+                                            await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(2100),
+                                            );
 
-                            if (pickedDate != null) {
-                              setState(() {
-                                _dayController.text = DateFormat(
-                                  'MM-dd-yyyy',
-                                ).format(pickedDate);
-                                FormattedDate = DateFormat(
-                                  'MM-dd-yyyy',
-                                ).format(pickedDate);
-                              });
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 229, 221, 212),
-                            minimumSize: const Size(110, 50),
-                          ),
-                          icon: Icon(
-                            Icons.calendar_today_outlined,
-                            color: Color.fromARGB(255, 20, 50, 31),
-                            size: 18,
-                          ),
-                          label: Text(
-                            'Date',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 20, 50, 31),
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Garet',
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 26),
-                    Column(
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: _pickImage,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 229, 221, 212),
-                            minimumSize: const Size(110, 50),
-                          ),
-                          icon: Icon(
-                            Icons.add_a_photo,
-                            color: Color.fromARGB(255, 81, 163, 108),
-                          ),
-                          label: Text(
-                            'Add\nPhoto',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Time',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 20, 50, 31),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.20,
-                              child: SmallTextFormField(
-                                timeController: _timeController,
-                                hintText: '0.0',
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'mins',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.black,
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            _dayController.text = DateFormat(
+                                              'MM-dd-yyyy',
+                                            ).format(pickedDate);
+                                            FormattedDate = DateFormat(
+                                              'MM-dd-yyyy',
+                                            ).format(pickedDate);
+                                            _dateError = _validateDate(
+                                              _dayController.text,
+                                            );
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Distance',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 20, 50, 31),
-                            ),
+                            ],
                           ),
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.20,
-                              child: SmallTextFormField(
-                                timeController: _distanceController,
-                                hintText: '0.0',
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'miles',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.black,
+                          SizedBox(width: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 175,
+                                height: 50,
+                                child: TextButton.icon(
+                                  onPressed: _pickImage,
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Color.fromARGB(
+                                      255,
+                                      229,
+                                      221,
+                                      212,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                  icon: Icon(
+                                    Icons.add_a_photo_outlined,
+                                    color: Color.fromARGB(255, 81, 163, 108),
+                                    size: 22.5,
+                                  ),
+                                  label: Text(
+                                    'Add Photo',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 46, 105, 70),
+                                      fontSize: 16,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                    Column(children: [SizedBox(height: 20)]),
-                  ],
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 if (_image != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -398,15 +423,37 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       child: Image.file(_image!),
                     ),
                   ),
-                SizedBox(height: 16.0),
+                if (_dateError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      _dateError!,
+                      style: TextStyle(color: Colors.red, fontSize: 14),
+                    ),
+                  ),
+                SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
+                    // First validate all fields
+                    setState(() {
+                      print(_dateError);
+                      _dropdownError =
+                          _workoutType == null
+                              ? 'Please select a workout type'
+                              : null;
+                      _dateError = _validateDate(_dayController.text);
+                    });
+
+                    // Only proceed if all validations pass
+                    if (_formKey.currentState!.validate() &&
+                        _dropdownError == null &&
+                        _dateError == null) {
                       widget.presenter.view = this;
                       double? distance =
                           double.tryParse(_distanceController.text) ?? 0.0;
                       int? time = int.tryParse(_timeController.text) ?? 0;
                       String? uploadedImageUrl;
+
                       if (_image != null) {
                         uploadedImageUrl = await uploadImage(_image!);
                         if (uploadedImageUrl == null) {
@@ -452,8 +499,8 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         type: _typeController.text,
                         image: uploadedImageUrl,
                       );
-                      print(parsedDate);
-                      if (globalUsername != null) {
+
+                      if (globalUsername != null && FormattedDate != null) {
                         widget.presenter.addWorkout(newWorkout, FormattedDate!);
                       } else {
                         print("Error: Username is null");
@@ -488,15 +535,63 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   }
 }
 
+class InputFunctions extends StatelessWidget {
+  const InputFunctions({
+    super.key,
+    required TextEditingController timeController,
+    required this.hintText,
+    required this.text,
+  }) : _timeController = timeController;
+
+  final TextEditingController _timeController;
+  final String hintText;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 5),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 20, 50, 31),
+            ),
+          ),
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: 175,
+              height: 50,
+              child: SmallTextFormField(
+                timeController: _timeController,
+                hintText: hintText,
+              ),
+            ),
+            // SizedBox(width: 5),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 class BigTextFormEditing extends StatelessWidget {
   const BigTextFormEditing({
     super.key,
     required TextEditingController titleController,
     required this.maxLine,
+    required this.hintText,
   }) : _titleController = titleController;
 
   final TextEditingController _titleController;
   final int maxLine;
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -507,7 +602,8 @@ class BigTextFormEditing extends StatelessWidget {
       decoration: InputDecoration(
         fillColor: Color.fromARGB(255, 229, 221, 212),
         filled: true,
-        hintText: 'Enter your workout title here!',
+        hintText: hintText,
+        hintStyle: TextStyle(color: Color.fromARGB(160, 46, 105, 70)),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
@@ -545,6 +641,7 @@ class SmallTextFormField extends StatelessWidget {
       cursorColor: Color.fromARGB(255, 81, 163, 108),
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: TextStyle(color: Color.fromARGB(160, 46, 105, 70)),
         fillColor: Color.fromARGB(255, 229, 221, 212),
         filled: true,
         border: OutlineInputBorder(
@@ -555,8 +652,9 @@ class SmallTextFormField extends StatelessWidget {
           ),
         ),
         focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 81, 163, 108),
+            color: Color.fromARGB(255, 46, 105, 70),
             width: 2.0,
           ),
         ),
