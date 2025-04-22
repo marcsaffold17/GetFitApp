@@ -77,7 +77,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
               title: Text(exercise.name, style: TextStyle(color: Color.fromARGB(255, 20, 50, 31)),),
               subtitle: Text(
                 "Difficulty: ${exercise.difficulty}\n"
-                "Equipment: ${exercise.equipment}",
+                    "Equipment: ${exercise.equipment}",
                 style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
               ),
               onTap: () => _showDetails(exercise),
