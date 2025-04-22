@@ -42,12 +42,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
 
   final List<String> workoutTypes = ['Run', 'Bike', 'Hike'];
 
-  final List<Map<String, dynamic>> _workoutTypes = [
-    {'name': 'Run', 'icon': Icons.directions_run},
-    {'name': 'Bike', 'icon': Icons.directions_bike},
-    {'name': 'Hike', 'icon': Icons.hiking},
-  ];
-
   File? _image;
   String? _dropdownError;
   String? _dateError;
@@ -55,7 +49,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   @override
   void initState() {
     super.initState();
-    _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());
   }
 
   @override
@@ -68,7 +62,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     );
 
     _formKey.currentState?.reset();
-    _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());
     _descriptionController.clear();
     _distanceController.clear();
     _timeController.clear();
@@ -139,9 +133,22 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                 _typeController.text = newValue ?? '';
               });
             },
-            activeColor: Color.fromARGB(255, 81, 163, 108),
+            fillColor: WidgetStateProperty.resolveWith<Color>((
+              Set<WidgetState> states,
+            ) {
+              if (states.contains(WidgetState.selected)) {
+                return Color.fromARGB(255, 81, 163, 108);
+              }
+              return Color.fromARGB(255, 20, 50, 31);
+            }),
           ),
-          Text(value, style: TextStyle(fontSize: 18)),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              color: Color.fromARGB(255, 46, 105, 70),
+            ),
+          ),
         ],
       ),
     );
@@ -187,6 +194,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                 BigTextFormEditing(
                   titleController: _titleController,
                   maxLine: 1,
+                  hintText: 'Enter workout title',
                 ),
                 SizedBox(height: 16.0),
                 Align(
@@ -203,6 +211,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                 BigTextFormEditing(
                   titleController: _descriptionController,
                   maxLine: 3,
+                  hintText: 'Enter workout description',
                 ),
                 SizedBox(height: 16.0),
                 Row(
@@ -227,7 +236,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             decoration: BoxDecoration(
                               color: Color.fromARGB(255, 229, 221, 212),
                               border: Border.all(color: Colors.grey, width: 1),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: Align(
                               alignment: Alignment.centerLeft,
@@ -256,7 +265,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       // SizedBox(height: 20),
                       InputFunctions(
                         timeController: _timeController,
-                        hintText: '0.0 Mins',
+                        hintText: '0:00 Mins',
                         text: 'Time',
                       ),
                       SizedBox(width: 10),
@@ -284,6 +293,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                 height: 50,
                                 child: TextFormField(
                                   controller: _dayController,
+                                  style: TextStyle(
+                                    color:
+                                        _dateError == null
+                                            ? Color.fromARGB(255, 46, 105, 70)
+                                            : Colors.red,
+                                  ),
                                   decoration: InputDecoration(
                                     fillColor: Color.fromARGB(
                                       255,
@@ -301,6 +316,13 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                           163,
                                           108,
                                         ),
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 46, 105, 70),
                                         width: 2.0,
                                       ),
                                     ),
@@ -334,7 +356,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                             ).format(pickedDate);
                                             _dateError = _validateDate(
                                               _dayController.text,
-                                            ); // Validate here
+                                            );
                                           });
                                         }
                                       },
@@ -563,10 +585,12 @@ class BigTextFormEditing extends StatelessWidget {
     super.key,
     required TextEditingController titleController,
     required this.maxLine,
+    required this.hintText,
   }) : _titleController = titleController;
 
   final TextEditingController _titleController;
   final int maxLine;
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -577,7 +601,8 @@ class BigTextFormEditing extends StatelessWidget {
       decoration: InputDecoration(
         fillColor: Color.fromARGB(255, 229, 221, 212),
         filled: true,
-        hintText: 'Enter your workout title here!',
+        hintText: hintText,
+        hintStyle: TextStyle(color: Color.fromARGB(160, 46, 105, 70)),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
@@ -615,6 +640,7 @@ class SmallTextFormField extends StatelessWidget {
       cursorColor: Color.fromARGB(255, 81, 163, 108),
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: TextStyle(color: Color.fromARGB(160, 46, 105, 70)),
         fillColor: Color.fromARGB(255, 229, 221, 212),
         filled: true,
         border: OutlineInputBorder(
@@ -625,8 +651,9 @@ class SmallTextFormField extends StatelessWidget {
           ),
         ),
         focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 81, 163, 108),
+            color: Color.fromARGB(255, 46, 105, 70),
             width: 2.0,
           ),
         ),
