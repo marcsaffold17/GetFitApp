@@ -3,7 +3,9 @@ import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
 
 class LeaderboardPage extends StatelessWidget {
-  const LeaderboardPage({super.key});
+  final Color chartColor;
+
+  const LeaderboardPage({super.key, required this.chartColor});
 
   List<ChartModel> generateDummyData(int multiplier) {
     List<String> names = ['Alice', 'Bob', 'Carol', 'Dave', 'you'];
@@ -34,23 +36,23 @@ class LeaderboardPage extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            BarChartWidget(data: generateDummyData(2)),
+            BarChartWidget(data: generateDummyData(2), color: chartColor),
 
             const SizedBox(height: 30),
             const Text(
-              'most achievements (weekly)',
+              'Most achievements (weekly)',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            BarChartWidget(data: generateDummyData(3)),
+            BarChartWidget(data: generateDummyData(3), color: chartColor),
 
             const SizedBox(height: 30),
             const Text(
-              'longest workout (daily)',
+              'Longest workout (daily)',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            BarChartWidget(data: generateDummyData(4)),
+            BarChartWidget(data: generateDummyData(4), color: chartColor),
           ],
         ),
       ),

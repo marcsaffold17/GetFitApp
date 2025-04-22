@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:get_fit_app/view/LeaderboardPage.dart';
-import '../view/login_view.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
 import '../model/chart_model.dart';
@@ -24,9 +24,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  late String UserName;
+  late String userName;
   List<ChartModel> _chartData = [];
   String _selectedChart = 'Line';
+  Color _chartColor = Colors.blue; // ✅ Add chartColor
 
   @override
   void initState() {
@@ -37,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _loadUsername() {
-    UserName = globalUsername ?? widget.username;
+    userName = globalUsername ?? widget.username;
   }
 
   void _loadChartData() {
@@ -53,6 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _selectedChart = prefs.getString('selectedChart') ?? 'Line';
+
+      final colorHex =
+          prefs.getString('chartColor') ?? 'FF2196F3'; // Default blue
+      _chartColor = Color(int.parse('0x$colorHex'));
     });
   }
 
@@ -75,8 +80,23 @@ class _MyHomePageState extends State<MyHomePage> {
           top: 20,
           left: 20,
           child: Text(
-            "Welcome Back, $UserName",
+            "Welcome Back, $userName",
             style: const TextStyle(fontSize: 30),
+          ),
+        ),
+        Positioned(
+          top: 60,
+          left: 20,
+          child: ElevatedButton(
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+              await _loadChartPreference(); // ✅ Always reload preferences including color
+              setState(() {}); // ✅ Rebuild the widget tree
+            },
+            child: const Text("Change Chart Settings"),
           ),
         ),
         Positioned(
@@ -85,25 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
           right: 20,
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
-            child: displayChart(_chartData, _selectedChart),
-          ),
-        ),
-        Positioned(
-          top: 60,
-          left: 20,
-          child: ElevatedButton(
-            onPressed: () async {
-              final updatedChart = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-              if (updatedChart != null) {
-                setState(() {
-                  _selectedChart = updatedChart;
-                });
-              }
-            },
-            child: const Text("Change Chart Settings"),
+            child: displayChart(_chartData, _selectedChart, _chartColor),
           ),
         ),
       ],
@@ -112,20 +114,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       _buildHomePage(),
       ExercisePage(),
       FavoritesPage(),
       WorkoutHistoryByDate(),
-      LeaderboardPage(),
+      LeaderboardPage(chartColor: _chartColor), // Pass color to LeaderboardPage
     ];
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 244, 238, 227),
+      backgroundColor: const Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
         title: const Text(""),
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
-        backgroundColor: Color.fromARGB(255, 20, 50, 31),
+        iconTheme: const IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+        ),
+        backgroundColor: const Color.fromARGB(255, 20, 50, 31),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
@@ -134,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfilePage(username: UserName),
+                    builder: (context) => ProfilePage(username: userName),
                   ),
                 );
               },
@@ -145,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -153,17 +157,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       drawer: const NavBar(),
-      body: _pages[_selectedIndex],
+      body: pages[_selectedIndex],
       bottomNavigationBar: GNav(
-        onTabChange: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        onTabChange: _onItemTapped,
         padding: const EdgeInsets.all(16),
         gap: 8,
-        backgroundColor: Color.fromARGB(255, 20, 50, 31),
-        tabBackgroundColor: Color.fromARGB(255, 49, 112, 75),
+        backgroundColor: const Color.fromARGB(255, 20, 50, 31),
+        tabBackgroundColor: const Color.fromARGB(255, 49, 112, 75),
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
@@ -208,9 +208,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Widget displayChart(List<ChartModel> chartData, String selectedChart) {
+Widget displayChart(
+  List<ChartModel> chartData,
+  String selectedChart,
+  Color chartColor,
+) {
   if (chartData.isEmpty) return const SizedBox.shrink();
   return selectedChart == 'Line'
-      ? LineChartWidget(key: const ValueKey('line'), data: chartData)
-      : BarChartWidget(key: const ValueKey('bar'), data: chartData);
+      ? LineChartWidget(
+        key: const ValueKey('line'),
+        data: chartData,
+        color: chartColor,
+      )
+      : BarChartWidget(
+        key: const ValueKey('bar'),
+        data: chartData,
+        color: chartColor,
+      );
 }

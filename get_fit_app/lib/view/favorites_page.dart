@@ -4,6 +4,8 @@ import '../model/exercies_model.dart';
 import '../presenter/global_presenter.dart';
 
 class FavoritesPage extends StatefulWidget {
+  const FavoritesPage({super.key});
+
   @override
   _FavoritesPageState createState() => _FavoritesPageState();
 }
@@ -11,7 +13,10 @@ class FavoritesPage extends StatefulWidget {
 class _FavoritesPageState extends State<FavoritesPage> {
   List<Exercise> _favoriteExercises = [];
 
-  final favoritesRef = FirebaseFirestore.instance.collection('Login-Info').doc(globalUsername).collection('favorites');
+  final favoritesRef = FirebaseFirestore.instance
+      .collection('Login-Info')
+      .doc(globalUsername)
+      .collection('favorites');
 
   @override
   void initState() {
@@ -23,18 +28,19 @@ class _FavoritesPageState extends State<FavoritesPage> {
     final snapshot = await favoritesRef.get();
 
     setState(() {
-      _favoriteExercises = snapshot.docs.map((doc) {
-        final data = doc.data();
-        return Exercise(
-          name: data['name'],
-          type: data['type'],
-          muscle: data['muscle'],
-          difficulty: data['difficulty'],
-          equipment: data['equipment'],
-          instructions: data['instructions'],
-          isFavorite: true,
-        );
-      }).toList();
+      _favoriteExercises =
+          snapshot.docs.map((doc) {
+            final data = doc.data();
+            return Exercise(
+              name: data['name'],
+              type: data['type'],
+              muscle: data['muscle'],
+              difficulty: data['difficulty'],
+              equipment: data['equipment'],
+              instructions: data['instructions'],
+              isFavorite: true,
+            );
+          }).toList();
     });
   }
 
@@ -42,42 +48,53 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
-      body: _favoriteExercises.isEmpty
-          ? Center(
-        child: Text(
-          "No favorites right now",
-          style: TextStyle(fontSize: 18, color: Colors.grey),
-        ),
-      )
-          : ListView.builder(
-        itemCount: _favoriteExercises.length,
-        itemBuilder: (context, index) {
-          final exercise = _favoriteExercises[index];
+      body:
+          _favoriteExercises.isEmpty
+              ? Center(
+                child: Text(
+                  "No favorites right now",
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+              )
+              : ListView.builder(
+                itemCount: _favoriteExercises.length,
+                itemBuilder: (context, index) {
+                  final exercise = _favoriteExercises[index];
 
-          return Card(
-            color: Color.fromARGB(255, 229, 221, 212),
-            margin: EdgeInsets.all(8),
-            child: ListTile(
-              title: Text(exercise.name, style: TextStyle(color: Color.fromARGB(255, 20, 50, 31)),),
-              subtitle: Text(
-                "Difficulty: ${exercise.difficulty}\n"
-                "Equipment: ${exercise.equipment}",
-                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-              ),
-              onTap: () => _showDetails(exercise),
-              trailing: IconButton(
-                icon: Icon(Icons.delete, color: Color.fromARGB(255, 81, 163, 108)),
-                onPressed: () async {
-                  await favoritesRef.doc(exercise.name).delete();
-                  setState(() {
-                    _favoriteExercises.removeAt(index);
-                  });
+                  return Card(
+                    color: Color.fromARGB(255, 229, 221, 212),
+                    margin: EdgeInsets.all(8),
+                    child: ListTile(
+                      title: Text(
+                        exercise.name,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 20, 50, 31),
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Difficulty: ${exercise.difficulty}\n"
+                        "Equipment: ${exercise.equipment}",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 46, 105, 70),
+                        ),
+                      ),
+                      onTap: () => _showDetails(exercise),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: Color.fromARGB(255, 81, 163, 108),
+                        ),
+                        onPressed: () async {
+                          await favoritesRef.doc(exercise.name).delete();
+                          setState(() {
+                            _favoriteExercises.removeAt(index);
+                          });
+                        },
+                      ),
+                    ),
+                  );
                 },
               ),
-            ),
-          );
-        },
-      ),
     );
   }
 
@@ -87,12 +104,21 @@ class _FavoritesPageState extends State<FavoritesPage> {
       builder: (context) {
         return AlertDialog(
           backgroundColor: Color.fromARGB(255, 244, 238, 227),
-          title: Text(exercise.name, style: TextStyle(color:  Color.fromARGB(255, 20, 50, 31)),),
-          content: Text(exercise.instructions, style: TextStyle(color: Color.fromARGB(255, 46, 105, 70))),
+          title: Text(
+            exercise.name,
+            style: TextStyle(color: Color.fromARGB(255, 20, 50, 31)),
+          ),
+          content: Text(
+            exercise.instructions,
+            style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("Close",style: TextStyle(color:  Color.fromARGB(255, 46, 105, 70)),),
+              child: Text(
+                "Close",
+                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+              ),
             ),
           ],
         );

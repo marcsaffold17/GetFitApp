@@ -1,3 +1,3 @@
-library my_app.globals;
+library;
 
 String? globalUsername;

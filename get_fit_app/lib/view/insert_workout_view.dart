@@ -10,7 +10,7 @@ abstract class WorkoutView {
 class WorkoutEntryScreen extends StatefulWidget {
   final WorkoutPresenter presenter;
 
-  WorkoutEntryScreen({required this.presenter});
+  const WorkoutEntryScreen({super.key, required this.presenter});
 
   @override
   _WorkoutEntryScreenState createState() => _WorkoutEntryScreenState();

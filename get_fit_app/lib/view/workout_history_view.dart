@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Screen that shows old workouts submitted to the "Workouts" collection in Firestore
 class WorkoutHistoryScreen extends StatelessWidget {
+  const WorkoutHistoryScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

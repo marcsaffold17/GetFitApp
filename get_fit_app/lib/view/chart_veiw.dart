@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../presenter/chart_presenter.dart';
 import '../model/chart_model.dart';
 
@@ -12,6 +13,7 @@ class ChartScreen extends StatefulWidget {
 
 class _ChartScreenState extends State<ChartScreen> implements ChartView {
   String _selectedChart = 'Line';
+  String _selectedColor = 'Blue';
   List<ChartModel> _chartData = [];
   late ChartPresenter _presenter;
 
@@ -19,7 +21,16 @@ class _ChartScreenState extends State<ChartScreen> implements ChartView {
   void initState() {
     super.initState();
     _presenter = ChartPresenter(this);
+    _loadPreferences();
     _presenter.loadData();
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _selectedChart = prefs.getString('selectedChart') ?? 'Line';
+      _selectedColor = prefs.getString('selectedColor') ?? 'Blue';
+    });
   }
 
   @override
@@ -27,6 +38,19 @@ class _ChartScreenState extends State<ChartScreen> implements ChartView {
     setState(() {
       _chartData = data;
     });
+  }
+
+  Color _getColor() {
+    switch (_selectedColor) {
+      case 'Red':
+        return Colors.red;
+      case 'Green':
+        return Colors.green;
+      case 'Purple':
+        return Colors.purple;
+      default:
+        return Colors.blue;
+    }
   }
 
   @override
@@ -37,26 +61,10 @@ class _ChartScreenState extends State<ChartScreen> implements ChartView {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            DropdownButton<String>(
-              value: _selectedChart,
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedChart = newValue!;
-                });
-              },
-              items:
-                  ['Line', 'Bar'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-            ),
-            const SizedBox(height: 20),
             if (_chartData.isNotEmpty)
               _selectedChart == 'Line'
-                  ? LineChartWidget(data: _chartData)
-                  : BarChartWidget(data: _chartData),
+                  ? LineChartWidget(data: _chartData, color: _getColor())
+                  : BarChartWidget(data: _chartData, color: _getColor()),
           ],
         ),
       ),
@@ -66,8 +74,9 @@ class _ChartScreenState extends State<ChartScreen> implements ChartView {
 
 class LineChartWidget extends StatefulWidget {
   final List<ChartModel> data;
+  final Color color;
 
-  const LineChartWidget({super.key, required this.data});
+  const LineChartWidget({super.key, required this.data, required this.color});
 
   @override
   State<LineChartWidget> createState() => _LineChartWidgetState();
@@ -140,7 +149,7 @@ class _LineChartWidgetState extends State<LineChartWidget>
                 LineChartBarData(
                   spots: _animatedSpots(),
                   isCurved: true,
-                  color: Colors.blue,
+                  color: widget.color,
                   barWidth: 4,
                   belowBarData: BarAreaData(show: false),
                   dotData: FlDotData(show: false),
@@ -158,8 +167,8 @@ class _LineChartWidgetState extends State<LineChartWidget>
                               : '';
                       return SideTitleWidget(
                         space: 8,
-                        child: Text(name, style: const TextStyle(fontSize: 10)),
                         meta: meta,
+                        child: Text(name, style: const TextStyle(fontSize: 10)),
                       );
                     },
                   ),
@@ -187,8 +196,9 @@ class _LineChartWidgetState extends State<LineChartWidget>
 
 class BarChartWidget extends StatefulWidget {
   final List<ChartModel> data;
+  final Color color;
 
-  const BarChartWidget({super.key, required this.data});
+  const BarChartWidget({super.key, required this.data, required this.color});
 
   @override
   State<BarChartWidget> createState() => _BarChartWidgetState();
@@ -225,9 +235,9 @@ class _BarChartWidgetState extends State<BarChartWidget>
         x: e.x,
         barRods: [
           BarChartRodData(
-            toY: e.y * _animation.value, // Animate bar height only
-            fromY: 0, // Always start from bottom
-            color: Colors.blue,
+            toY: e.y * _animation.value,
+            fromY: 0,
+            color: widget.color,
             width: 20,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(6),
@@ -261,8 +271,8 @@ class _BarChartWidgetState extends State<BarChartWidget>
                               : '';
                       return SideTitleWidget(
                         space: 8,
-                        child: Text(name, style: const TextStyle(fontSize: 10)),
                         meta: meta,
+                        child: Text(name, style: const TextStyle(fontSize: 10)),
                       );
                     },
                   ),
@@ -289,11 +299,4 @@ class _BarChartWidgetState extends State<BarChartWidget>
       ),
     );
   }
-}
-
-Widget displayChart(List<ChartModel> chartData, String selectedChart) {
-  if (chartData.isEmpty) return const SizedBox.shrink();
-  return selectedChart == 'Line'
-      ? LineChartWidget(data: chartData)
-      : BarChartWidget(data: chartData);
 }

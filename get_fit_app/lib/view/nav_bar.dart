@@ -46,7 +46,10 @@ class NavBar extends StatelessWidget {
                 ),
                 const Text(
                   'Menu',
-                  style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 244, 238, 227)),
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Color.fromARGB(255, 244, 238, 227),
+                  ),
                 ),
                 const SizedBox(height: 10),
               ],
@@ -56,8 +59,14 @@ class NavBar extends StatelessWidget {
             child: ListView(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.home_outlined, color: Color.fromARGB(255,46, 105, 70)),
-                  title: const Text("Home", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  leading: const Icon(
+                    Icons.home_outlined,
+                    color: Color.fromARGB(255, 46, 105, 70),
+                  ),
+                  title: const Text(
+                    "Home",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -83,14 +92,18 @@ class NavBar extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
-                  title: const Text("Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  leading: const Icon(
+                    Icons.settings,
+                    color: Color.fromARGB(255, 46, 105, 70),
+                  ),
+                  title: const Text(
+                    "Settings",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const SettingsPage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => SettingsPage()),
                     );
                   },
                 ),

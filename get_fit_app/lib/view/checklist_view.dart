@@ -3,6 +3,8 @@ import '../model/checklist_item.dart';
 import '../presenter/checklist_presenter.dart';
 
 class ChecklistPage extends StatefulWidget {
+  const ChecklistPage({super.key});
+
   @override
   _ChecklistPageState createState() => _ChecklistPageState();
 }
