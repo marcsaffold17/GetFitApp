@@ -1,3 +1,5 @@
+// import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../presenter/insert_workout_presenter.dart';
@@ -204,6 +206,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                 ),
                 SizedBox(height: 16.0),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
                       child: Column(
@@ -219,117 +222,76 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                           ),
                           SizedBox(height: 6),
                           Container(
+                            width: 370,
                             padding: EdgeInsets.all(7),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Color.fromARGB(255, 229, 221, 212),
                               border: Border.all(color: Colors.grey, width: 1),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Wrap(
-                              spacing: 20.0,
-                              runSpacing: 8.0,
-                              alignment: WrapAlignment.center,
-                              children: [
-                                _buildRadioOption('Run'),
-                                _buildRadioOption('Hike'),
-                                _buildRadioOption('Bike'),
-                              ],
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Wrap(
+                                spacing: 20.0,
+                                runSpacing: 8.0,
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  _buildRadioOption('Run'),
+                                  _buildRadioOption('Hike'),
+                                  _buildRadioOption('Bike'),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(width: 26),
                   ],
                 ),
-                // SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
                 Center(
                   child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment
-                            .center, // Centers the children within the Row
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 5),
-                            child: Text(
-                              'Time',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 20, 50, 31),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 150,
-                                height: 50,
-                                child: SmallTextFormField(
-                                  timeController: _timeController,
-                                  hintText: '0:00 Mins',
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                            ],
-                          ),
-                        ],
+                      // SizedBox(height: 20),
+                      InputFunctions(
+                        timeController: _timeController,
+                        hintText: '0.0 Mins',
+                        text: 'Time',
                       ),
                       SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 5),
-                            child: Text(
-                              '  Distance',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 20, 50, 31),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 200,
-                                height: 50,
-                                child: SmallTextFormField(
-                                  timeController: _distanceController,
-                                  hintText: '0.0 Miles',
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                            ],
-                          ),
-                        ],
+                      InputFunctions(
+                        timeController: _distanceController,
+                        hintText: '0.0 Miles',
+                        text: 'Distance',
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 6),
                               SizedBox(
-                                width: 200,
+                                width: 175,
+                                height: 50,
                                 child: TextFormField(
                                   controller: _dayController,
                                   decoration: InputDecoration(
-                                    // fillColor:,
-                                    // filled: true,
+                                    fillColor: Color.fromARGB(
+                                      255,
+                                      229,
+                                      221,
+                                      212,
+                                    ),
+                                    filled: true,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: BorderSide(
@@ -382,32 +344,40 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                               ),
                             ],
                           ),
-                          SizedBox(width: 15),
+                          SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                width: 150,
-                                height: 60,
-                                child: ElevatedButton.icon(
+                                width: 175,
+                                height: 50,
+                                child: TextButton.icon(
                                   onPressed: _pickImage,
-                                  style: ElevatedButton.styleFrom(
+                                  style: TextButton.styleFrom(
                                     backgroundColor: Color.fromARGB(
                                       255,
                                       229,
                                       221,
                                       212,
                                     ),
-                                    minimumSize: const Size(110, 50),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        width: 1,
+                                      ),
+                                    ),
                                   ),
                                   icon: Icon(
                                     Icons.add_a_photo_outlined,
                                     color: Color.fromARGB(255, 81, 163, 108),
+                                    size: 22.5,
                                   ),
                                   label: Text(
                                     'Add Photo',
                                     style: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      color: Color.fromARGB(255, 46, 105, 70),
+                                      fontSize: 16,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -420,6 +390,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ],
                   ),
                 ),
+                SizedBox(height: 20),
                 if (_image != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -438,7 +409,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ),
                 SizedBox(height: 20),
-                SizedBox(height: 16.0),
                 ElevatedButton.icon(
                   onPressed: () async {
                     // First validate all fields
@@ -538,6 +508,52 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
           ),
         ),
       ),
+    );
+  }
+}
+
+class InputFunctions extends StatelessWidget {
+  const InputFunctions({
+    super.key,
+    required TextEditingController timeController,
+    required this.hintText,
+    required this.text,
+  }) : _timeController = timeController;
+
+  final TextEditingController _timeController;
+  final String hintText;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 5),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 20, 50, 31),
+            ),
+          ),
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: 175,
+              height: 50,
+              child: SmallTextFormField(
+                timeController: _timeController,
+                hintText: hintText,
+              ),
+            ),
+            // SizedBox(width: 5),
+          ],
+        ),
+      ],
     );
   }
 }
