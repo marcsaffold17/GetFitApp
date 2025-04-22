@@ -107,19 +107,23 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         final repository =
                             WorkoutRepository(); // Make sure this exists and is imported
                         final presenter = WorkoutPresenter(repository);
 
-                        Navigator.push(
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder:
-                                (context) =>
-                                    WorkoutEntryScreen(presenter: presenter),
+                                (context) => WorkoutEntryScreen(
+                                  presenter: presenter,
+                                  onWorkoutUploaded:
+                                      fetchAndGroupWorkouts, // Pass the refresh function
+                                ),
                           ),
                         );
+                        fetchAndGroupWorkouts();
                       },
                       child: Text(
                         'Add Workout',

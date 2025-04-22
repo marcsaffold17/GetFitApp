@@ -19,8 +19,9 @@ abstract class WorkoutView {
 
 class WorkoutEntryScreen extends StatefulWidget {
   final WorkoutPresenter presenter;
+  final VoidCallback? onWorkoutUploaded;
 
-  WorkoutEntryScreen({required this.presenter});
+  WorkoutEntryScreen({required this.presenter, this.onWorkoutUploaded});
 
   @override
   _WorkoutEntryScreenState createState() => _WorkoutEntryScreenState();
@@ -502,6 +503,10 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
 
                       if (globalUsername != null && FormattedDate != null) {
                         widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                        if (widget.onWorkoutUploaded != null) {
+                          widget.onWorkoutUploaded!(); // Call the callback
+                        }
+                        Navigator.pop(context);
                       } else {
                         print("Error: Username is null");
                       }
