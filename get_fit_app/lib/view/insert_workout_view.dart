@@ -293,6 +293,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                 height: 50,
                                 child: TextFormField(
                                   controller: _dayController,
+                                  textAlign: TextAlign.right,
                                   style: TextStyle(
                                     color:
                                         _dateError == null
