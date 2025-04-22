@@ -1,12 +1,13 @@
+// import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../presenter/insert_workout_presenter.dart';
 import '../model/insert_workout_model.dart';
-import '../view/workout_history_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../presenter/global_presenter.dart';
 
 // Required when needing to authenticate user
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -18,8 +19,9 @@ abstract class WorkoutView {
 
 class WorkoutEntryScreen extends StatefulWidget {
   final WorkoutPresenter presenter;
+  final VoidCallback? onWorkoutUploaded;
 
-  WorkoutEntryScreen({required this.presenter});
+  WorkoutEntryScreen({required this.presenter, this.onWorkoutUploaded});
 
   @override
   _WorkoutEntryScreenState createState() => _WorkoutEntryScreenState();
@@ -37,40 +39,31 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   final _typeController = TextEditingController();
   String? _workoutType;
 
-  // List of workout types the user can choose from
-  // Constantly expanding based on demand
-  final List<Map<String, dynamic>> _workoutTypes = [
-    {'name': 'Run', 'icon': Icons.directions_run},
-    {'name': 'Bike', 'icon': Icons.directions_bike},
-    {'name': 'Hike', 'icon': Icons.hiking},
-    {'name': 'Weight Training', 'icon': Icons.fitness_center},
+  String? selectedType;
 
-    // hike, walk, roller ski, inline skate,
-    // Swim, canoe, kayak,
-    // alpine ski, nordic ski, ice skate, snowboard, snowshoe
-    // weight training, rock climb, yoga, boxing, kickboxing, crossfit,
-    // basketball, football, tennis, pickleball, volleyball, badminton, soccer, golf, table tennis,
-    // any other types of workouts I can think of
+  final List<String> workoutTypes = ['Run', 'Bike', 'Hike'];
 
-  ];
   File? _image;
+  String? _dropdownError;
+  String? _dateError;
 
   @override
   void initState() {
     super.initState();
-    _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());
   }
 
   @override
   void onWorkoutAdded() {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Workout Successfully Uploaded!'),
-      duration: Duration(seconds: 2),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Workout Successfully Uploaded!'),
+        duration: Duration(seconds: 2),
+      ),
+    );
 
-    // Removing user input text fields after workout is added
     _formKey.currentState?.reset();
-    _dayController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());
     _descriptionController.clear();
     _distanceController.clear();
     _timeController.clear();
@@ -80,10 +73,22 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     setState(() {});
   }
 
-  // User adds photo from camera roll to workout
+  String? _validateDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please select a date';
+    }
+    try {
+      DateFormat('MM-dd-yyyy').parse(value);
+      return null; // Return null if valid
+    } catch (e) {
+      return 'Please enter a valid date (MM-DD-YYYY)';
+    }
+  }
+
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(
-        source: ImageSource.gallery);
+      source: ImageSource.gallery,
+    );
 
     setState(() {
       if (pickedFile != null) {
@@ -96,8 +101,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
 
   Future<String?> uploadImage(File image) async {
     try {
-      final storageRef = FirebaseStorage.instance.ref().child
-        ('Workout-Images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      final storageRef = FirebaseStorage.instance.ref().child(
+        'Workout-Images/${DateTime.now().millisecondsSinceEpoch}.jpg',
+      );
       final UploadTask uploadTask = storageRef.putFile(image);
 
       final TaskSnapshot snapshot = await uploadTask.whenComplete(() {});
@@ -110,378 +116,647 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     }
   }
 
-  // Startup UI, should probably adjust later to fit
+  Widget _buildRadioOption(String value) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment:
+            MainAxisAlignment.center, // Center contents inside the Row
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Radio<String>(
+            value: value,
+            groupValue: _workoutType,
+            onChanged: (String? newValue) {
+              setState(() {
+                _workoutType = newValue;
+                _typeController.text = newValue ?? '';
+              });
+            },
+            fillColor: WidgetStateProperty.resolveWith<Color>((
+              Set<WidgetState> states,
+            ) {
+              if (states.contains(WidgetState.selected)) {
+                return Color.fromARGB(210, 244, 238, 227);
+              }
+              return Color.fromARGB(255, 81, 163, 108);
+            }),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              color: Color.fromARGB(255, 244, 238, 227),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String? FormattedDate;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
-        title: Text('Add Workout'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 81, 163, 108),
-              ),
-              child: Text(
-                'Debug Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-            ),
-            ListTile(
-              title: Text('View Old Workouts'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WorkoutHistoryScreen()),
-                );
-              },
-            ),
-          ],
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
+        backgroundColor: Color.fromARGB(255, 20, 50, 31),
+        title: Text(
+          'Add Workout',
+          style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
         ),
       ),
-
       body: Form(
         key: _formKey,
         child: Padding(
           padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Title',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              TextFormField(
-                controller: _titleController,
-                textAlign: TextAlign.center,
-                cursorColor: Color.fromARGB(255, 81, 163, 108),
-                decoration: InputDecoration(
-                  fillColor: Color.fromARGB(255, 255, 255, 255),
-                  filled: true,
-                  hintText: 'Enter your workout title here!',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 81, 163, 108),
-                      width: 2.0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 81, 163, 108),
-                      width: 2.0,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Title',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 20, 50, 31),
                     ),
                   ),
                 ),
-                keyboardType: TextInputType.text,
-              ),
-              SizedBox(height: 16.0),
-
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Description',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                BigTextFormEditing(
+                  titleController: _titleController,
+                  maxLine: 1,
+                  hintText: 'Enter workout title',
                 ),
-              ),
-
-              TextFormField(
-                controller: _descriptionController,
-                textAlign: TextAlign.center,
-                cursorColor: Color.fromARGB(255, 81, 163, 108),
-                decoration: InputDecoration(
-                    fillColor: Color.fromARGB(255, 255, 255, 255),
-                    filled: true,
-                    hintText: 'Tell us about your workout! How did it go?',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 81, 163, 108),
-                        width: 2.0,
-                      ),
-                    ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 81, 163, 108),
-                      width: 2.0,
+                SizedBox(height: 16.0),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Description',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 20, 50, 31),
                     ),
                   ),
                 ),
-                maxLines: 3,
-              ),
-              SizedBox(height: 16.0),
-
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Type of Workout',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                BigTextFormEditing(
+                  titleController: _descriptionController,
+                  maxLine: 3,
+                  hintText: 'Enter workout description',
                 ),
-              ),
-
-              DropdownButtonFormField<String>(
-                value: _workoutType,
-                decoration: InputDecoration(
-                  fillColor: Color.fromARGB(255, 255, 255, 255),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 81, 163, 108),
-                      width: 2.0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 81, 163, 108),
-                      width: 2.0,
-                    ),
-                  )
-                ),
-                items: _workoutTypes.map((workout) {
-                  return DropdownMenuItem<String>(
-                    value: workout['name'],
-                    child: Row(
-                      children: [
-                        Icon(workout['icon'], color: Color.fromARGB(255, 81, 163, 108)),
-                        SizedBox(width: 8.0),
-                        Text(workout['name']),
-                      ],
-                    ),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _workoutType = newValue;
-                    _typeController.text = newValue ?? '';
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select a workout type';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.0),
-
-              Row(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Time (Minutes)',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 70.0),
-
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Distance (Miles)',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              Row(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.20,
-                    child: TextFormField(
-                      controller: _timeController,
-                      textAlign: TextAlign.center,
-                      cursorColor: Color.fromARGB(255, 81, 163, 108),
-                      decoration: InputDecoration(
-                          hintText: '0.0',
-                          fillColor: Color.fromARGB(255, 255, 255, 255),
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 81, 163, 108),
-                              width: 2.0,
+                SizedBox(height: 15.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Type of Workout',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 20, 50, 31),
                             ),
                           ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 81, 163, 108),
-                            width: 2.0,
+                          SizedBox(height: 6),
+                          Container(
+                            width: 370,
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 46, 105, 70),
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Wrap(
+                                spacing: 20.0,
+                                runSpacing: 8.0,
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  _buildRadioOption('Run'),
+                                  _buildRadioOption('Hike'),
+                                  _buildRadioOption('Bike'),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                      keyboardType: TextInputType.number,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15.0),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // SizedBox(height: 20),
+                      InputFunctions(
+                        timeController: _timeController,
+                        hintText: '0:00 Mins',
+                        text: 'Time',
+                      ),
+                      SizedBox(width: 15),
+                      InputFunctions(
+                        timeController: _distanceController,
+                        hintText: '0.0 Miles',
+                        text: 'Distance',
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 175,
+                                height: 50,
+                                child: TextFormField(
+                                  controller: _dayController,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    color:
+                                        _dateError == null
+                                            ? Color.fromARGB(255, 46, 105, 70)
+                                            : Colors.red,
+                                  ),
+                                  decoration: InputDecoration(
+                                    fillColor: Color.fromARGB(
+                                      255,
+                                      229,
+                                      221,
+                                      212,
+                                    ),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(
+                                          255,
+                                          81,
+                                          163,
+                                          108,
+                                        ),
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 46, 105, 70),
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    hintText: 'MM-DD-YYYY',
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        Icons.calendar_today_outlined,
+                                        color: Color.fromARGB(
+                                          255,
+                                          81,
+                                          163,
+                                          108,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        final DateTime? pickedDate =
+                                            await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(2100),
+                                            );
+
+                                        if (pickedDate != null) {
+                                          setState(() {
+                                            _dayController.text = DateFormat(
+                                              'MM-dd-yyyy',
+                                            ).format(pickedDate);
+                                            FormattedDate = DateFormat(
+                                              'MM-dd-yyyy',
+                                            ).format(pickedDate);
+                                            _dateError = _validateDate(
+                                              _dayController.text,
+                                            );
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 175,
+                                height: 50,
+                                child: TextButton.icon(
+                                  onPressed: _pickImage,
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Color.fromARGB(
+                                      255,
+                                      229,
+                                      221,
+                                      212,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                  icon: Icon(
+                                    Icons.add_a_photo_outlined,
+                                    color: Color.fromARGB(255, 81, 163, 108),
+                                    size: 22.5,
+                                  ),
+                                  label: Text(
+                                    'Add Photo',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 46, 105, 70),
+                                      fontSize: 16,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                if (_image != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SizedBox(
+                      width: 175.0,
+                      height: 175.0,
+                      child: Image.file(_image!),
                     ),
                   ),
-
-                  Align(
-                    alignment: Alignment.centerLeft,
+                if (_dateError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                      'mins',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                      ),
+                      _dateError!,
+                      style: TextStyle(color: Colors.red, fontSize: 14),
                     ),
                   ),
-                  SizedBox(width: 65.0),
+                SizedBox(height: 20),
+                // ElevatedButton.icon(
+                //   onPressed: () async {
+                //     // First validate all fields
+                //     setState(() {
+                //       print(_dateError);
+                //       _dropdownError =
+                //           _workoutType == null
+                //               ? 'Please select a workout type'
+                //               : null;
+                //       _dateError = _validateDate(_dayController.text);
+                //     });
 
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.20,
-                    child: TextFormField(
-                      controller: _distanceController,
-                      textAlign: TextAlign.center,
-                      cursorColor: Color.fromARGB(255, 81, 163, 108),
-                      decoration: InputDecoration(
-                          hintText: '0.0',
-                          fillColor: Color.fromARGB(255, 255, 255, 255),
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 81, 163, 108),
-                              width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 81, 163, 108),
-                            width: 2.0,
-                          ),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
+                //     // Only proceed if all validations pass
+                //     if (_formKey.currentState!.validate() &&
+                //         _dropdownError == null &&
+                //         _dateError == null) {
+                //       widget.presenter.view = this;
+                //       double? distance =
+                //           double.tryParse(_distanceController.text) ?? 0.0;
+                //       int? time = int.tryParse(_timeController.text) ?? 0;
+                //       String? uploadedImageUrl;
 
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'mi',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
+                //       if (_image != null) {
+                //         uploadedImageUrl = await uploadImage(_image!);
+                //         if (uploadedImageUrl == null) {
+                //           ScaffoldMessenger.of(context).showSnackBar(
+                //             SnackBar(
+                //               content: Text(
+                //                 'Photo upload failed, uploading without photo',
+                //               ),
+                //               duration: Duration(seconds: 3),
+                //             ),
+                //           );
+                //           final newWorkout = Workout(
+                //             day: Timestamp.fromDate(
+                //               DateTime.parse(_dayController.text),
+                //             ),
+                //             description: _descriptionController.text,
+                //             distance: distance,
+                //             time: time,
+                //             title: _titleController.text,
+                //             type: _typeController.text,
+                //             image: null,
+                //           );
+                //           if (globalUsername != null) {
+                //             widget.presenter.addWorkout(
+                //               newWorkout,
+                //               FormattedDate!,
+                //             );
+                //           } else {
+                //             print("Error: Username is null");
+                //           }
+                //           return;
+                //         }
+                //       }
+                //       DateTime parsedDate = DateFormat(
+                //         'MM-dd-yyyy',
+                //       ).parse(_dayController.text);
+                //       final newWorkout = Workout(
+                //         day: Timestamp.fromDate(parsedDate),
+                //         description: _descriptionController.text,
+                //         distance: distance,
+                //         time: time,
+                //         title: _titleController.text,
+                //         type: _typeController.text,
+                //         image: uploadedImageUrl,
+                //       );
 
-                ],
-              ),
+                //       if (globalUsername != null && FormattedDate != null) {
+                //         widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                //         if (widget.onWorkoutUploaded != null) {
+                //           widget.onWorkoutUploaded!(); // Call the callback
+                //         }
+                //         Navigator.pop(context);
+                //       } else {
+                //         print("Error: Username is null");
+                //       }
+                //     }
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Color.fromARGB(255, 38, 92, 60),
+                //     padding: EdgeInsets.symmetric(
+                //       horizontal: 75.0,
+                //       vertical: 20.0,
+                //     ),
+                //     textStyle: TextStyle(fontSize: 20.0),
+                //   ),
+                //   icon: Icon(
+                //     Icons.upload,
+                //     color: Color.fromARGB(255, 244, 238, 227),
+                //     size: 25,
+                //   ),
 
-              SizedBox(height: 16.0),
-
-              ElevatedButton.icon(
-                onPressed: _pickImage,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 255, 255, 255),
-                ),
-                icon: Icon(Icons.add_a_photo, color: Color.fromARGB(255, 81, 163, 108)),
-                label: Text('Add Photo', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
-              ),
-              if (_image != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: SizedBox(
-                    width: 175.0,
-                    height: 175.0,
-                    child: Image.file(_image!),
-                  ),
-                ),
-
-              SizedBox(height: 16.0),
-              Spacer(),
-              ElevatedButton.icon(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    widget.presenter.view = this;
-                    double? distance = double.tryParse(
-                        _distanceController.text) ?? 0.0;
-                    int? time = int.tryParse(_timeController.text) ?? 0;
-
-                    String? uploadedImageUrl;
-                    if (_image != null) {
-                      uploadedImageUrl = await uploadImage(_image!);
-                      if (uploadedImageUrl == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Photo upload failed, uploading without photo'),
-                              duration: Duration(seconds: 3)),
-                        );
-
-                        // Workout without image
-                        final newWorkout = Workout(
-                          day: Timestamp.fromDate(DateTime.parse(_dayController.text)),
-                          description: _descriptionController.text,
-                          distance: distance,
-                          time: time,
-                          title: _titleController.text,
-                          type: _typeController.text,
-                          image: null,
-                        );
-                        widget.presenter.addWorkout(newWorkout);
-                        return;
-                      }
-                    }
-
-                    // Workout with image
-                    final newWorkout = Workout(
-                      day: Timestamp.fromDate(
-                        DateTime.parse(_dayController.text),
-                      ),
-                      description: _descriptionController.text,
-                      distance: distance,
-                      time: time,
-                      title: _titleController.text,
-                      type: _typeController.text,
-                      image: uploadedImageUrl,
-                    );
-                    widget.presenter.addWorkout(newWorkout);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 255, 255, 255),
-                  padding: EdgeInsets.symmetric(horizontal: 75.0, vertical: 25.0),
-                  textStyle: TextStyle(fontSize: 20.0),
-                ),
-                icon: Icon(Icons.upload, color: Color.fromARGB(255, 81, 163, 108)),
-
-                label: Text('Upload Workout', style: TextStyle(color: Color.fromARGB(
-                    255, 0, 0, 0))),
-              ),
-            ],
+                //   label: Text(
+                //     'Upload Workout',
+                //     style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+        color: Color.fromARGB(255, 244, 238, 227),
+        padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
+        child: ElevatedButton.icon(
+          onPressed: () async {
+            setState(() {
+              print(_dateError);
+              _dropdownError =
+                  _workoutType == null ? 'Please select a workout type' : null;
+              _dateError = _validateDate(_dayController.text);
+            });
+
+            if (_formKey.currentState!.validate() &&
+                _dropdownError == null &&
+                _dateError == null) {
+              widget.presenter.view = this;
+              double? distance =
+                  double.tryParse(_distanceController.text) ?? 0.0;
+              int? time = int.tryParse(_timeController.text) ?? 0;
+              String? uploadedImageUrl;
+
+              if (_image != null) {
+                uploadedImageUrl = await uploadImage(_image!);
+                if (uploadedImageUrl == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Photo upload failed, uploading without photo',
+                      ),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                  final newWorkout = Workout(
+                    day: Timestamp.fromDate(
+                      DateTime.parse(_dayController.text),
+                    ),
+                    description: _descriptionController.text,
+                    distance: distance,
+                    time: time,
+                    title: _titleController.text,
+                    type: _typeController.text,
+                    image: null,
+                  );
+                  if (globalUsername != null) {
+                    widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                  } else {
+                    print("Error: Username is null");
+                  }
+                  return;
+                }
+              }
+
+              DateTime parsedDate = DateFormat(
+                'MM-dd-yyyy',
+              ).parse(_dayController.text);
+              final newWorkout = Workout(
+                day: Timestamp.fromDate(parsedDate),
+                description: _descriptionController.text,
+                distance: distance,
+                time: time,
+                title: _titleController.text,
+                type: _typeController.text,
+                image: uploadedImageUrl,
+              );
+
+              if (globalUsername != null && FormattedDate != null) {
+                widget.presenter.addWorkout(newWorkout, FormattedDate!);
+                if (widget.onWorkoutUploaded != null) {
+                  widget.onWorkoutUploaded!();
+                }
+                Navigator.pop(context);
+              } else {
+                print("Error: Username is null");
+              }
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 38, 92, 60),
+            padding: EdgeInsets.symmetric(horizontal: 75.0, vertical: 20.0),
+            textStyle: TextStyle(fontSize: 20.0),
+          ),
+          icon: Icon(
+            Icons.upload,
+            color: Color.fromARGB(255, 244, 238, 227),
+            size: 25,
+          ),
+          label: Text(
+            'Upload Workout',
+            style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class InputFunctions extends StatelessWidget {
+  const InputFunctions({
+    super.key,
+    required TextEditingController timeController,
+    required this.hintText,
+    required this.text,
+  }) : _timeController = timeController;
+
+  final TextEditingController _timeController;
+  final String hintText;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 5),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 20, 50, 31),
+            ),
+          ),
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: 175,
+              height: 50,
+              child: SmallTextFormField(
+                timeController: _timeController,
+                hintText: hintText,
+              ),
+            ),
+            // SizedBox(width: 5),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class BigTextFormEditing extends StatelessWidget {
+  const BigTextFormEditing({
+    super.key,
+    required TextEditingController titleController,
+    required this.maxLine,
+    required this.hintText,
+  }) : _titleController = titleController;
+
+  final TextEditingController _titleController;
+  final int maxLine;
+  final String hintText;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _titleController,
+      // textAlign: TextAlign.center,
+      cursorColor: Color.fromARGB(255, 81, 163, 108),
+      decoration: InputDecoration(
+        fillColor: Color.fromARGB(255, 229, 221, 212),
+        filled: true,
+        hintText: hintText,
+        hintStyle: TextStyle(color: Color.fromARGB(160, 46, 105, 70)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 81, 163, 108),
+            width: 2.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 81, 163, 108),
+            width: 2.0,
+          ),
+        ),
+      ),
+      maxLines: maxLine,
+      keyboardType: TextInputType.text,
+    );
+  }
+}
+
+class SmallTextFormField extends StatelessWidget {
+  const SmallTextFormField({
+    super.key,
+    required TextEditingController timeController,
+    required this.hintText,
+  }) : _timeController = timeController;
+
+  final TextEditingController _timeController;
+  final String hintText;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _timeController,
+      textAlign: TextAlign.center,
+      cursorColor: Color.fromARGB(255, 81, 163, 108),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(color: Color.fromARGB(160, 46, 105, 70)),
+        fillColor: Color.fromARGB(255, 229, 221, 212),
+        filled: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 81, 163, 108),
+            width: 2.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 46, 105, 70),
+            width: 2.0,
+          ),
+        ),
+      ),
+      keyboardType: TextInputType.number,
     );
   }
 }
