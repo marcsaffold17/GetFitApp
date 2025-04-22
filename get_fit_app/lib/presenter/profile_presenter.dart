@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'profile_model.dart';
-import 'profile_page.dart';
+import '../model/profile_model.dart';
+import '../view/profile_page.dart';
 
 class ProfilePresenter {
   final ProfileModel model;
@@ -35,7 +35,7 @@ class ProfilePresenter {
       final url = await model.uploadProfileImage(image);
       view.showProfileImage(url);
     } catch (e) {
-      view.showError('Image upload failed');
+      view.showError('Image upload failed: $e');
     } finally {
       view.showLoading(false);
     }
