@@ -137,16 +137,16 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
               Set<WidgetState> states,
             ) {
               if (states.contains(WidgetState.selected)) {
-                return Color.fromARGB(255, 81, 163, 108);
+                return Color.fromARGB(210, 229, 221, 212);
               }
-              return Color.fromARGB(255, 20, 50, 31);
+              return Color.fromARGB(255, 46, 105, 70);
             }),
           ),
           Text(
             value,
             style: TextStyle(
               fontSize: 18,
-              color: Color.fromARGB(255, 46, 105, 70),
+              color: Color.fromARGB(255, 20, 50, 31),
             ),
           ),
         ],
@@ -213,7 +213,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   maxLine: 3,
                   hintText: 'Enter workout description',
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 15.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -234,7 +234,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                             width: 370,
                             padding: EdgeInsets.all(7),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 229, 221, 212),
+                              color: Color.fromARGB(100, 46, 105, 70),
                               border: Border.all(color: Colors.grey, width: 1),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -257,7 +257,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 15.0),
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -268,7 +268,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         hintText: '0:00 Mins',
                         text: 'Time',
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 15),
                       InputFunctions(
                         timeController: _distanceController,
                         hintText: '0.0 Miles',
@@ -367,7 +367,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                               ),
                             ],
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: 15),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
