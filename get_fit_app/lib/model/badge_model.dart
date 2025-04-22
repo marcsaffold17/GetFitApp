@@ -34,17 +34,19 @@ class BadgeRepository {
 
   Future<List<Badge>> fetchBadges() async {
     final snapshot = await _firestore
-        .collection('Login_Info')
+        .collection('Login-Info')
         .doc(userId)
         .collection('badges')
         .get();
+
+    print("Fetched ${snapshot.docs.length} badge documents");
 
     return snapshot.docs.map((doc) => Badge.fromFirestore(doc.data(), doc.id)).toList();
   }
 
   Future<void> unlockBadge(String badgeId) async {
     final badgeRef = _firestore
-        .collection('Login_Info')
+        .collection('Login-Info')
         .doc(userId)
         .collection('badges')
         .doc(badgeId);
@@ -54,7 +56,7 @@ class BadgeRepository {
 
   Future<void> markBadgeUnlocked(String badgeId) async {
     final badgeRef = FirebaseFirestore.instance
-        .collection('Login_Info')
+        .collection('Login-Info')
         .doc(userId)
         .collection('badges')
         .doc(badgeId);

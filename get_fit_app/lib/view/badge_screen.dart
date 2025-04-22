@@ -18,11 +18,13 @@ class BadgeScreen extends StatefulWidget {
 class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
   late BadgePresenter presenter;
   List<badge_model.Badge> _badges = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    const String userId = "Daniel"; // Make sure this matches your Firestore
+    // 🔐 Use the actual user ID from auth, for now we hardcode
+    String userId = "Daniel"; // match your Firestore doc ID under Login_Info
     final repository = badge_model.BadgeRepository(userId: userId);
     presenter = BadgePresenter(repository: repository, view: this);
     presenter.loadBadges();
@@ -31,17 +33,11 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 🧠 AppBar with styling
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color.fromARGB(255, 244, 238, 227),
-        ),
-        title: const Text(
-          'My Badges',
-          style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
-        ),
+        title: const Text('My Badges', style: TextStyle(color: Color(0xFFF4EEE3))),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(233, 20, 50, 31),
+        iconTheme: const IconThemeData(color: Color(0xFFF4EEE3)),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
@@ -49,37 +45,31 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
           ),
         ),
       ),
-
-      // 🖼️ Background with optional image or color
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFFE7EFE9),
-          // Uncomment below to use a background image instead
-          // image: DecorationImage(
-          //   image: AssetImage('assets/images/badge_bg.jpg'),
-          //   fit: BoxFit.cover,
-          // ),
-        ),
-        child: _badges.isEmpty
+      backgroundColor: const Color.fromARGB(255, 239, 243, 239),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _isLoading
             ? const Center(child: CircularProgressIndicator())
+            : _badges.isEmpty
+            ? const Center(child: Text("No badges found."))
             : BadgeGrid(badges: _badges, presenter: presenter),
       ),
     );
   }
 
-  // MVP method: called when presenter loads badges
   @override
   void displayBadges(List<badge_model.Badge> badges) {
+    print("Display called with ${badges.length} badges");
     setState(() {
       _badges = badges;
+      _isLoading = false;
     });
   }
 
-  // MVP method: shows a toast/snackbar when a badge is unlocked
   @override
   void showBadgeUnlocked(String badgeId) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Badge $badgeId unlocked!')),
+      SnackBar(content: Text('🎉 Badge "$badgeId" unlocked!')),
     );
   }
 }
