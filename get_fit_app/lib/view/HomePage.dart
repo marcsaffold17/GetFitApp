@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../view/Workout-Plan.dart';
+import '../view/WorkoutHistory.dart';
 import '../view/profile_page.dart';
 import '../view/checklist_view.dart';
 import '../view/LeaderboardPage.dart';
@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 300,
+                  width: 379.4,
                   height: 70,
                   child: ElevatedButton.icon(
                     icon: Icon(
@@ -149,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 300,
+                  width: 379.4,
                   height: 70,
                   child: ElevatedButton.icon(
                     icon: Icon(

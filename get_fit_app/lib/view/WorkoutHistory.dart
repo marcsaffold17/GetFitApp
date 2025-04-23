@@ -59,9 +59,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
           isLoading
               ? Center(child: CircularProgressIndicator())
               : ListView(
-                padding: EdgeInsets.only(
-                  bottom: 24,
-                ), // to give space for the button
+                padding: EdgeInsets.only(bottom: 24),
                 children: [
                   ...sortedEntries.map((entry) {
                     final date = entry.key;
@@ -69,7 +67,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                     return ExpansionTile(
                       title: Container(
                         padding: EdgeInsets.symmetric(
-                          vertical: 8,
+                          vertical: 16,
                           horizontal: 12,
                         ),
                         decoration: BoxDecoration(
@@ -79,7 +77,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                         child: Text(
                           date,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 244, 238, 227),
                           ),
