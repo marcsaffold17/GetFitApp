@@ -95,8 +95,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Welcome Back,", style: const TextStyle(fontSize: 30)),
-            Text("$UserName", style: const TextStyle(fontSize: 27)),
+            Text(
+              "Welcome Back,",
+              style: const TextStyle(fontSize: 30, fontFamily: 'MontserratB'),
+            ),
+            Text(
+              "$UserName",
+              style: const TextStyle(fontSize: 27, fontFamily: 'MontserratB'),
+            ),
             Container(
               padding: const EdgeInsets.all(15),
               height: 300,
@@ -137,6 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       "TODO List",
                       style: TextStyle(
                         color: Color.fromARGB(255, 244, 238, 227),
+                        fontFamily: 'MontserratB',
                         fontSize: 20,
                       ),
                     ),
@@ -177,6 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       "LeaderBoard",
                       style: TextStyle(
                         color: Color.fromARGB(255, 244, 238, 227),
+                        fontFamily: 'MontserratB',
                         fontSize: 20,
                       ),
                       textAlign: TextAlign.center,

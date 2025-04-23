@@ -51,7 +51,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
               ? Center(
                 child: Text(
                   "No favorites right now",
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               )
               : ListView.builder(
@@ -67,6 +71,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         exercise.name,
                         style: TextStyle(
                           color: Color.fromARGB(255, 20, 50, 31),
+                          fontFamily: 'MontserratB',
                         ),
                       ),
                       subtitle: Text(
@@ -74,6 +79,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         "Equipment: ${exercise.equipment}",
                         style: TextStyle(
                           color: Color.fromARGB(255, 46, 105, 70),
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       onTap: () => _showDetails(exercise),
@@ -104,18 +111,28 @@ class _FavoritesPageState extends State<FavoritesPage> {
           backgroundColor: Color.fromARGB(255, 244, 238, 227),
           title: Text(
             exercise.name,
-            style: TextStyle(color: Color.fromARGB(255, 20, 50, 31)),
+            style: TextStyle(
+              color: Color.fromARGB(255, 20, 50, 31),
+              fontFamily: 'MontserratB',
+            ),
           ),
           content: Text(
             exercise.instructions,
-            style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+            style: TextStyle(
+              color: Color.fromARGB(255, 46, 105, 70),
+              fontFamily: 'RubikL',
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
                 "Close",
-                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 46, 105, 70),
+                  fontFamily: 'RubikL',
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
