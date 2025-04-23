@@ -53,44 +53,50 @@ class NavBar extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     color: Color.fromARGB(255, 244, 238, 227),
+                    fontFamily: 'MontserratB',
                   ),
                 ),
-                const SizedBox(height: 10),
+                //  const SizedBox(height: 10),
               ],
             ),
           ),
           Expanded(
             child: ListView(
+              // padding: EdgeInsets.zero,
               children: [
-                ListTile(
-                  leading: const Icon(
-                    Icons.home_outlined,
-                    color: Color.fromARGB(255, 46, 105, 70),
+                Container(
+                  color: Color.fromARGB(255, 229, 221, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.home_outlined,
+                      color: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    title: Text("Home", style: NavTextStyle()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  const MyHomePage(title: 'Home', username: ""),
+                        ),
+                      );
+                    },
                   ),
-                  title: const Text(
-                    "Home",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) =>
-                                const MyHomePage(title: 'Home', username: ""),
-                      ),
-                    );
-                  },
                 ),
+                // Divider(
+                //   color: Color.fromARGB(255, 46, 105, 70),
+                //   thickness: 2,
+                //   height: 0,
+                //   indent: 16,
+                //   endIndent: 16,
+                // ),
                 ListTile(
                   leading: const Icon(
                     Icons.checklist_rounded,
                     color: Color.fromARGB(255, 46, 105, 70),
                   ),
-                  title: const Text(
-                    "Checklist",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                  ),
+                  title: Text("Checklist", style: NavTextStyle()),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -98,35 +104,44 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.auto_graph_outlined,
-                    color: Color.fromARGB(255, 46, 105, 70),
+                // Divider(
+                //   color: Color.fromARGB(255, 46, 105, 70),
+                //   thickness: 2,
+                //   height: 0,
+                //   indent: 16,
+                //   endIndent: 16,
+                // ),
+                Container(
+                  color: Color.fromARGB(255, 229, 221, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.auto_graph_outlined,
+                      color: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    title: Text("LeaderBoard", style: NavTextStyle()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LeaderboardPage(),
+                        ),
+                      );
+                    },
                   ),
-                  title: const Text(
-                    "LeaderBoard",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LeaderboardPage(),
-                      ),
-                    );
-                  },
                 ),
-
-                // ✅ Updated Badge ListTile to pass in the presenter
+                // Divider(
+                //   color: Color.fromARGB(255, 46, 105, 70),
+                //   thickness: 2,
+                //   height: 0,
+                //   indent: 16,
+                //   endIndent: 16,
+                // ),
                 ListTile(
                   leading: const Icon(
                     Icons.badge_outlined,
                     color: Color.fromARGB(255, 46, 105, 70),
                   ),
-                  title: const Text(
-                    "Badges",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                  ),
+                  title: Text("Badges", style: NavTextStyle()),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -136,42 +151,63 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
-
-                ListTile(
-                  leading: const Icon(
-                    Icons.settings,
-                    color: Color.fromARGB(255, 46, 105, 70),
+                // Divider(
+                //   color: Color.fromARGB(255, 46, 105, 70),
+                //   thickness: 2,
+                //   height: 0,
+                //   indent: 16,
+                //   endIndent: 16,
+                // ),
+                Container(
+                  color: Color.fromARGB(255, 229, 221, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.settings,
+                      color: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    title: Text("Settings", style: NavTextStyle()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsPage(),
+                        ),
+                      );
+                    },
                   ),
-                  title: const Text(
-                    "Settings",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SettingsPage(),
-                      ),
-                    );
-                  },
                 ),
               ],
             ),
           ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(
-              Icons.logout,
-              color: Color.fromARGB(255, 46, 105, 70),
+          // Divider(color: Color.fromARGB(255, 20, 50, 31)),
+          Container(
+            color: Color.fromARGB(255, 20, 50, 31),
+            child: ListTile(
+              leading: const Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 244, 238, 227),
+              ),
+              title: Text(
+                "Logout",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 244, 238, 227),
+                  fontFamily: 'MontserratB',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () => _logout(context),
             ),
-            title: const Text(
-              "Logout",
-              style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-            ),
-            onTap: () => _logout(context),
           ),
         ],
       ),
+    );
+  }
+
+  TextStyle NavTextStyle() {
+    return TextStyle(
+      color: Color.fromARGB(255, 46, 105, 70),
+      fontFamily: 'RubikL',
+      fontWeight: FontWeight.bold,
     );
   }
 }
