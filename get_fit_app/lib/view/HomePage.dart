@@ -88,86 +88,108 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildHomePage() {
-    return Stack(
-      children: [
-        Positioned(
-          top: 20,
-          left: 20,
-          child: Text(
-            "Welcome Back, \n$UserName",
-            style: const TextStyle(fontSize: 30),
-          ),
-        ),
-        Positioned(
-          top: 120,
-          left: 20,
-          right: 20,
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            height: 300,
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 229, 221, 212),
-              borderRadius: BorderRadius.circular(20),
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Welcome Back, \n$UserName",
+              style: const TextStyle(fontSize: 30),
             ),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              child: displayChart(_chartData, _selectedChart),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 240,
-          left: 20,
-          child: Container(
-            width: 180,
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 229, 221, 212),
+            Container(
+              padding: const EdgeInsets.all(15),
+              height: 300,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 229, 221, 212),
+                borderRadius: BorderRadius.circular(20),
               ),
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChecklistPage()),
-                );
-              },
-              child: const Text(
-                "TODO List",
-                style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: displayChart(_chartData, _selectedChart),
               ),
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 240,
-          right: 20,
-          child: Container(
-            width: 180,
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 229, 221, 212),
-              ),
-              onPressed: () async {
-                final updatedChart = await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LeaderboardPage()),
-                );
-                if (updatedChart != null) {
-                  setState(() {
-                    _selectedChart = updatedChart;
-                  });
-                }
-              },
-              child: const Text(
-                "LeaderBoard",
-                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                textAlign: TextAlign.center,
-              ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 300,
+                  height: 70,
+                  child: ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.list,
+                      color: Color.fromARGB(255, 229, 221, 212),
+                      size: 35,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChecklistPage(),
+                        ),
+                      );
+                    },
+                    label: const Text(
+                      "TODO List",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 244, 238, 227),
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 300,
+                  height: 70,
+                  child: ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.emoji_events,
+                      color: Color.fromARGB(255, 229, 221, 212),
+                      size: 35,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    onPressed: () async {
+                      final updatedChart = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LeaderboardPage(),
+                        ),
+                      );
+                      if (updatedChart != null) {
+                        setState(() {
+                          _selectedChart = updatedChart;
+                        });
+                      }
+                    },
+                    label: const Text(
+                      "LeaderBoard",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 244, 238, 227),
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
