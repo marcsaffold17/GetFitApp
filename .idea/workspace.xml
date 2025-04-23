@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Preparing for merge">
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Restructured dart files to attempt firestore connectivity again.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +17,28 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="android" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="android" type="f1a62948:ProjectNode" />
+                <item name="gradle" type="2d1252cf:ModuleNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -29,7 +54,21 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ECKLU088&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/flutter/flutter.git&quot;,
+    &quot;accountId&quot;: &quot;c28a5e61-b60e-4482-98ff-3ef5a90e2bbe&quot;
+  }
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -43,6 +82,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Flutter.Main.executor&quot;: &quot;Run&quot;,
     &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
@@ -54,16 +94,25 @@
     &quot;git-widget-placeholder&quot;: &quot;Badges&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/danie/StudioProjects/Bug-Hunters/get_fit_app/pubspec.yaml&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\danie\StudioProjects" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\danie\StudioProjects" />
       <recent name="C:\Users\danie\StudioProjects\Bug-Hunters\get_fit_app\lib\model" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <configuration name="Main" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/get_fit_app/lib/main.dart" />
       <method v="2" />
     </configuration>
@@ -149,7 +198,23 @@
       <option name="project" value="LOCAL" />
       <updated>1744809967276</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Restructured dart files to attempt firestore connectivity again.">
+      <option name="closed" value="true" />
+      <created>1745331328606</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1745331328606</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Restructured dart files to attempt firestore connectivity again.">
+      <option name="closed" value="true" />
+      <created>1745331388503</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1745331388503</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -161,6 +226,7 @@
     <MESSAGE value="Made test files to display badges screen" />
     <MESSAGE value="Added more detail to badges" />
     <MESSAGE value="Preparing for merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Preparing for merge" />
+    <MESSAGE value="Restructured dart files to attempt firestore connectivity again." />
+    <option name="LAST_COMMIT_MESSAGE" value="Restructured dart files to attempt firestore connectivity again." />
   </component>
 </project>

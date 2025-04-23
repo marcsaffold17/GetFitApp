@@ -45,7 +45,7 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
           ),
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 239, 243, 239),
+      backgroundColor: const Color(0xFFD9D6CF),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _isLoading

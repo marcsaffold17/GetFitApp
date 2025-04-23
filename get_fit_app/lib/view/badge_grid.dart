@@ -20,14 +20,29 @@ class BadgeGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final badge = badges[index];
         return GestureDetector(
-          onTap: badge.isUnlocked
-              ? () => presenter.unlockBadge(badge.id) // ✅ should now work
-              : null,
+          onTap: () {
+            showDialog(
+              context: context,
+                builder: (_) => AlertDialog(
+                  title: Text(badge.title),
+                  content: Text(badge.description),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Close'),
+                    ),
+                   ],
+                ),
+               );
+            },
           child: Card(
+            color: const Color(0xFFDBD7D2),
             child: Column(
               children: [
-                Image.network(badge.iconUrl, width: 40, height: 40),
+                Image.network(badge.iconUrl, width: 100, height: 100),
                 Text(badge.title),
+                if (badge.isUnlocked)
+                  const Icon(Icons.check_circle, color: Colors.green),
               ],
             ),
           ),

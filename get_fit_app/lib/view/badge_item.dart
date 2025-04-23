@@ -28,7 +28,8 @@ class BadgeItem extends StatelessWidget {
               const SizedBox(height: 8),
               Text(badge.title,
                   style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(badge.description),
+              Text(badge.description,
+                  style: const TextStyle(color: Colors.grey)),
               if (!badge.isUnlocked)
                 const Padding(
                   padding: EdgeInsets.only(top: 6),
