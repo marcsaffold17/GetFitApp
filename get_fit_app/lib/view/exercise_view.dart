@@ -97,10 +97,18 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
+              style: TextStyle(
+                fontFamily: 'RubikL',
+                fontWeight: FontWeight.bold,
+              ),
               controller: exerciseTypeText,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Muscle type, Cardio, Stretching',
+                hintStyle: TextStyle(
+                  fontFamily: 'RubikL',
+                  fontWeight: FontWeight.bold,
+                ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
                   borderSide: const BorderSide(
@@ -174,6 +182,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                 exercise.name,
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 20, 50, 31),
+                                  fontFamily: 'MontserratB',
                                 ),
                               ),
                               subtitle: Text(
@@ -181,6 +190,8 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                 "Equipment: ${exercise.equipment}",
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 46, 105, 70),
+                                  fontFamily: 'RubikL',
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               trailing: SizedBox(
@@ -256,6 +267,11 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   TextField(
+                                                    style: TextStyle(
+                                                      fontFamily: 'RubikL',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                     controller: setsController,
                                                     keyboardType:
                                                         TextInputType.number,
@@ -265,6 +281,11 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                         ),
                                                   ),
                                                   TextField(
+                                                    style: TextStyle(
+                                                      fontFamily: 'RubikL',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                     controller: repsController,
                                                     keyboardType:
                                                         TextInputType.number,
@@ -342,11 +363,18 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
           backgroundColor: Color.fromARGB(255, 244, 238, 227),
           title: Text(
             exercise.name,
-            style: TextStyle(color: Color.fromARGB(255, 20, 50, 31)),
+            style: TextStyle(
+              color: Color.fromARGB(255, 20, 50, 31),
+              fontFamily: 'MontserratB',
+            ),
           ),
           content: Text(
             exercise.instructions,
-            style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+            style: TextStyle(
+              color: Color.fromARGB(255, 46, 105, 70),
+              fontFamily: 'RubikL',
+              fontWeight: FontWeight.bold,
+            ),
           ),
           actions: [
             TextButton(
