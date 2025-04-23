@@ -113,7 +113,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                     IconButton(
                       icon: const Icon(
                         Icons.add_circle_rounded,
-                        color: Color.fromARGB(255, 81, 163, 108),
+                        color: Color.fromARGB(255, 46, 105, 70),
                       ),
                       onPressed: () {
                         if (_textController.text.isNotEmpty) {
@@ -144,13 +144,18 @@ class _ChecklistPageState extends State<ChecklistPage> {
                             key: Key(item.text + index.toString()),
                             direction: DismissDirection.endToStart,
                             onDismissed: (_) => _removeItem(index),
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.only(right: 20),
-                              color: Colors.redAccent,
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.white,
+                            background: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                12,
+                              ), // Add curved edges
+                              child: Container(
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.only(right: 20),
+                                color: Colors.redAccent,
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                             child: AnimatedContainer(
@@ -182,15 +187,17 @@ class _ChecklistPageState extends State<ChecklistPage> {
                                     color:
                                         item.isChecked
                                             ? Colors.grey
-                                            : Theme.of(
-                                              context,
-                                            ).colorScheme.onSurface,
+                                            : Color.fromARGB(255, 46, 105, 70),
                                   ),
                                 ),
                                 value: item.isChecked,
                                 onChanged: (_) => _toggleItem(index),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
+                                ),
+                                side: BorderSide(
+                                  color: const Color.fromARGB(255, 46, 105, 70),
+                                  width: 2,
                                 ),
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
