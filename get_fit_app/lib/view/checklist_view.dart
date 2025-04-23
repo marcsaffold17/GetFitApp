@@ -108,6 +108,8 @@ class _ChecklistPageState extends State<ChecklistPage> {
                           hintText: 'Add a new item',
                           hintStyle: TextStyle(
                             color: Color.fromARGB(200, 46, 105, 70),
+                            fontFamily: 'RubikL',
+                            fontWeight: FontWeight.bold,
                           ),
                           border: InputBorder.none,
                         ),
@@ -185,6 +187,8 @@ class _ChecklistPageState extends State<ChecklistPage> {
                                 title: Text(
                                   item.text,
                                   style: TextStyle(
+                                    fontFamily: 'RubikL',
+                                    fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                     decoration:
                                         item.isChecked
