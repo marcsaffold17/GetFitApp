@@ -77,6 +77,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                         child: Text(
                           date,
                           style: TextStyle(
+                            fontFamily: 'RubikL',
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 244, 238, 227),
@@ -130,6 +131,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
           child: Text(
             'Add Workout',
             style: TextStyle(
+              fontFamily: 'MontserratB',
               color: Color.fromARGB(255, 244, 238, 227),
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -299,6 +301,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: Color.fromARGB(255, 20, 50, 31),
+                        fontFamily: 'MontserratB',
                       ),
                     ),
                   ),
@@ -312,7 +315,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   IconButton(
                     icon: Icon(
                       Icons.delete,
-                      color: Color.fromARGB(255, 20, 50, 31),
+                      color: Color.fromARGB(200, 202, 59, 59),
                     ),
                     onPressed: _deleteWorkout,
                   ),
@@ -334,37 +337,37 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   workout['difficulty'] != 'N/A')
                 Text(
                   "Difficulty: ${workout['difficulty']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['equipment'] != null && workout['equipment'] != 'N/A')
                 Text(
                   "Equipment: ${workout['equipment']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['sets'] != null && workout['sets'] != 'N/A')
                 Text(
                   "Sets: ${workout['sets']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['reps'] != null && workout['reps'] != 'N/A')
                 Text(
                   "Reps: ${workout['reps']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['Type'] != null && workout['Type'] != 'N/A')
                 Text(
                   "Type: ${workout['Type']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['Distance'] != null && workout['Distance'] != 'N/A')
                 Text(
                   "Distance: ${workout['Distance']} miles",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['Time'] != null && workout['Time'] != 'N/A')
                 Text(
                   "Time: ${workout['Time']} mins",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (isExpanded)
                 Padding(
@@ -418,6 +421,14 @@ class _WorkoutTileState extends State<_WorkoutTile> {
           ),
         ),
       ),
+    );
+  }
+
+  TextStyle DescriptionsTextStyle() {
+    return TextStyle(
+      color: Color.fromARGB(255, 49, 112, 75),
+      fontWeight: FontWeight.bold,
+      fontFamily: 'RubikL',
     );
   }
 }

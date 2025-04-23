@@ -99,6 +99,22 @@ flutter:
     - family: Garet
       fonts:
         - asset: assets/fonts/Garet-Book.otf
+    - family: poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Black.ttf
+    - family: RubikL
+      fonts:
+        - asset: assets/fonts/RubikL.ttf
+    - family: RubikB
+      fonts:
+        - asset: assets/fonts/RubikB.ttf
+    - family: MontserratB
+      fonts:
+        - asset: assets/fonts/MontserratB.ttf
+    - family: MontserratL
+      fonts:
+        - asset: assets/fonts/MontserratL.ttf
+    
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

@@ -151,7 +151,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                               child: Container(
                                 alignment: Alignment.centerRight,
                                 padding: const EdgeInsets.only(right: 20),
-                                color: Colors.redAccent,
+                                color: const Color.fromARGB(238, 202, 59, 59),
                                 child: const Icon(
                                   Icons.delete,
                                   color: Colors.white,
