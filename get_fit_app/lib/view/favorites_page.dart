@@ -121,6 +121,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
             style: TextStyle(
               color: Color.fromARGB(255, 46, 105, 70),
               fontFamily: 'RubikL',
+              fontWeight: FontWeight.bold,
             ),
           ),
           actions: [

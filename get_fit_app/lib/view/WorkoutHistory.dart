@@ -308,7 +308,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   IconButton(
                     icon: Icon(
                       Icons.edit,
-                      color: Color.fromARGB(255, 20, 50, 31),
+                      color: Color.fromARGB(255, 46, 105, 70),
                     ),
                     onPressed: _showEditDialog,
                   ),

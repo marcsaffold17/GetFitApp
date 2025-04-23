@@ -103,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
               "$UserName",
               style: const TextStyle(fontSize: 27, fontFamily: 'MontserratB'),
             ),
+            SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.all(15),
               height: 300,
@@ -124,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 70,
                   child: ElevatedButton.icon(
                     icon: Icon(
-                      Icons.list,
+                      Icons.checklist_rounded,
                       color: Color.fromARGB(255, 229, 221, 212),
                       size: 35,
                     ),
@@ -140,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     label: const Text(
-                      "TODO List",
+                      "Check List",
                       style: TextStyle(
                         color: Color.fromARGB(255, 244, 238, 227),
                         fontFamily: 'MontserratB',
@@ -248,6 +249,10 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
       bottomNavigationBar: GNav(
+        textStyle: const TextStyle(
+          color: Color.fromARGB(255, 244, 238, 227),
+          fontFamily: 'MontserratB',
+        ),
         onTabChange: (index) {
           setState(() {
             _selectedIndex = index;
