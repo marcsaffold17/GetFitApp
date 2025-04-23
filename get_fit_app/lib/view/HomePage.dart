@@ -95,10 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Welcome Back, \n$UserName",
-              style: const TextStyle(fontSize: 30),
-            ),
+            Text("Welcome Back,", style: const TextStyle(fontSize: 30)),
+            Text("$UserName", style: const TextStyle(fontSize: 27)),
             Container(
               padding: const EdgeInsets.all(15),
               height: 300,
@@ -111,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: displayChart(_chartData, _selectedChart),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -146,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
