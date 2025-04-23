@@ -95,47 +95,48 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                     );
                   }).toList(),
                   SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 46, 105, 70),
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      onPressed: () async {
-                        final repository =
-                            WorkoutRepository(); // Make sure this exists and is imported
-                        final presenter = WorkoutPresenter(repository);
-
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => WorkoutEntryScreen(
-                                  presenter: presenter,
-                                  onWorkoutUploaded:
-                                      fetchAndGroupWorkouts, // Pass the refresh function
-                                ),
-                          ),
-                        );
-                        fetchAndGroupWorkouts();
-                      },
-                      child: Text(
-                        'Add Workout',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 244, 238, 227),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 40),
                 ],
               ),
+      bottomNavigationBar: Container(
+        // padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        padding: EdgeInsets.all(20.0),
+
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 46, 105, 70),
+            padding: EdgeInsets.symmetric(horizontal: 75.0, vertical: 20.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+          ),
+          onPressed: () async {
+            final repository =
+                WorkoutRepository(); // Make sure this exists and is imported
+            final presenter = WorkoutPresenter(repository);
+
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (context) => WorkoutEntryScreen(
+                      presenter: presenter,
+                      onWorkoutUploaded:
+                          fetchAndGroupWorkouts, // Pass the refresh function
+                    ),
+              ),
+            );
+            fetchAndGroupWorkouts();
+          },
+          child: Text(
+            'Add Workout',
+            style: TextStyle(
+              color: Color.fromARGB(255, 244, 238, 227),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
