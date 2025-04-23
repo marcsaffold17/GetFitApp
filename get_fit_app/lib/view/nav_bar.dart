@@ -5,8 +5,9 @@ import 'SettingsPage.dart';
 import '../view/checklist_view.dart';
 import '../view/login_view.dart';
 import '../presenter/global_presenter.dart';
+import '../view/workout_history_view.dart';
+import '../view/insert_workout_view.dart';
 import '../view/badge_screen.dart';
-
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -49,7 +50,10 @@ class NavBar extends StatelessWidget {
                 ),
                 const Text(
                   'Menu',
-                  style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 244, 238, 227)),
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Color.fromARGB(255, 244, 238, 227),
+                  ),
                 ),
                 const SizedBox(height: 10),
               ],
@@ -59,15 +63,21 @@ class NavBar extends StatelessWidget {
             child: ListView(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.home_outlined, color: Color.fromARGB(255,46, 105, 70)),
-                  title: const Text("Home", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  leading: const Icon(
+                    Icons.home_outlined,
+                    color: Color.fromARGB(255, 46, 105, 70),
+                  ),
+                  title: const Text(
+                    "Home",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder:
                             (context) =>
-                        const MyHomePage(title: 'Home', username: ""),
+                                const MyHomePage(title: 'Home', username: ""),
                       ),
                     );
                   },
@@ -77,7 +87,10 @@ class NavBar extends StatelessWidget {
                     Icons.checklist_rounded,
                     color: Color.fromARGB(255, 46, 105, 70),
                   ),
-                  title: const Text("Checklist", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  title: const Text(
+                    "Checklist",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -90,11 +103,16 @@ class NavBar extends StatelessWidget {
                     Icons.auto_graph_outlined,
                     color: Color.fromARGB(255, 46, 105, 70),
                   ),
-                  title: const Text("LeaderBoard", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  title: const Text(
+                    "LeaderBoard",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LeaderboardPage()),
+                      MaterialPageRoute(
+                        builder: (context) => LeaderboardPage(),
+                      ),
                     );
                   },
                 ),
@@ -102,10 +120,13 @@ class NavBar extends StatelessWidget {
                 // ✅ Updated Badge ListTile to pass in the presenter
                 ListTile(
                   leading: const Icon(
-                      Icons.badge_outlined,
-                      color: Color.fromARGB(255, 46, 105, 70)
+                    Icons.badge_outlined,
+                    color: Color.fromARGB(255, 46, 105, 70),
                   ),
-                  title: const Text("Badges", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  title: const Text(
+                    "Badges",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -117,8 +138,14 @@ class NavBar extends StatelessWidget {
                 ),
 
                 ListTile(
-                  leading: const Icon(Icons.settings, color: Color.fromARGB(255, 46, 105, 70)),
-                  title: const Text("Settings", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+                  leading: const Icon(
+                    Icons.settings,
+                    color: Color.fromARGB(255, 46, 105, 70),
+                  ),
+                  title: const Text(
+                    "Settings",
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -133,8 +160,14 @@ class NavBar extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.logout, color: Color.fromARGB(255, 46, 105, 70)),
-            title: const Text("Logout", style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),),
+            leading: const Icon(
+              Icons.logout,
+              color: Color.fromARGB(255, 46, 105, 70),
+            ),
+            title: const Text(
+              "Logout",
+              style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+            ),
             onTap: () => _logout(context),
           ),
         ],

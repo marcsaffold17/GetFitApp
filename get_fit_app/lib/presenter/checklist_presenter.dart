@@ -1,24 +1,38 @@
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/checklist_item.dart';
+import 'global_presenter.dart';
 
 class ChecklistPresenter {
-  final String storageKey = 'checklist_items';
+  final _checklistRef = FirebaseFirestore.instance
+      .collection('Login-Info')
+      .doc(globalUsername)
+      .collection('checklist');
 
   Future<List<ChecklistItem>> loadItems() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? savedData = prefs.getString(storageKey);
-    if (savedData != null) {
-      List<dynamic> jsonList = jsonDecode(savedData);
-      return jsonList.map((item) => ChecklistItem.fromJson(item)).toList();
-    }
-    return [];
+    final snapshot = await _checklistRef.get();
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+      return ChecklistItem(
+        text: data['text'] ?? '',
+        isChecked: data['isChecked'] ?? false,
+      );
+    }).toList();
   }
 
   Future<void> saveItems(List<ChecklistItem> items) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> jsonList =
-        items.map((item) => item.toJson()).toList();
-    prefs.setString(storageKey, jsonEncode(jsonList));
+    // First, clear the current checklist
+    final batch = FirebaseFirestore.instance.batch();
+    final currentDocs = await _checklistRef.get();
+    for (final doc in currentDocs.docs) {
+      batch.delete(doc.reference);
+    }
+
+    // Then, write all current items
+    for (final item in items) {
+      final docRef = _checklistRef.doc(); // auto ID
+      batch.set(docRef, {'text': item.text, 'isChecked': item.isChecked});
+    }
+
+    await batch.commit();
   }
 }
