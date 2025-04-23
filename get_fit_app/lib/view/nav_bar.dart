@@ -62,7 +62,6 @@ class NavBar extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              // padding: EdgeInsets.zero,
               children: [
                 Container(
                   color: Color.fromARGB(255, 229, 221, 212),
@@ -84,13 +83,6 @@ class NavBar extends StatelessWidget {
                     },
                   ),
                 ),
-                // Divider(
-                //   color: Color.fromARGB(255, 46, 105, 70),
-                //   thickness: 2,
-                //   height: 0,
-                //   indent: 16,
-                //   endIndent: 16,
-                // ),
                 ListTile(
                   leading: const Icon(
                     Icons.checklist_rounded,
@@ -100,17 +92,12 @@ class NavBar extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ChecklistPage()),
+                      MaterialPageRoute(
+                        builder: (context) => ChecklistPage(isFromNavbar: true),
+                      ),
                     );
                   },
                 ),
-                // Divider(
-                //   color: Color.fromARGB(255, 46, 105, 70),
-                //   thickness: 2,
-                //   height: 0,
-                //   indent: 16,
-                //   endIndent: 16,
-                // ),
                 Container(
                   color: Color.fromARGB(255, 229, 221, 212),
                   child: ListTile(
@@ -123,19 +110,14 @@ class NavBar extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LeaderboardPage(),
+                          builder:
+                              (context) =>
+                                  new LeaderboardPage(isFromNavbar: true),
                         ),
                       );
                     },
                   ),
                 ),
-                // Divider(
-                //   color: Color.fromARGB(255, 46, 105, 70),
-                //   thickness: 2,
-                //   height: 0,
-                //   indent: 16,
-                //   endIndent: 16,
-                // ),
                 ListTile(
                   leading: const Icon(
                     Icons.badge_outlined,
@@ -151,13 +133,6 @@ class NavBar extends StatelessWidget {
                     );
                   },
                 ),
-                // Divider(
-                //   color: Color.fromARGB(255, 46, 105, 70),
-                //   thickness: 2,
-                //   height: 0,
-                //   indent: 16,
-                //   endIndent: 16,
-                // ),
                 Container(
                   color: Color.fromARGB(255, 229, 221, 212),
                   child: ListTile(
@@ -179,7 +154,6 @@ class NavBar extends StatelessWidget {
               ],
             ),
           ),
-          // Divider(color: Color.fromARGB(255, 20, 50, 31)),
           Container(
             color: Color.fromARGB(255, 20, 50, 31),
             child: ListTile(

@@ -8,7 +8,7 @@ import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
 import 'settingspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../view/exercise_view.dart';
+import 'exercise_list_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/WorkoutHistory.dart';
@@ -136,7 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ChecklistPage(),
+                          builder:
+                              (context) => ChecklistPage(isFromNavbar: false),
                         ),
                       );
                     },
@@ -172,7 +173,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       final updatedChart = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LeaderboardPage(),
+                          builder:
+                              (context) => LeaderboardPage(isFromNavbar: false),
                         ),
                       );
                       if (updatedChart != null) {

@@ -3,8 +3,13 @@ import '../model/checklist_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../presenter/checklist_presenter.dart';
 import '../presenter/global_presenter.dart';
+import '../view/nav_bar.dart';
 
 class ChecklistPage extends StatefulWidget {
+  final bool isFromNavbar;
+
+  const ChecklistPage({Key? key, required this.isFromNavbar}) : super(key: key);
+
   @override
   _ChecklistPageState createState() => _ChecklistPageState();
 }
@@ -72,6 +77,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
           ),
         ),
       ),
+      drawer: widget.isFromNavbar ? const NavBar() : null,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

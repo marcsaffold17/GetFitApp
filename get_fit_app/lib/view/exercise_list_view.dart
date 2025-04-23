@@ -150,6 +150,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                     'Search',
                     style: TextStyle(
                       color: Color.fromARGB(255, 244, 238, 227),
+                      fontFamily: 'MontserratB',
                       fontSize: 15,
                     ),
                     textAlign: TextAlign.center,
