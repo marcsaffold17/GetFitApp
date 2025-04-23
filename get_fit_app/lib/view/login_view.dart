@@ -25,12 +25,11 @@ class LoginButtonPage extends StatelessWidget {
           Positioned.fill(
             child: Column(
               children: [
-                SizedBox(height: 100),
+                SizedBox(height: 30),
                 Image.asset(
-                  'assets/images/athass_2.png',
-                  height: 200,
-                  width: 200,
-                  color: Color.fromARGB(255, 244, 238, 227),
+                  'assets/images/MachoMuscleMania.png',
+                  height: 300,
+                  width: 400,
                 ),
                 RichText(
                   text: TextSpan(

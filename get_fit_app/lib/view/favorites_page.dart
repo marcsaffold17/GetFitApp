@@ -116,21 +116,22 @@ class _FavoritesPageState extends State<FavoritesPage> {
               fontFamily: 'MontserratB',
             ),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Divider(color: Color.fromARGB(255, 46, 105, 70), thickness: 1),
-              SizedBox(height: 8),
-              Text(
-                exercise.instructions,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 46, 105, 70),
-                  fontFamily: 'RubikL',
-                  fontWeight: FontWeight.bold,
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 8),
+                Text(
+                  exercise.instructions,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 46, 105, 70),
+                    fontFamily: 'RubikL',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             Container(

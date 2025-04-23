@@ -110,6 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 229, 221, 212),
                 borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Color.fromARGB(255, 20, 50, 31),
+                  width: 2,
+                ),
               ),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),

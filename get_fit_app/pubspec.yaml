@@ -75,6 +75,7 @@ flutter:
      - assets/images/athass_2.png
      - assets/images/AshtonHall.webp
      - assets/images/UMDGYM.jpg
+     - assets/images/MachoMuscleMania.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
