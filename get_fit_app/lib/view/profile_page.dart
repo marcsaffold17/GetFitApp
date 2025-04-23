@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../presenter/global_presenter.dart';
 
 class ProfilePage extends StatefulWidget {
   final String username;
@@ -18,6 +19,12 @@ class _ProfilePageState extends State<ProfilePage> {
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _bioController = TextEditingController();
 
+  final profileRef = FirebaseFirestore.instance
+      .collection('Login-Info')
+      .doc(globalUsername)
+      .collection('profilepage')
+      .doc('data');
+
   @override
   void initState() {
     super.initState();
@@ -25,33 +32,34 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _loadProfileData() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _bio = prefs.getString('bio') ?? '';
-      String? imagePath = prefs.getString('profileImage');
-      if (imagePath != null && File(imagePath).existsSync()) {
-        _image = File(imagePath);
-      }
-      _bioController.text = _bio;
-    });
+    final doc = await profileRef.get();
+    if (doc.exists) {
+      final data = doc.data()!;
+      setState(() {
+        _bio = data['bio'] ?? '';
+        final imagePath = data['profileImage'];
+        if (imagePath != null && File(imagePath).existsSync()) {
+          _image = File(imagePath);
+        }
+        _bioController.text = _bio;
+      });
+    }
   }
 
-  Future<void> _saveBio() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _bio = _bioController.text;
+  Future<void> _saveProfileData() async {
+    await profileRef.set({
+      'bio': _bioController.text,
+      'profileImage': _image?.path ?? '',
     });
-    await prefs.setString('bio', _bio);
   }
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      final prefs = await SharedPreferences.getInstance();
       setState(() {
         _image = File(pickedFile.path);
       });
-      await prefs.setString('profileImage', pickedFile.path);
+      _saveProfileData();
     }
   }
 
@@ -121,16 +129,17 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("My Workout Profile", style: TextStyle(color:  Color.fromARGB(255, 244, 238, 227)),),
-        iconTheme: IconThemeData(
-          color: Color.fromARGB(255, 244, 238, 227),
+        title: const Text(
+          "My Workout Profile",
+          style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
         ),
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
-          )
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -195,7 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               maxLines: 3,
-              onChanged: (value) => _saveBio(),
+              onChanged: (_) => _saveProfileData(),
             ),
             const SizedBox(height: 24),
             const Align(
