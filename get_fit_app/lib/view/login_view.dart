@@ -35,7 +35,7 @@ class LoginButtonPage extends StatelessWidget {
                 RichText(
                   text: TextSpan(
                     style: TextStyle(
-                      fontFamily: 'CreatoDisplay',
+                      fontFamily: 'MontserratB',
                       fontSize: 80,
                       color: const Color.fromARGB(255, 244, 238, 227),
                     ),
@@ -70,8 +70,8 @@ class LoginButtonPage extends StatelessWidget {
                     'Create Account',
                     style: TextStyle(
                       color: Color.fromARGB(255, 20, 50, 31),
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Garet',
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'RubikL',
                       fontSize: 25,
                     ),
                   ),
@@ -95,8 +95,8 @@ class LoginButtonPage extends StatelessWidget {
                     'Login',
                     style: TextStyle(
                       color: Color.fromARGB(255, 20, 50, 31),
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Garet',
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'RubikL',
                       fontSize: 25,
                     ),
                   ),
@@ -187,12 +187,12 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                           child: RichText(
                             text: TextSpan(
                               style: TextStyle(
-                                fontFamily: 'Voguella',
+                                fontFamily: 'MontserratB',
                                 fontSize: 40,
                                 color: const Color.fromARGB(255, 244, 238, 227),
                               ),
                               children: const <TextSpan>[
-                                TextSpan(text: '\n   Login'),
+                                TextSpan(text: '\n  Login'),
                               ],
                             ),
                           ),
@@ -275,7 +275,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                                       child: const Text(
                                         'Login',
                                         style: TextStyle(
-                                          fontFamily: 'Garet',
+                                          fontFamily: 'RubikL',
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Color.fromARGB(
@@ -389,12 +389,12 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                           child: RichText(
                             text: TextSpan(
                               style: TextStyle(
-                                fontFamily: 'CreatoDisplay',
+                                fontFamily: 'MontserratB',
                                 fontSize: 40,
                                 color: const Color.fromARGB(255, 244, 238, 227),
                               ),
                               children: const <TextSpan>[
-                                TextSpan(text: '   Create\n   Account'),
+                                TextSpan(text: '  Create\n  Account'),
                               ],
                             ),
                           ),
@@ -470,7 +470,7 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                                       child: const Text(
                                         'Create Account',
                                         style: TextStyle(
-                                          fontFamily: 'Mirage',
+                                          fontFamily: 'RubikL',
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Color.fromARGB(
@@ -538,6 +538,11 @@ class LoginTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: const TextStyle(
+        // color: Color.fromARGB(255, 46, 105, 70),
+        fontFamily: 'RubikL',
+        fontWeight: FontWeight.bold,
+      ),
       controller: userNameText,
       obscureText: obscure,
       decoration: InputDecoration(

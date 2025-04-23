@@ -116,23 +116,44 @@ class _FavoritesPageState extends State<FavoritesPage> {
               fontFamily: 'MontserratB',
             ),
           ),
-          content: Text(
-            exercise.instructions,
-            style: TextStyle(
-              color: Color.fromARGB(255, 46, 105, 70),
-              fontFamily: 'RubikL',
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                "Close",
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Divider(color: Color.fromARGB(255, 46, 105, 70), thickness: 1),
+              SizedBox(height: 8),
+              Text(
+                exercise.instructions,
                 style: TextStyle(
                   color: Color.fromARGB(255, 46, 105, 70),
                   fontFamily: 'RubikL',
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            Container(
+              width: 100,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    // side: BorderSide(
+                    //   color: Color.fromARGB(255, 0, 0, 0),
+                    //   width: 1,
+                    // ),
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Close",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 202, 59, 59),
+                    fontFamily: 'MonsterratB',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

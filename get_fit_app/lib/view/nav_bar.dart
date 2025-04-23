@@ -40,7 +40,7 @@ class NavBar extends StatelessWidget {
                       icon: const Icon(
                         Icons.close,
                         size: 28,
-                        color: Color.fromARGB(255, 244, 238, 227),
+                        color: Color.fromARGB(200, 202, 59, 59),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -68,7 +68,7 @@ class NavBar extends StatelessWidget {
                   child: ListTile(
                     leading: const Icon(
                       Icons.home_outlined,
-                      color: Color.fromARGB(255, 46, 105, 70),
+                      color: Color.fromARGB(255, 20, 50, 31),
                     ),
                     title: Text("Home", style: NavTextStyle()),
                     onTap: () {
@@ -86,7 +86,7 @@ class NavBar extends StatelessWidget {
                 ListTile(
                   leading: const Icon(
                     Icons.checklist_rounded,
-                    color: Color.fromARGB(255, 46, 105, 70),
+                    color: Color.fromARGB(255, 20, 50, 31),
                   ),
                   title: Text("Checklist", style: NavTextStyle()),
                   onTap: () {
@@ -103,7 +103,7 @@ class NavBar extends StatelessWidget {
                   child: ListTile(
                     leading: const Icon(
                       Icons.auto_graph_outlined,
-                      color: Color.fromARGB(255, 46, 105, 70),
+                      color: Color.fromARGB(255, 20, 50, 31),
                     ),
                     title: Text("LeaderBoard", style: NavTextStyle()),
                     onTap: () {
@@ -121,7 +121,7 @@ class NavBar extends StatelessWidget {
                 ListTile(
                   leading: const Icon(
                     Icons.badge_outlined,
-                    color: Color.fromARGB(255, 46, 105, 70),
+                    color: Color.fromARGB(255, 20, 50, 31),
                   ),
                   title: Text("Badges", style: NavTextStyle()),
                   onTap: () {
@@ -138,7 +138,7 @@ class NavBar extends StatelessWidget {
                   child: ListTile(
                     leading: const Icon(
                       Icons.settings,
-                      color: Color.fromARGB(255, 46, 105, 70),
+                      color: Color.fromARGB(255, 20, 50, 31),
                     ),
                     title: Text("Settings", style: NavTextStyle()),
                     onTap: () {
