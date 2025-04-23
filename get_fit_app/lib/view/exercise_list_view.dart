@@ -201,20 +201,38 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     IconButton(
-                                      icon: Icon(
-                                        isFavorite
-                                            ? Icons.star
-                                            : Icons.star_border,
-                                        color:
-                                            isFavorite
-                                                ? const Color.fromARGB(
-                                                  255,
-                                                  81,
-                                                  163,
-                                                  108,
-                                                )
-                                                : Colors.grey,
-                                      ),
+                                      icon:
+                                          isFavorite
+                                              ? Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.star_border,
+                                                    color: const Color.fromARGB(
+                                                      255,
+                                                      151,
+                                                      135,
+                                                      8,
+                                                    ), // Outline
+                                                    size: 32,
+                                                  ),
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: const Color.fromARGB(
+                                                      255,
+                                                      242,
+                                                      201,
+                                                      76,
+                                                    ), // Filled
+                                                    size: 24,
+                                                  ),
+                                                ],
+                                              )
+                                              : Icon(
+                                                Icons.star_border,
+                                                color: Colors.grey,
+                                                size: 32,
+                                              ),
                                       onPressed: () async {
                                         setState(() {
                                           exercise.isFavorite = !isFavorite;
@@ -228,7 +246,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                             );
                                           }
                                         });
-                                        if (exercise.isFavorite == true) {
+                                        if (exercise.isFavorite) {
                                           await favoritesRef
                                               .doc(exercise.name)
                                               .set({
