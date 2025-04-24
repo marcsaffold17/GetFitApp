@@ -110,11 +110,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
         title: Text(
           exercise.name,
           style: TextStyle(
+            fontFamily: 'MontserratB',
             color: Color.fromARGB(255, 20, 50, 31),
-            fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
         ),
+
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Column(
