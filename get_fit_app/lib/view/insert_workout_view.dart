@@ -114,30 +114,29 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
 
   void _showWorkoutTypeBottomSheet(BuildContext context) {
     final List<Map<String, dynamic>> workoutTypes = [
-      {'type': 'Run', 'icon': Icons.directions_run},
-      {'type': 'Walk', 'icon': Icons.directions_walk},
-      {'type': 'Hike', 'icon': Icons.hiking},
-      {'type': 'Bike', 'icon': Icons.directions_bike},
+    {'type': 'Run', 'icon': Icons.directions_run},
+    {'type': 'Walk', 'icon': Icons.directions_walk},
+    {'type': 'Hike', 'icon': Icons.hiking},
+    {'type': 'Bike', 'icon': Icons.directions_bike},
+    {'type': 'Inline Skate', 'icon': Icons.roller_skating},
+    {'type': 'Roller Ski', 'icon': Icons.roller_skating},
+    {'type': 'Swim', 'icon': Icons.pool},
+    {'type': 'Canoe', 'icon': Icons.kayaking},
+    {'type': 'Kayak', 'icon': Icons.kayaking},
+    {'type': 'Alpine Ski', 'icon': Icons.downhill_skiing},
+    {'type': 'Nordic Ski', 'icon': Icons.downhill_skiing},
+    {'type': 'Snowboard', 'icon': Icons.snowboarding},
+    {'type': 'Ice Skate', 'icon': Icons.ice_skating},
+    {'type': 'Snowshoe', 'icon': Icons.snowshoeing},
+    {'type': 'Weight Training', 'icon': Icons.fitness_center},
+    {'type': 'Rock Climb', 'icon': Icons.landscape},
+    {'type': 'Yoga', 'icon': Icons.self_improvement},
+    {'type': 'Crossfit', 'icon': Icons.fitness_center},
+    {'type': 'StairMaster', 'icon': Icons.stairs},
+    {'type': 'Pickleball', 'icon': Icons.sports_tennis},
 
-      /* 'Hike',
-    'Bike',
-    'Swim',
-    'Canoe',
-    'Kayak',
-    'Inline Skate',
-    'Roller Ski',
-    'Alpine Ski',
-    'Nordic Ski',
-    'Ice Skate',
-    'Snowboard',
-    'Snowshoe',
-    'Weight Training',
-    'Rock Climb',
-    'Yoga',
-    'Crossfit', */
-      // boxing, kickboxing,
-      // basketball, football, tennis, pickleball, volleyball, badminton, soccer,
-      // golf, table tennis,
+      // More activities
+
     ];
 
     showModalBottomSheet(
