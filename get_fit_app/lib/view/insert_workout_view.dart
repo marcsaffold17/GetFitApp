@@ -166,7 +166,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   String? FormattedDate;
   @override
   TextStyle selectedStyle = TextStyle(
-    fontFamily: 'RubikL',
+    fontFamily: 'rubikL',
     fontWeight: FontWeight.bold,
     fontSize: 16,
     color: Color.fromARGB(255, 46, 105, 70),
@@ -178,6 +178,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     fontSize: 16,
     color: Color.fromARGB(160, 46, 105, 70),
   );
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
@@ -269,9 +270,8 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       children: [
                         Icon(
                           _workoutTypeIcon,
-                          // Icons.fitness_center,
-                          color: Colors.black,
-                        ), // You can change this icon
+                          color: Color.fromARGB(255, 20, 50, 31),
+                        ),
                         SizedBox(width: 8),
                         Text(
                           _workoutType ?? 'Select workout type',
@@ -282,14 +282,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         ),
                       ],
                     ),
-                    // child: Text(
-                    //   textAlign: TextAlign.center,
-                    //   _workoutType ?? 'Select workout type',
-                    //   style:
-                    //       _workoutType == null
-                    //           ? unselectedStyle
-                    //           : selectedStyle,
-                    // ),
                   ),
                 ),
                 SizedBox(height: 15.0),
@@ -297,7 +289,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // SizedBox(height: 20),
                       InputFunctions(
                         timeController: _timeController,
                         hintText: '0:00 Mins',
