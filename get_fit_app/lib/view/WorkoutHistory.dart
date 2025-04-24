@@ -173,12 +173,48 @@ class _WorkoutTileState extends State<_WorkoutTile> {
   }
 
   void _showEditDialog() {
+    // if (widget.workout['Distance'] != null || widget.workout['Time'] != null) {
+    final disController = TextEditingController(
+      text: widget.workout['Distance']?.toString() ?? '',
+    );
+    final timeController = TextEditingController(
+      text: widget.workout['Time']?.toString() ?? '',
+    );
+    // return;
+    // }
     final setsController = TextEditingController(
       text: widget.workout['sets']?.toString() ?? '',
     );
     final repsController = TextEditingController(
       text: widget.workout['reps']?.toString() ?? '',
     );
+
+    Future<void> UpdateingWorkout(
+      TextEditingController fController,
+      TextEditingController sController,
+      BuildContext context,
+      String fType,
+      String sType,
+    ) async {
+      String updatedF = fController.text;
+      String updatedS = sController.text;
+
+      await FirebaseFirestore.instance
+          .collection('Login-Info')
+          .doc(globalUsername)
+          .collection('Workout-Plan')
+          .doc(widget.workout['date'])
+          .collection('Workout')
+          .doc(widget.workout['exercise'])
+          .update({fType: updatedF, sType: updatedS});
+
+      setState(() {
+        widget.workout[fType] = updatedF;
+        widget.workout[sType] = updatedS;
+      });
+
+      Navigator.of(context).pop();
+    }
 
     showDialog(
       context: context,
@@ -195,34 +231,21 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 color: Color.fromARGB(255, 20, 50, 31),
               ),
             ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: setsController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Sets',
-                    labelStyle: TextStyle(
-                      color: Color.fromARGB(255, 46, 105, 70),
+            content:
+                (widget.workout['Distance'] != null ||
+                        widget.workout['Time'] != null)
+                    ? EditingWorkouts(
+                      flabel: 'Distance',
+                      slabel: 'Time',
+                      fController: disController,
+                      sController: timeController,
+                    )
+                    : EditingWorkouts(
+                      flabel: 'Reps',
+                      slabel: 'Sets',
+                      fController: repsController,
+                      sController: setsController,
                     ),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 12),
-                TextField(
-                  controller: repsController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Reps',
-                    labelStyle: TextStyle(
-                      color: Color.fromARGB(255, 46, 105, 70),
-                    ),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ],
-            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
@@ -237,24 +260,25 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   backgroundColor: Color.fromARGB(255, 46, 105, 70),
                 ),
                 onPressed: () async {
-                  String updatedSets = setsController.text;
-                  String updatedReps = repsController.text;
-
-                  await FirebaseFirestore.instance
-                      .collection('Login-Info')
-                      .doc(globalUsername)
-                      .collection('Workout-Plan')
-                      .doc(widget.workout['date'])
-                      .collection('Workout')
-                      .doc(widget.workout['exercise'])
-                      .update({'sets': updatedSets, 'reps': updatedReps});
-
-                  setState(() {
-                    widget.workout['sets'] = updatedSets;
-                    widget.workout['reps'] = updatedReps;
-                  });
-
-                  Navigator.of(context).pop();
+                  if (widget.workout['Distance'] != null ||
+                      widget.workout['Time'] != null) {
+                    await UpdateingWorkout(
+                      disController,
+                      timeController,
+                      context,
+                      'Distance',
+                      'Time',
+                    );
+                  } else if (widget.workout['sets'] != null ||
+                      widget.workout['reps'] != null) {
+                    await UpdateingWorkout(
+                      repsController,
+                      setsController,
+                      context,
+                      'reps',
+                      'sets',
+                    );
+                  }
                 },
                 child: Text(
                   'Save',
@@ -429,6 +453,49 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       color: Color.fromARGB(255, 49, 112, 75),
       fontWeight: FontWeight.bold,
       fontFamily: 'RubikL',
+    );
+  }
+}
+
+class EditingWorkouts extends StatelessWidget {
+  const EditingWorkouts({
+    super.key,
+    required this.fController,
+    required this.sController,
+    required this.flabel,
+    required this.slabel,
+  });
+
+  final TextEditingController fController;
+  final TextEditingController sController;
+  final String flabel;
+  final String slabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextField(
+          controller: sController,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            labelText: slabel,
+            labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+            border: OutlineInputBorder(),
+          ),
+        ),
+        SizedBox(height: 12),
+        TextField(
+          controller: fController,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            labelText: flabel,
+            labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+            border: OutlineInputBorder(),
+          ),
+        ),
+      ],
     );
   }
 }
