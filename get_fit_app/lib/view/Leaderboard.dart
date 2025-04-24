@@ -65,7 +65,9 @@ class NavBarWithLeaderboard extends NavBar {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const LeaderboardPage(),
+                        builder:
+                            (context) =>
+                                const LeaderboardPage(isFromNavbar: false),
                       ),
                     );
                   },

@@ -54,23 +54,28 @@ class _FavoritesPageState extends State<FavoritesPage> {
             return const Center(
               child: Text(
                 "No favorites right now",
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             );
           }
 
-          final exercises = docs.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
-            return Exercise(
-              name: data['name'],
-              type: data['type'],
-              muscle: data['muscle'],
-              difficulty: data['difficulty'],
-              equipment: data['equipment'],
-              instructions: data['instructions'],
-              isFavorite: true,
-            );
-          }).toList();
+          final exercises =
+              docs.map((doc) {
+                final data = doc.data() as Map<String, dynamic>;
+                return Exercise(
+                  name: data['name'],
+                  type: data['type'],
+                  muscle: data['muscle'],
+                  difficulty: data['difficulty'],
+                  equipment: data['equipment'],
+                  instructions: data['instructions'],
+                  isFavorite: true,
+                );
+              }).toList();
 
           return ListView.separated(
             padding: const EdgeInsets.all(12),
@@ -96,7 +101,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
             spreadRadius: 1,
             blurRadius: 6,
             offset: Offset(0, 3),
-          )
+          ),
         ],
       ),
       child: ListTile(
@@ -117,8 +122,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
             children: [
               Row(
                 children: [
-                  Icon(Icons.fitness_center,
-                      size: 18, color: Color.fromARGB(255, 46, 105, 70)),
+                  Icon(
+                    Icons.fitness_center,
+                    size: 18,
+                    color: Color.fromARGB(255, 46, 105, 70),
+                  ),
                   SizedBox(width: 6),
                   Text(
                     "Difficulty: ${exercise.difficulty}",
@@ -129,7 +137,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
               SizedBox(height: 4),
               Row(
                 children: [
-                  Icon(Icons.build, size: 18, color: Color.fromARGB(255, 46, 105, 70)),
+                  Icon(
+                    Icons.build,
+                    size: 18,
+                    color: Color.fromARGB(255, 46, 105, 70),
+                  ),
                   SizedBox(width: 6),
                   Text(
                     "Equipment: ${exercise.equipment}",
@@ -145,18 +157,25 @@ class _FavoritesPageState extends State<FavoritesPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: Icon(Icons.delete,
-                  color: Color.fromARGB(255, 81, 163, 108)),
+              icon: Icon(
+                Icons.delete,
+                color: Color.fromARGB(255, 81, 163, 108),
+              ),
               onPressed: () async {
                 await favoritesRef.doc(exercise.name).delete();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${exercise.name} removed from favorites')),
+                  SnackBar(
+                    content: Text('${exercise.name} removed from favorites'),
+                  ),
                 );
               },
             ),
             IconButton(
-              icon: Icon(Icons.add_outlined,
-                  color: Color.fromARGB(255, 81, 163, 108)), onPressed: () => _addToWorkoutPlan(exercise),
+              icon: Icon(
+                Icons.add_outlined,
+                color: Color.fromARGB(255, 81, 163, 108),
+              ),
+              onPressed: () => _addToWorkoutPlan(exercise),
             ),
           ],
         ),
@@ -219,18 +238,21 @@ class _FavoritesPageState extends State<FavoritesPage> {
           .collection("Workout")
           .doc(exercise.name)
           .set({
-        'name': exercise.name,
-        'difficulty': exercise.difficulty,
-        'equipment': exercise.equipment,
-        'instructions': exercise.instructions,
-        'date': formattedDate,
-        'reps': reps,
-        'sets': sets
-      });
+            'name': exercise.name,
+            'difficulty': exercise.difficulty,
+            'equipment': exercise.equipment,
+            'instructions': exercise.instructions,
+            'date': formattedDate,
+            'reps': reps,
+            'sets': sets,
+          });
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('${exercise.name} added to workout plan for ${pickedDate.month}/${pickedDate.day}/${pickedDate.year}')),
+          content: Text(
+            '${exercise.name} added to workout plan for ${pickedDate.month}/${pickedDate.day}/${pickedDate.year}',
+          ),
+        ),
       );
     }
   }
@@ -241,15 +263,54 @@ class _FavoritesPageState extends State<FavoritesPage> {
       builder: (context) {
         return AlertDialog(
           backgroundColor: Color.fromARGB(255, 244, 238, 227),
-          title: Text(exercise.name,
-              style: TextStyle(color: Color.fromARGB(255, 20, 50, 31))),
-          content: Text(exercise.instructions,
-              style: TextStyle(color: Color.fromARGB(255, 46, 105, 70))),
+          title: Text(
+            exercise.name,
+            style: TextStyle(
+              color: Color.fromARGB(255, 20, 50, 31),
+              fontFamily: 'MontserratB',
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 8),
+                Text(
+                  exercise.instructions,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 46, 105, 70),
+                    fontFamily: 'RubikL',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
           actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("Close",
-                  style: TextStyle(color: Color.fromARGB(255, 46, 105, 70))),
+            Container(
+              width: 100,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    // side: BorderSide(
+                    //   color: Color.fromARGB(255, 0, 0, 0),
+                    //   width: 1,
+                    // ),
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Close",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 202, 59, 59),
+                    fontFamily: 'MonsterratB',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           ],
         );

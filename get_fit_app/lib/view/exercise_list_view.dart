@@ -97,10 +97,18 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
+              style: TextStyle(
+                fontFamily: 'RubikL',
+                fontWeight: FontWeight.bold,
+              ),
               controller: exerciseTypeText,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Muscle type, Cardio, Stretching',
+                hintStyle: TextStyle(
+                  fontFamily: 'RubikL',
+                  fontWeight: FontWeight.bold,
+                ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
                   borderSide: const BorderSide(
@@ -142,6 +150,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                     'Search',
                     style: TextStyle(
                       color: Color.fromARGB(255, 244, 238, 227),
+                      fontFamily: 'MontserratB',
                       fontSize: 15,
                     ),
                     textAlign: TextAlign.center,
@@ -174,6 +183,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                 exercise.name,
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 20, 50, 31),
+                                  fontFamily: 'MontserratB',
                                 ),
                               ),
                               subtitle: Text(
@@ -181,6 +191,8 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                 "Equipment: ${exercise.equipment}",
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 46, 105, 70),
+                                  fontFamily: 'RubikL',
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               trailing: SizedBox(
@@ -189,20 +201,38 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     IconButton(
-                                      icon: Icon(
-                                        isFavorite
-                                            ? Icons.star
-                                            : Icons.star_border,
-                                        color:
-                                            isFavorite
-                                                ? const Color.fromARGB(
-                                                  255,
-                                                  81,
-                                                  163,
-                                                  108,
-                                                )
-                                                : Colors.grey,
-                                      ),
+                                      icon:
+                                          isFavorite
+                                              ? Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.star_border,
+                                                    color: const Color.fromARGB(
+                                                      255,
+                                                      151,
+                                                      135,
+                                                      8,
+                                                    ), // Outline
+                                                    size: 32,
+                                                  ),
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: const Color.fromARGB(
+                                                      255,
+                                                      242,
+                                                      201,
+                                                      76,
+                                                    ), // Filled
+                                                    size: 24,
+                                                  ),
+                                                ],
+                                              )
+                                              : Icon(
+                                                Icons.star_border,
+                                                color: Colors.grey,
+                                                size: 32,
+                                              ),
                                       onPressed: () async {
                                         setState(() {
                                           exercise.isFavorite = !isFavorite;
@@ -216,7 +246,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                             );
                                           }
                                         });
-                                        if (exercise.isFavorite == true) {
+                                        if (exercise.isFavorite) {
                                           await favoritesRef
                                               .doc(exercise.name)
                                               .set({
@@ -256,6 +286,11 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   TextField(
+                                                    style: TextStyle(
+                                                      fontFamily: 'RubikL',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                     controller: setsController,
                                                     keyboardType:
                                                         TextInputType.number,
@@ -265,6 +300,11 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                         ),
                                                   ),
                                                   TextField(
+                                                    style: TextStyle(
+                                                      fontFamily: 'RubikL',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                     controller: repsController,
                                                     keyboardType:
                                                         TextInputType.number,
@@ -342,18 +382,51 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
           backgroundColor: Color.fromARGB(255, 244, 238, 227),
           title: Text(
             exercise.name,
-            style: TextStyle(color: Color.fromARGB(255, 20, 50, 31)),
+            style: TextStyle(
+              color: Color.fromARGB(255, 20, 50, 31),
+              fontFamily: 'MontserratB',
+            ),
           ),
-          content: Text(
-            exercise.instructions,
-            style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 8),
+                Text(
+                  exercise.instructions,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 46, 105, 70),
+                    fontFamily: 'RubikL',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                "Close",
-                style: TextStyle(color: Color.fromARGB(255, 81, 163, 108)),
+            Container(
+              width: 100,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    // side: BorderSide(
+                    //   color: Color.fromARGB(255, 0, 0, 0),
+                    //   width: 1,
+                    // ),
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Close",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 202, 59, 59),
+                    fontFamily: 'MonsterratB',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ],
