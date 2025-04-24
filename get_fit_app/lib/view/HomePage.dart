@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get_fit_app/view/LeaderboardPage.dart';
-import '../view/login_view.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
 import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
-import 'settingspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'exercise_list_view.dart';
 import '../view/favorites_page.dart';
@@ -14,7 +12,6 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/WorkoutHistory.dart';
 import '../view/profile_page.dart';
 import '../view/checklist_view.dart';
-import '../view/LeaderboardPage.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});

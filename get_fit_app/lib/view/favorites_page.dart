@@ -58,6 +58,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   fontSize: 18,
                   color: Colors.grey,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'MontserratB',
                 ),
               ),
             );
@@ -80,7 +81,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
           return ListView.separated(
             padding: const EdgeInsets.all(12),
             itemCount: exercises.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
+            separatorBuilder: (context, index) => const SizedBox(height: 25),
             itemBuilder: (context, index) {
               return _buildExerciseCard(exercises[index]);
             },
@@ -131,7 +132,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   SizedBox(width: 6),
                   Text(
                     "Difficulty: ${exercise.difficulty}",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 46, 105, 70),
+                      fontFamily: 'RubikL',
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -146,7 +151,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   SizedBox(width: 6),
                   Text(
                     "Equipment: ${exercise.equipment}",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 46, 105, 70),
+                      fontFamily: 'RubikL',
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
