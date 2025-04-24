@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
+import 'nav_bar.dart';
 
 class LeaderboardPage extends StatelessWidget {
-  const LeaderboardPage({super.key});
+  final bool isFromNavbar;
+
+  const LeaderboardPage({Key? key, required this.isFromNavbar})
+    : super(key: key);
 
   List<ChartModel> generateDummyData(int multiplier) {
     List<String> names = ['Alice', 'Bob', 'Carol', 'Dave', 'you'];
@@ -22,18 +26,20 @@ class LeaderboardPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Color.fromARGB(255, 244, 238, 227),
-        ),
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
-          )
+          ),
         ),
-        title: const Text('Leaderboard', style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),),
+        title: const Text(
+          'Leaderboard',
+          style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+        ),
         backgroundColor: const Color.fromARGB(255, 20, 50, 31),
       ),
+      drawer: isFromNavbar ? const NavBar() : null,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

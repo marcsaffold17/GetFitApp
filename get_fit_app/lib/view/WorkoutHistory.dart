@@ -59,9 +59,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
           isLoading
               ? Center(child: CircularProgressIndicator())
               : ListView(
-                padding: EdgeInsets.only(
-                  bottom: 24,
-                ), // to give space for the button
+                padding: EdgeInsets.only(bottom: 24),
                 children: [
                   ...sortedEntries.map((entry) {
                     final date = entry.key;
@@ -69,7 +67,7 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                     return ExpansionTile(
                       title: Container(
                         padding: EdgeInsets.symmetric(
-                          vertical: 8,
+                          vertical: 16,
                           horizontal: 12,
                         ),
                         decoration: BoxDecoration(
@@ -79,7 +77,8 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                         child: Text(
                           date,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontFamily: 'RubikL',
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 244, 238, 227),
                           ),
@@ -97,47 +96,49 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
                     );
                   }).toList(),
                   SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 46, 105, 70),
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      onPressed: () async {
-                        final repository =
-                            WorkoutRepository(); // Make sure this exists and is imported
-                        final presenter = WorkoutPresenter(repository);
-
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => WorkoutEntryScreen(
-                                  presenter: presenter,
-                                  onWorkoutUploaded:
-                                      fetchAndGroupWorkouts, // Pass the refresh function
-                                ),
-                          ),
-                        );
-                        fetchAndGroupWorkouts();
-                      },
-                      child: Text(
-                        'Add Workout',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 244, 238, 227),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 40),
                 ],
               ),
+      bottomNavigationBar: Container(
+        // padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        padding: EdgeInsets.all(20.0),
+
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 46, 105, 70),
+            padding: EdgeInsets.symmetric(horizontal: 75.0, vertical: 20.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+          ),
+          onPressed: () async {
+            final repository =
+                WorkoutRepository(); // Make sure this exists and is imported
+            final presenter = WorkoutPresenter(repository);
+
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (context) => WorkoutEntryScreen(
+                      presenter: presenter,
+                      onWorkoutUploaded:
+                          fetchAndGroupWorkouts, // Pass the refresh function
+                    ),
+              ),
+            );
+            fetchAndGroupWorkouts();
+          },
+          child: Text(
+            'Add Workout',
+            style: TextStyle(
+              fontFamily: 'MontserratB',
+              color: Color.fromARGB(255, 244, 238, 227),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -300,20 +301,21 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: Color.fromARGB(255, 20, 50, 31),
+                        fontFamily: 'MontserratB',
                       ),
                     ),
                   ),
                   IconButton(
                     icon: Icon(
                       Icons.edit,
-                      color: Color.fromARGB(255, 20, 50, 31),
+                      color: Color.fromARGB(255, 46, 105, 70),
                     ),
                     onPressed: _showEditDialog,
                   ),
                   IconButton(
                     icon: Icon(
                       Icons.delete,
-                      color: Color.fromARGB(255, 20, 50, 31),
+                      color: Color.fromARGB(200, 202, 59, 59),
                     ),
                     onPressed: _deleteWorkout,
                   ),
@@ -335,37 +337,37 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   workout['difficulty'] != 'N/A')
                 Text(
                   "Difficulty: ${workout['difficulty']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['equipment'] != null && workout['equipment'] != 'N/A')
                 Text(
                   "Equipment: ${workout['equipment']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['sets'] != null && workout['sets'] != 'N/A')
                 Text(
                   "Sets: ${workout['sets']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['reps'] != null && workout['reps'] != 'N/A')
                 Text(
                   "Reps: ${workout['reps']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['Type'] != null && workout['Type'] != 'N/A')
                 Text(
                   "Type: ${workout['Type']}",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['Distance'] != null && workout['Distance'] != 'N/A')
                 Text(
                   "Distance: ${workout['Distance']} miles",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (workout['Time'] != null && workout['Time'] != 'N/A')
                 Text(
                   "Time: ${workout['Time']} mins",
-                  style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+                  style: DescriptionsTextStyle(),
                 ),
               if (isExpanded)
                 Padding(
@@ -419,6 +421,14 @@ class _WorkoutTileState extends State<_WorkoutTile> {
           ),
         ),
       ),
+    );
+  }
+
+  TextStyle DescriptionsTextStyle() {
+    return TextStyle(
+      color: Color.fromARGB(255, 49, 112, 75),
+      fontWeight: FontWeight.bold,
+      fontFamily: 'RubikL',
     );
   }
 }

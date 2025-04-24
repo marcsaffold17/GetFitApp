@@ -8,10 +8,10 @@ import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
 import 'settingspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../view/exercise_view.dart';
+import 'exercise_list_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../view/Workout-Plan.dart';
+import '../view/WorkoutHistory.dart';
 import '../view/profile_page.dart';
 import '../view/checklist_view.dart';
 import '../view/LeaderboardPage.dart';
@@ -88,78 +88,121 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildHomePage() {
-    return Stack(
-      children: [
-        Positioned(
-          top: 20,
-          left: 20,
-          child: Text(
-            "Welcome Back, $UserName",
-            style: const TextStyle(fontSize: 30),
-          ),
-        ),
-        Positioned(
-          top: 120,
-          left: 20,
-          right: 20,
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: displayChart(_chartData, _selectedChart),
-          ),
-        ),
-        Positioned(
-          bottom: 240,
-          left: 20,
-          child: Container(
-            width: 180,
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 229, 221, 212),
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Welcome Back,",
+              style: const TextStyle(fontSize: 30, fontFamily: 'MontserratB'),
+            ),
+            Text(
+              "$UserName",
+              style: const TextStyle(fontSize: 27, fontFamily: 'MontserratB'),
+            ),
+            SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.all(15),
+              height: 300,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 229, 221, 212),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Color.fromARGB(255, 20, 50, 31),
+                  width: 2,
+                ),
               ),
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChecklistPage()),
-                );
-              },
-              child: const Text(
-                "TODO List",
-                style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: displayChart(_chartData, _selectedChart),
               ),
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 240,
-          right: 20,
-          child: Container(
-            width: 180,
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 229, 221, 212),
-              ),
-              onPressed: () async {
-                final updatedChart = await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LeaderboardPage()),
-                );
-                if (updatedChart != null) {
-                  setState(() {
-                    _selectedChart = updatedChart;
-                  });
-                }
-              },
-              child: const Text(
-                "LeaderBoard",
-                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                textAlign: TextAlign.center,
-              ),
+            SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 379.4,
+                  height: 70,
+                  child: ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.checklist_rounded,
+                      color: Color.fromARGB(255, 229, 221, 212),
+                      size: 35,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => ChecklistPage(isFromNavbar: false),
+                        ),
+                      );
+                    },
+                    label: const Text(
+                      "Check List",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 244, 238, 227),
+                        fontFamily: 'MontserratB',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 379.4,
+                  height: 70,
+                  child: ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.emoji_events,
+                      color: Color.fromARGB(255, 229, 221, 212),
+                      size: 35,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    onPressed: () async {
+                      final updatedChart = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => LeaderboardPage(isFromNavbar: false),
+                        ),
+                      );
+                      if (updatedChart != null) {
+                        setState(() {
+                          _selectedChart = updatedChart;
+                        });
+                      }
+                    },
+                    label: const Text(
+                      "LeaderBoard",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 244, 238, 227),
+                        fontFamily: 'MontserratB',
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -212,6 +255,10 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: const NavBar(),
       body: _pages[_selectedIndex],
       bottomNavigationBar: GNav(
+        textStyle: const TextStyle(
+          color: Color.fromARGB(255, 244, 238, 227),
+          fontFamily: 'MontserratB',
+        ),
         onTabChange: (index) {
           setState(() {
             _selectedIndex = index;
