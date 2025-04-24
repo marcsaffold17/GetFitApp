@@ -249,7 +249,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'rubikL',
+                      fontFamily: 'RubikL',
                       color: Color.fromARGB(255, 20, 50, 31),
                     ),
                   ),
