@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/login_view.dart';
@@ -7,14 +6,14 @@ import '../presenter/global_presenter.dart';
 import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
 import 'settingspage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../view/exercise_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/Workout-Plan.dart';
 import '../view/profile_page.dart';
 import '../view/checklist_view.dart';
-import '../view/LeaderboardPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -30,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late String UserName;
   List<ChartModel> _chartData = [];
   String _selectedChart = 'Line';
-  File? _profileImage;
+  String? _imageUrl;
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _loadUsername();
     _loadChartData();
     _loadChartPreference();
-    _loadProfileImage();
+    _loadProfileImageFromFirestore();
   }
 
   void _loadUsername() {
@@ -61,16 +60,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> _loadProfileImage() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? imagePath = prefs.getString('profileImage');
-    if (imagePath != null && File(imagePath).existsSync()) {
+  Future<void> _loadProfileImageFromFirestore() async {
+    final doc =
+        await FirebaseFirestore.instance
+            .collection('Login-Info')
+            .doc(globalUsername)
+            .collection('profilepage')
+            .doc('info')
+            .get();
+    if (doc.exists && doc.data()!.containsKey('imageUrl')) {
       setState(() {
-        _profileImage = File(imagePath);
-      });
-    } else {
-      setState(() {
-        _profileImage = null;
+        _imageUrl = doc['imageUrl'];
       });
     }
   }
@@ -189,13 +189,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context) => ProfilePage(username: UserName),
                   ),
                 );
-                _loadProfileImage();
+                _loadProfileImageFromFirestore(); // Reload updated image after profile change
               },
               child: CircleAvatar(
                 radius: 18,
                 backgroundImage:
-                    _profileImage != null
-                        ? FileImage(_profileImage!)
+                    _imageUrl != null
+                        ? NetworkImage(_imageUrl!)
                         : const AssetImage('assets/images/AshtonHall.webp')
                             as ImageProvider,
               ),
