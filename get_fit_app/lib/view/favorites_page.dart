@@ -158,9 +158,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
           children: [
             IconButton(
               icon: Icon(
-                Icons.delete,
+                Icons.add_outlined,
                 color: Color.fromARGB(255, 81, 163, 108),
               ),
+              onPressed: () => _addToWorkoutPlan(exercise),
+            ),
+            IconButton(
+              icon: Icon(Icons.delete, color: Color.fromARGB(200, 202, 59, 59)),
               onPressed: () async {
                 await favoritesRef.doc(exercise.name).delete();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -169,13 +173,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   ),
                 );
               },
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.add_outlined,
-                color: Color.fromARGB(255, 81, 163, 108),
-              ),
-              onPressed: () => _addToWorkoutPlan(exercise),
             ),
           ],
         ),
