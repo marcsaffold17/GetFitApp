@@ -38,6 +38,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   final _titleController = TextEditingController();
   final _typeController = TextEditingController();
   String? _workoutType;
+  IconData? _workoutTypeIcon;
 
   File? _image;
   String? _dropdownError;
@@ -150,6 +151,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   onTap: () {
                     setState(() {
                       _workoutType = workout['type'];
+                      _workoutTypeIcon = workout['icon'];
                       _typeController.text = _workoutType!;
                     });
                     Navigator.pop(context);
@@ -163,6 +165,19 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
 
   String? FormattedDate;
   @override
+  TextStyle selectedStyle = TextStyle(
+    fontFamily: 'RubikL',
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    color: Color.fromARGB(255, 46, 105, 70),
+  );
+
+  TextStyle unselectedStyle = TextStyle(
+    fontFamily: 'RubikL',
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    color: Color.fromARGB(160, 46, 105, 70),
+  );
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
@@ -233,6 +248,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'rubikL',
                       color: Color.fromARGB(255, 20, 50, 31),
                     ),
                   ),
@@ -247,13 +263,33 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                       border: Border.all(color: Colors.black, width: 1),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Text(
-                      _workoutType ?? 'Select workout type',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 46, 105, 70),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _workoutTypeIcon,
+                          // Icons.fitness_center,
+                          color: Colors.black,
+                        ), // You can change this icon
+                        SizedBox(width: 8),
+                        Text(
+                          _workoutType ?? 'Select workout type',
+                          style:
+                              _workoutType == null
+                                  ? unselectedStyle
+                                  : selectedStyle,
+                        ),
+                      ],
                     ),
+                    // child: Text(
+                    //   textAlign: TextAlign.center,
+                    //   _workoutType ?? 'Select workout type',
+                    //   style:
+                    //       _workoutType == null
+                    //           ? unselectedStyle
+                    //           : selectedStyle,
+                    // ),
                   ),
                 ),
                 SizedBox(height: 15.0),
