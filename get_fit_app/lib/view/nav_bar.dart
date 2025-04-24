@@ -5,8 +5,6 @@ import 'SettingsPage.dart';
 import '../view/checklist_view.dart';
 import '../view/login_view.dart';
 import '../presenter/global_presenter.dart';
-import '../view/workout_history_view.dart';
-import '../view/insert_workout_view.dart';
 import '../view/badge_screen.dart';
 
 class NavBar extends StatelessWidget {
