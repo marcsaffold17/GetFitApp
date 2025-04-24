@@ -32,13 +32,14 @@ class LoginButtonPage extends StatelessWidget {
                   width: 400,
                 ),
                 RichText(
+                  textAlign: TextAlign.center,
                   text: TextSpan(
                     style: TextStyle(
                       fontFamily: 'MontserratB',
                       fontSize: 80,
                       color: const Color.fromARGB(255, 244, 238, 227),
                     ),
-                    children: const <TextSpan>[TextSpan(text: 'Get FIT')],
+                    children: const <TextSpan>[TextSpan(text: 'BEAST Mode')],
                   ),
                 ),
                 const Divider(
