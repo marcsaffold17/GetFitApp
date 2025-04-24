@@ -105,7 +105,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         ],
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
           exercise.name,
