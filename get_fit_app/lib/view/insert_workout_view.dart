@@ -707,7 +707,25 @@ class SmallTextFormField extends StatelessWidget {
 Widget DateSelectorColor(context, child) {
   return Theme(
     data: Theme.of(context).copyWith(
+      useMaterial3: true,
       datePickerTheme: DatePickerThemeData(
+        weekdayStyle: TextStyle(
+          fontFamily: 'MontserratB',
+          fontSize: 14,
+          // color: Color.fromARGB(255, 255, 0, 174),
+        ),
+        dayStyle: TextStyle(
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          // color: Color(0xFF1E321F),
+        ),
+        yearStyle: TextStyle(
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          // color: Color(0xFF1E321F),
+        ),
         dividerColor: Color.fromARGB(255, 20, 50, 31),
       ),
       colorScheme: ColorScheme.dark(
