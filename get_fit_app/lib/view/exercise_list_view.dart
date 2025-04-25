@@ -287,57 +287,87 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                             context: context,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
+                                                backgroundColor: Color.fromARGB(
+                                                  255,
+                                                  244,
+                                                  238,
+                                                  227,
+                                                ),
                                                 title: const Text(
                                                   'Edit Workout',
+                                                  style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                      255,
+                                                      20,
+                                                      50,
+                                                      31,
+                                                    ),
+                                                    fontFamily: 'MontserratB',
+                                                  ),
                                                 ),
                                                 content: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
                                                   children: [
-                                                    TextField(
-                                                      style: TextStyle(
-                                                        fontFamily: 'RubikL',
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                      controller:
+                                                    SmallTextField(
+                                                      setsController:
                                                           setsController,
-                                                      keyboardType:
-                                                          TextInputType.number,
-                                                      decoration:
-                                                          const InputDecoration(
-                                                            labelText: 'Sets',
-                                                          ),
+                                                      lText: 'Sets',
                                                     ),
-                                                    TextField(
-                                                      style: TextStyle(
-                                                        fontFamily: 'RubikL',
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                      controller:
+                                                    SmallTextField(
+                                                      setsController:
                                                           repsController,
-                                                      keyboardType:
-                                                          TextInputType.number,
-                                                      decoration:
-                                                          const InputDecoration(
-                                                            labelText: 'Reps',
-                                                          ),
+                                                      lText: 'Reps',
                                                     ),
                                                   ],
                                                 ),
                                                 actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      sets =
-                                                          setsController.text;
-                                                      reps =
-                                                          repsController.text;
-                                                      Navigator.of(
-                                                        context,
-                                                      ).pop();
-                                                    },
-                                                    child: Text('Proceed'),
+                                                  Container(
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                      color: Color.fromARGB(
+                                                        255,
+                                                        229,
+                                                        221,
+                                                        212,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
+                                                    ),
+                                                    child: TextButton(
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                            backgroundColor:
+                                                                Color.fromARGB(
+                                                                  255,
+                                                                  229,
+                                                                  221,
+                                                                  212,
+                                                                ),
+                                                          ),
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+                                                      child: Text(
+                                                        'Proceed',
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                            255,
+                                                            46,
+                                                            105,
+                                                            70,
+                                                          ),
+                                                          fontFamily:
+                                                              'MonsterratB',
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               );
@@ -448,6 +478,47 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
           ],
         );
       },
+    );
+  }
+}
+
+class SmallTextField extends StatelessWidget {
+  const SmallTextField({
+    super.key,
+    required this.setsController,
+    required this.lText,
+  });
+
+  final TextEditingController setsController;
+  final String lText;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      style: TextStyle(fontFamily: 'RubikL', fontWeight: FontWeight.bold),
+      controller: setsController,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 46, 105, 70),
+            width: 2,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 46, 105, 70),
+            width: 1,
+          ), // focused underline color
+        ),
+
+        labelText: lText,
+        labelStyle: TextStyle(
+          color: Color.fromARGB(255, 46, 105, 70),
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

@@ -206,30 +206,56 @@ class _FavoritesPageState extends State<FavoritesPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Edit Workout'),
+            backgroundColor: Color.fromARGB(255, 244, 238, 227),
+            title: const Text(
+              'Edit Workout',
+              style: TextStyle(
+                color: Color.fromARGB(255, 20, 50, 31),
+                fontFamily: 'MontserratB',
+              ),
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(
-                  controller: setsController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: 'Sets'),
-                ),
-                TextField(
-                  controller: repsController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: 'Reps'),
-                ),
+                SmallTextField(setsController: setsController, lText: 'Sets'),
+                SmallTextField(setsController: repsController, lText: 'Reps'),
+                // TextField(
+                //   controller: setsController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: const InputDecoration(labelText: 'Sets'),
+                // ),
+                // TextField(
+                //   controller: repsController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: const InputDecoration(labelText: 'Reps'),
+                // ),
               ],
             ),
             actions: [
-              TextButton(
-                onPressed: () {
-                  sets = setsController.text;
-                  reps = repsController.text;
-                  Navigator.of(context).pop();
-                },
-                child: Text('Proceed'),
+              Container(
+                width: 100,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 229, 221, 212),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                  ),
+                  onPressed: () {
+                    sets = setsController.text;
+                    reps = repsController.text;
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Proceed',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 46, 105, 70),
+                      fontFamily: 'MonsterratB',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
             ],
           );
@@ -364,4 +390,45 @@ Widget DateSelectorColor(context, child) {
     ),
     child: child!,
   );
+}
+
+class SmallTextField extends StatelessWidget {
+  const SmallTextField({
+    super.key,
+    required this.setsController,
+    required this.lText,
+  });
+
+  final TextEditingController setsController;
+  final String lText;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      style: TextStyle(fontFamily: 'RubikL', fontWeight: FontWeight.bold),
+      controller: setsController,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 46, 105, 70),
+            width: 2,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 46, 105, 70),
+            width: 1,
+          ), // focused underline color
+        ),
+
+        labelText: lText,
+        labelStyle: TextStyle(
+          color: Color.fromARGB(255, 46, 105, 70),
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
 }
