@@ -265,6 +265,33 @@ class _WorkoutTileState extends State<_WorkoutTile> {
     );
   }
 
+  void _showDeleteDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Are you sure you want to delete this workout?"
+              " This cannot be undone"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("Delete"),
+              onPressed: () {
+                _deleteWorkout();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showFullScreenImage(String imageUrl) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -315,7 +342,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                       Icons.delete,
                       color: Color.fromARGB(255, 20, 50, 31),
                     ),
-                    onPressed: _deleteWorkout,
+                    onPressed: _showDeleteDialog,
                   ),
                   IconButton(
                     icon: Icon(
