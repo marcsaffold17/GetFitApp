@@ -185,11 +185,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
       appBar: AppBar(
         iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
+        centerTitle: true,
         title: Text(
           'Add Workout',
           style: TextStyle(
             color: Color.fromARGB(255, 244, 238, 227),
-            fontFamily: 'RubikL',
+            fontFamily: 'MontserratB',
           ),
         ),
         shape: RoundedRectangleBorder(
@@ -372,6 +373,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(2000),
                                               lastDate: DateTime(2100),
+                                              builder: DateSelectorColor,
                                             );
 
                                         if (pickedDate != null) {
@@ -700,4 +702,21 @@ class SmallTextFormField extends StatelessWidget {
       keyboardType: TextInputType.number,
     );
   }
+}
+
+Widget DateSelectorColor(context, child) {
+  return Theme(
+    data: Theme.of(context).copyWith(
+      datePickerTheme: DatePickerThemeData(
+        dividerColor: Color.fromARGB(255, 20, 50, 31),
+      ),
+      colorScheme: ColorScheme.dark(
+        primary: Color.fromARGB(255, 46, 105, 70),
+        onPrimary: Color.fromARGB(255, 229, 221, 212),
+        onSurface: Color.fromARGB(255, 30, 50, 31),
+        surface: const Color.fromARGB(255, 244, 238, 227),
+      ),
+    ),
+    child: child!,
+  );
 }

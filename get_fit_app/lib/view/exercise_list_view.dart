@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../presenter/exercise_presenter.dart';
 import '../model/exercies_model.dart';
@@ -85,6 +87,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   TextEditingController repsController = TextEditingController();
   String reps = '';
   String sets = '';
+  bool cancelled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +226,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                       242,
                                                       201,
                                                       76,
-                                                    ), // Filled
+                                                    ),
                                                     size: 24,
                                                   ),
                                                 ],
@@ -273,61 +276,74 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                         final DateTime? pickedDate =
                                             await showDatePicker(
                                               context: context,
+                                              builder: DateSelectorColor,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(2000),
                                               lastDate: DateTime(2100),
                                             );
-                                        await showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text('Edit Workout'),
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  TextField(
-                                                    style: TextStyle(
-                                                      fontFamily: 'RubikL',
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                        cancelled = pickedDate == null;
+                                        if (!cancelled) {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                  'Edit Workout',
+                                                ),
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    TextField(
+                                                      style: TextStyle(
+                                                        fontFamily: 'RubikL',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      controller:
+                                                          setsController,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                            labelText: 'Sets',
+                                                          ),
                                                     ),
-                                                    controller: setsController,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                          labelText: 'Sets',
-                                                        ),
-                                                  ),
-                                                  TextField(
-                                                    style: TextStyle(
-                                                      fontFamily: 'RubikL',
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                    TextField(
+                                                      style: TextStyle(
+                                                        fontFamily: 'RubikL',
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      controller:
+                                                          repsController,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                            labelText: 'Reps',
+                                                          ),
                                                     ),
-                                                    controller: repsController,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                          labelText: 'Reps',
-                                                        ),
+                                                  ],
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      sets =
+                                                          setsController.text;
+                                                      reps =
+                                                          repsController.text;
+                                                      Navigator.of(
+                                                        context,
+                                                      ).pop();
+                                                    },
+                                                    child: Text('Proceed'),
                                                   ),
                                                 ],
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    sets = setsController.text;
-                                                    reps = repsController.text;
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text('Proceed'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
+                                              );
+                                            },
+                                          );
+                                        }
                                         if (pickedDate != null) {
                                           String formattedDate = DateFormat(
                                             'MM-dd-yyyy',
@@ -371,6 +387,23 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
           ],
         ),
       ),
+    );
+  }
+
+  Widget DateSelectorColor(context, child) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        datePickerTheme: DatePickerThemeData(
+          dividerColor: Color.fromARGB(255, 20, 50, 31),
+        ),
+        colorScheme: ColorScheme.dark(
+          primary: Color.fromARGB(255, 46, 105, 70),
+          onPrimary: Color.fromARGB(255, 229, 221, 212),
+          onSurface: Color.fromARGB(255, 30, 50, 31),
+          surface: const Color.fromARGB(255, 244, 238, 227),
+        ),
+      ),
+      child: child!,
     );
   }
 
