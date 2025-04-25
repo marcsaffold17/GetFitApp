@@ -43,6 +43,10 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   File? _image;
   String? _dropdownError;
   String? _dateError;
+  String? _timeError;
+  String? _distanceError;
+  int? _inputError;
+  int? time;
 
   @override
   void initState() {
@@ -80,6 +84,13 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     } catch (e) {
       return 'Please enter a valid date (MM-DD-YYYY)';
     }
+  }
+
+  String? _validateInputs(int? value) {
+    if (value == null || value <= 0) {
+      return 'Please enter a valid number';
+    }
+    return null; // Add this line to return null when validation passes
   }
 
   Future<void> _pickImage() async {
@@ -294,12 +305,14 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         timeController: _timeController,
                         hintText: '0:00 Mins',
                         text: 'Time',
+                        errorText: _timeError,
                       ),
                       SizedBox(width: 15),
                       InputFunctions(
                         timeController: _distanceController,
                         hintText: '0.0 Miles',
                         text: 'Distance',
+                        errorText: _distanceError,
                       ),
                     ],
                   ),
@@ -478,7 +491,18 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
         child: ElevatedButton.icon(
           onPressed: () async {
             setState(() {
-              print(_dateError);
+              int? timeValue = int.tryParse(_timeController.text);
+              _timeError =
+                  timeValue == null || timeValue <= 0
+                      ? 'Please enter a valid\n time (minutes)'
+                      : null;
+
+              double? distanceValue = double.tryParse(_distanceController.text);
+              _distanceError =
+                  distanceValue == null || distanceValue <= 0
+                      ? 'Please enter a valid\ndistance (miles)'
+                      : null;
+
               _dropdownError =
                   _workoutType == null ? 'Please select a workout type' : null;
               _dateError = _validateDate(_dayController.text);
@@ -486,7 +510,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
 
             if (_formKey.currentState!.validate() &&
                 _dropdownError == null &&
-                _dateError == null) {
+                _dateError == null &&
+                _timeError == null &&
+                _distanceError == null) {
               widget.presenter.view = this;
               double? distance =
                   double.tryParse(_distanceController.text) ?? 0.0;
@@ -574,11 +600,13 @@ class InputFunctions extends StatelessWidget {
     required TextEditingController timeController,
     required this.hintText,
     required this.text,
+    required this.errorText,
   }) : _timeController = timeController;
 
   final TextEditingController _timeController;
   final String hintText;
   final String text;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -607,7 +635,38 @@ class InputFunctions extends StatelessWidget {
                 hintText: hintText,
               ),
             ),
-            // SizedBox(width: 5),
+          ],
+        ),
+        Row(
+          children: [
+            Column(
+              children: [
+                if (errorText != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Container(
+                      width: 175,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 202, 59, 59),
+                        // border: Border.all(color: Color.fromARGB(255, 202, 59, 59)),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        errorText!,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 13,
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ],
         ),
       ],
