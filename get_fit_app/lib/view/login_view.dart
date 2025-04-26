@@ -25,23 +25,23 @@ class LoginButtonPage extends StatelessWidget {
           Positioned.fill(
             child: Column(
               children: [
-                SizedBox(height: 30),
+                SizedBox(height: 120),
                 Image.asset(
-                  'assets/images/MachoMuscleMania.png',
+                  'assets/images/BeastMode.png',
                   height: 300,
                   width: 400,
                 ),
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontFamily: 'MontserratB',
-                      fontSize: 80,
-                      color: const Color.fromARGB(255, 244, 238, 227),
-                    ),
-                    children: const <TextSpan>[TextSpan(text: 'BEAST Mode')],
-                  ),
-                ),
+                // RichText(
+                //   textAlign: TextAlign.center,
+                //   text: TextSpan(
+                //     style: TextStyle(
+                //       fontFamily: 'MontserratB',
+                //       fontSize: 80,
+                //       color: const Color.fromARGB(255, 244, 238, 227),
+                //     ),
+                //     children: const <TextSpan>[TextSpan(text: 'BEAST Mode')],
+                //   ),
+                // ),
                 const Divider(
                   height: 20,
                   thickness: 7,
