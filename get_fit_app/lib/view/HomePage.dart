@@ -12,6 +12,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/WorkoutHistory.dart';
 import '../view/profile_page.dart';
 import '../view/checklist_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -35,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _loadUsername();
     _loadChartData();
     _loadChartPreference();
-    _loadProfileImage();
+    _loadProfileImageFromFirestore();
   }
 
   void _loadUsername() {
@@ -58,16 +59,20 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> _loadProfileImage() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? imagePath = prefs.getString('profileImage');
-    if (imagePath != null && File(imagePath).existsSync()) {
+  String? _imageUrl;
+
+  Future<void> _loadProfileImageFromFirestore() async {
+    final doc =
+        await FirebaseFirestore.instance
+            .collection('Login-Info')
+            .doc(globalUsername)
+            .collection('profilepage')
+            .doc('info')
+            .get();
+
+    if (doc.exists && doc.data()!.containsKey('imageUrl')) {
       setState(() {
-        _profileImage = File(imagePath);
-      });
-    } else {
-      setState(() {
-        _profileImage = null;
+        _imageUrl = doc['imageUrl'];
       });
     }
   }
@@ -229,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context) => ProfilePage(username: UserName),
                   ),
                 );
-                _loadProfileImage();
+                _loadProfileImageFromFirestore();
               },
               child: CircleAvatar(
                 radius: 18,
