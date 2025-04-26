@@ -31,17 +31,7 @@ class LoginButtonPage extends StatelessWidget {
                   height: 300,
                   width: 400,
                 ),
-                // RichText(
-                //   textAlign: TextAlign.center,
-                //   text: TextSpan(
-                //     style: TextStyle(
-                //       fontFamily: 'MontserratB',
-                //       fontSize: 80,
-                //       color: const Color.fromARGB(255, 244, 238, 227),
-                //     ),
-                //     children: const <TextSpan>[TextSpan(text: 'BEAST Mode')],
-                //   ),
-                // ),
+                SizedBox(height: 40),
                 const Divider(
                   height: 20,
                   thickness: 7,
@@ -49,7 +39,7 @@ class LoginButtonPage extends StatelessWidget {
                   endIndent: 30,
                   color: Color.fromARGB(255, 244, 238, 227),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -123,6 +113,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
   late LoginPresenter presenter;
   final userNameText = TextEditingController();
   final passWordText = TextEditingController();
+  String? _loginError;
 
   @override
   void initState() {
@@ -141,11 +132,17 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
 
   @override
   void showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message, style: const TextStyle(color: Colors.red)),
-      ),
-    );
+    setState(() {
+      _loginError = message; // Store the error message
+    });
+  }
+
+  void _clearError() {
+    if (_loginError != null) {
+      setState(() {
+        _loginError = null;
+      });
+    }
   }
 
   @override
@@ -224,13 +221,58 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
                                     userNameText: userNameText,
                                     hintText: 'Username',
                                     obscure: false,
+                                    onChanged: (_) => _clearError(),
                                   ),
                                   SizedBox(height: 12),
                                   LoginTextField(
                                     userNameText: passWordText,
                                     hintText: 'Password',
                                     obscure: true,
+                                    onChanged: (_) => _clearError(),
                                   ),
+                                  if (_loginError != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 10,
+                                        right: 60,
+                                      ),
+                                      child: Container(
+                                        width: 250,
+                                        decoration: BoxDecoration(
+                                          color: Color.fromARGB(
+                                            255,
+                                            202,
+                                            59,
+                                            59,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            30.0,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 8.0,
+                                            bottom: 8.0,
+                                          ),
+                                          child: Text(
+                                            textAlign: TextAlign.center,
+                                            _loginError!,
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                255,
+                                                229,
+                                                221,
+                                                212,
+                                              ),
+                                              fontFamily: 'RubikL',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
                                   SizedBox(height: 20),
                                   Container(
                                     width: 400,
@@ -323,6 +365,8 @@ class CreateAccountPage extends State<MyCreateAccountPage>
   final confirmPassWordText = TextEditingController();
   final emailText = TextEditingController();
 
+  String? _passwordError;
+
   @override
   void initState() {
     super.initState();
@@ -349,10 +393,15 @@ class CreateAccountPage extends State<MyCreateAccountPage>
 
   void handleCreateAccount() {
     if (passWordText.text != confirmPassWordText.text) {
-      showError("Passwords do not match");
-      return;
+      setState(() {
+        _passwordError = "Passwords do not match";
+      });
+    } else {
+      setState(() {
+        _passwordError = null;
+      });
+      presenter.createAccount(userNameText.text, passWordText.text);
     }
-    presenter.createAccount(userNameText.text, passWordText.text);
   }
 
   @override
@@ -438,14 +487,70 @@ class CreateAccountPage extends State<MyCreateAccountPage>
                                     userNameText: passWordText,
                                     hintText: 'Password',
                                     obscure: true,
+                                    onChanged: (value) {
+                                      if (_passwordError != null) {
+                                        setState(() {
+                                          _passwordError = null;
+                                        });
+                                      }
+                                    },
                                   ),
                                   SizedBox(height: 12),
                                   LoginTextField(
                                     userNameText: confirmPassWordText,
                                     hintText: 'Confirm Password',
                                     obscure: true,
+                                    onChanged: (value) {
+                                      if (_passwordError != null) {
+                                        setState(() {
+                                          _passwordError = null;
+                                        });
+                                      }
+                                    },
                                   ),
-                                  SizedBox(height: 30),
+                                  if (_passwordError != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 10,
+                                        right: 80,
+                                      ),
+                                      child: Container(
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                          color: Color.fromARGB(
+                                            255,
+                                            202,
+                                            59,
+                                            59,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            30.0,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 8.0,
+                                            bottom: 8.0,
+                                          ),
+                                          child: Text(
+                                            textAlign: TextAlign.center,
+                                            _passwordError!,
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                255,
+                                                229,
+                                                221,
+                                                212,
+                                              ),
+                                              fontSize: 14,
+                                              fontFamily: 'RubikL',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  SizedBox(height: 20),
                                   Container(
                                     width: 400,
                                     height: 60,
@@ -529,22 +634,21 @@ class LoginTextField extends StatelessWidget {
     required this.userNameText,
     required this.hintText,
     required this.obscure,
+    this.onChanged,
   });
 
   final TextEditingController userNameText;
   final String hintText;
   final bool obscure;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      style: const TextStyle(
-        // color: Color.fromARGB(255, 46, 105, 70),
-        fontFamily: 'RubikL',
-        fontWeight: FontWeight.bold,
-      ),
+      style: const TextStyle(fontFamily: 'RubikL', fontWeight: FontWeight.bold),
       controller: userNameText,
       obscureText: obscure,
+      onChanged: onChanged,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -555,7 +659,10 @@ class LoginTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
-          borderSide: BorderSide(width: 3.0, color: Colors.blue),
+          borderSide: BorderSide(
+            width: 3.0,
+            color: Color.fromARGB(255, 81, 163, 108),
+          ),
         ),
         hintText: hintText,
       ),
