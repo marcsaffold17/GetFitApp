@@ -41,6 +41,8 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   IconData? _workoutTypeIcon;
 
   File? _image;
+  String? _titleError;
+  String? _descriptionError;
   String? _dropdownError;
   String? _dateError;
   String? _timeError;
@@ -235,6 +237,28 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   maxLine: 1,
                   hintText: 'Enter workout title',
                 ),
+                if (_titleError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 202, 59, 59),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        _titleError!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 13,
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 SizedBox(height: 16.0),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -253,6 +277,28 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   maxLine: 3,
                   hintText: 'Enter workout description',
                 ),
+                if (_descriptionError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 202, 59, 59),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        _descriptionError!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 13,
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 SizedBox(height: 15.0),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -296,6 +342,28 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ),
                 ),
+                if (_dropdownError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      width: 250,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 202, 59, 59),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        _dropdownError!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 13,
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 SizedBox(height: 15.0),
                 Center(
                   child: Row(
@@ -502,17 +570,28 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   distanceValue == null || distanceValue <= 0
                       ? 'Please enter a valid\ndistance (miles)'
                       : null;
-
               _dropdownError =
                   _workoutType == null ? 'Please select a workout type' : null;
               _dateError = _validateDate(_dayController.text);
             });
+            if (_titleController.text.isEmpty) {
+              _titleError = 'Please enter a title';
+            } else {
+              _titleError = null;
+            }
+            if (_descriptionController.text.isEmpty) {
+              _descriptionError = 'Please enter a description';
+            } else {
+              _descriptionError = null;
+            }
 
             if (_formKey.currentState!.validate() &&
                 _dropdownError == null &&
                 _dateError == null &&
                 _timeError == null &&
-                _distanceError == null) {
+                _distanceError == null &&
+                _titleError == null &&
+                _descriptionError == null) {
               widget.presenter.view = this;
               double? distance =
                   double.tryParse(_distanceController.text) ?? 0.0;
@@ -611,11 +690,12 @@ class InputFunctions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 5),
+          padding: EdgeInsets.only(left: 0),
           child: Text(
+            // textAlign: TextAlign.center,
             text,
             style: TextStyle(
               fontFamily: 'RubikL',
