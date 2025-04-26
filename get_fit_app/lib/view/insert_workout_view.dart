@@ -41,8 +41,14 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   IconData? _workoutTypeIcon;
 
   File? _image;
+  String? _titleError;
+  String? _descriptionError;
   String? _dropdownError;
   String? _dateError;
+  String? _timeError;
+  String? _distanceError;
+  int? _inputError;
+  int? time;
 
   @override
   void initState() {
@@ -80,6 +86,13 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     } catch (e) {
       return 'Please enter a valid date (MM-DD-YYYY)';
     }
+  }
+
+  String? _validateInputs(int? value) {
+    if (value == null || value <= 0) {
+      return 'Please enter a valid number';
+    }
+    return null; // Add this line to return null when validation passes
   }
 
   Future<void> _pickImage() async {
@@ -185,11 +198,12 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
       appBar: AppBar(
         iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
+        centerTitle: true,
         title: Text(
           'Add Workout',
           style: TextStyle(
             color: Color.fromARGB(255, 244, 238, 227),
-            fontFamily: 'RubikL',
+            fontFamily: 'MontserratB',
           ),
         ),
         shape: RoundedRectangleBorder(
@@ -223,6 +237,28 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   maxLine: 1,
                   hintText: 'Enter workout title',
                 ),
+                if (_titleError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 202, 59, 59),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        _titleError!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 13,
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 SizedBox(height: 16.0),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -241,6 +277,28 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                   maxLine: 3,
                   hintText: 'Enter workout description',
                 ),
+                if (_descriptionError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 202, 59, 59),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        _descriptionError!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 13,
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 SizedBox(height: 15.0),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -284,6 +342,28 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                     ),
                   ),
                 ),
+                if (_dropdownError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      width: 250,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 202, 59, 59),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        _dropdownError!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 13,
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 SizedBox(height: 15.0),
                 Center(
                   child: Row(
@@ -293,12 +373,14 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                         timeController: _timeController,
                         hintText: '0:00 Mins',
                         text: 'Time',
+                        errorText: _timeError,
                       ),
                       SizedBox(width: 15),
                       InputFunctions(
                         timeController: _distanceController,
                         hintText: '0.0 Miles',
                         text: 'Distance',
+                        errorText: _distanceError,
                       ),
                     ],
                   ),
@@ -372,6 +454,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(2000),
                                               lastDate: DateTime(2100),
+                                              builder: DateSelectorColor,
                                             );
 
                                         if (pickedDate != null) {
@@ -476,15 +559,39 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
         child: ElevatedButton.icon(
           onPressed: () async {
             setState(() {
-              print(_dateError);
+              int? timeValue = int.tryParse(_timeController.text);
+              _timeError =
+                  timeValue == null || timeValue <= 0
+                      ? 'Please enter a valid\n time (minutes)'
+                      : null;
+
+              double? distanceValue = double.tryParse(_distanceController.text);
+              _distanceError =
+                  distanceValue == null || distanceValue <= 0
+                      ? 'Please enter a valid\ndistance (miles)'
+                      : null;
               _dropdownError =
                   _workoutType == null ? 'Please select a workout type' : null;
               _dateError = _validateDate(_dayController.text);
             });
+            if (_titleController.text.isEmpty) {
+              _titleError = 'Please enter a title';
+            } else {
+              _titleError = null;
+            }
+            if (_descriptionController.text.isEmpty) {
+              _descriptionError = 'Please enter a description';
+            } else {
+              _descriptionError = null;
+            }
 
             if (_formKey.currentState!.validate() &&
                 _dropdownError == null &&
-                _dateError == null) {
+                _dateError == null &&
+                _timeError == null &&
+                _distanceError == null &&
+                _titleError == null &&
+                _descriptionError == null) {
               widget.presenter.view = this;
               double? distance =
                   double.tryParse(_distanceController.text) ?? 0.0;
@@ -572,20 +679,23 @@ class InputFunctions extends StatelessWidget {
     required TextEditingController timeController,
     required this.hintText,
     required this.text,
+    required this.errorText,
   }) : _timeController = timeController;
 
   final TextEditingController _timeController;
   final String hintText;
   final String text;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 5),
+          padding: EdgeInsets.only(left: 0),
           child: Text(
+            // textAlign: TextAlign.center,
             text,
             style: TextStyle(
               fontFamily: 'RubikL',
@@ -605,7 +715,38 @@ class InputFunctions extends StatelessWidget {
                 hintText: hintText,
               ),
             ),
-            // SizedBox(width: 5),
+          ],
+        ),
+        Row(
+          children: [
+            Column(
+              children: [
+                if (errorText != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Container(
+                      width: 175,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 202, 59, 59),
+                        // border: Border.all(color: Color.fromARGB(255, 202, 59, 59)),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        errorText!,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 244, 238, 227),
+                          fontSize: 13,
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ],
         ),
       ],
@@ -700,4 +841,39 @@ class SmallTextFormField extends StatelessWidget {
       keyboardType: TextInputType.number,
     );
   }
+}
+
+Widget DateSelectorColor(context, child) {
+  return Theme(
+    data: Theme.of(context).copyWith(
+      useMaterial3: true,
+      datePickerTheme: DatePickerThemeData(
+        weekdayStyle: TextStyle(
+          fontFamily: 'MontserratB',
+          fontSize: 14,
+          // color: Color.fromARGB(255, 255, 0, 174),
+        ),
+        dayStyle: TextStyle(
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          // color: Color(0xFF1E321F),
+        ),
+        yearStyle: TextStyle(
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          // color: Color(0xFF1E321F),
+        ),
+        dividerColor: Color.fromARGB(255, 20, 50, 31),
+      ),
+      colorScheme: ColorScheme.dark(
+        primary: Color.fromARGB(255, 46, 105, 70),
+        onPrimary: Color.fromARGB(255, 229, 221, 212),
+        onSurface: Color.fromARGB(255, 30, 50, 31),
+        surface: const Color.fromARGB(255, 244, 238, 227),
+      ),
+    ),
+    child: child!,
+  );
 }

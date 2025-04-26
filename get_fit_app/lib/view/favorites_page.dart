@@ -38,6 +38,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
     });
   }
 
+  bool cancelled = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,44 +195,73 @@ class _FavoritesPageState extends State<FavoritesPage> {
   void _addToWorkoutPlan(Exercise exercise) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
+      builder: DateSelectorColor,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
-
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit Workout'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: setsController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Sets'),
+    cancelled = pickedDate == null;
+    if (!cancelled) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Color.fromARGB(255, 244, 238, 227),
+            title: const Text(
+              'Edit Workout',
+              style: TextStyle(
+                color: Color.fromARGB(255, 20, 50, 31),
+                fontFamily: 'MontserratB',
               ),
-              TextField(
-                controller: repsController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Reps'),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SmallTextField(setsController: setsController, lText: 'Sets'),
+                SmallTextField(setsController: repsController, lText: 'Reps'),
+                // TextField(
+                //   controller: setsController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: const InputDecoration(labelText: 'Sets'),
+                // ),
+                // TextField(
+                //   controller: repsController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: const InputDecoration(labelText: 'Reps'),
+                // ),
+              ],
+            ),
+            actions: [
+              Container(
+                width: 100,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 229, 221, 212),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                  ),
+                  onPressed: () {
+                    sets = setsController.text;
+                    reps = repsController.text;
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Proceed',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 46, 105, 70),
+                      fontFamily: 'MonsterratB',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                sets = setsController.text;
-                reps = repsController.text;
-                Navigator.of(context).pop();
-              },
-              child: Text('Proceed'),
-            ),
-          ],
-        );
-      },
-    );
+          );
+        },
+      );
+    }
 
     setsController.clear();
     repsController.clear();
@@ -322,6 +353,82 @@ class _FavoritesPageState extends State<FavoritesPage> {
           ],
         );
       },
+    );
+  }
+}
+
+Widget DateSelectorColor(context, child) {
+  return Theme(
+    data: Theme.of(context).copyWith(
+      useMaterial3: true,
+      datePickerTheme: DatePickerThemeData(
+        weekdayStyle: TextStyle(
+          fontFamily: 'MontserratB',
+          fontSize: 14,
+          // color: Color.fromARGB(255, 255, 0, 174),
+        ),
+        dayStyle: TextStyle(
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          // color: Color(0xFF1E321F),
+        ),
+        yearStyle: TextStyle(
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          // color: Color(0xFF1E321F),
+        ),
+        dividerColor: Color.fromARGB(255, 20, 50, 31),
+      ),
+      colorScheme: ColorScheme.dark(
+        primary: Color.fromARGB(255, 46, 105, 70),
+        onPrimary: Color.fromARGB(255, 229, 221, 212),
+        onSurface: Color.fromARGB(255, 30, 50, 31),
+        surface: const Color.fromARGB(255, 244, 238, 227),
+      ),
+    ),
+    child: child!,
+  );
+}
+
+class SmallTextField extends StatelessWidget {
+  const SmallTextField({
+    super.key,
+    required this.setsController,
+    required this.lText,
+  });
+
+  final TextEditingController setsController;
+  final String lText;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      style: TextStyle(fontFamily: 'RubikL', fontWeight: FontWeight.bold),
+      controller: setsController,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 46, 105, 70),
+            width: 2,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 46, 105, 70),
+            width: 1,
+          ), // focused underline color
+        ),
+
+        labelText: lText,
+        labelStyle: TextStyle(
+          color: Color.fromARGB(255, 46, 105, 70),
+          fontFamily: 'RubikL',
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

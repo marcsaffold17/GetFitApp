@@ -220,6 +220,14 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
         actions: [
           Padding(
+            padding: const EdgeInsets.only(right: 104),
+            child: Image.asset(
+              'assets/images/MachoMuscleMania.png',
+              height: 300,
+              width: 100,
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
               onTap: () async {

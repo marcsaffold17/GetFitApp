@@ -100,7 +100,13 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
               ),
       bottomNavigationBar: Container(
         // padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        padding: EdgeInsets.all(20.0),
+        // padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.only(
+          left: 20.0,
+          right: 20.0,
+          bottom: 16.0,
+          top: 11.0,
+        ),
 
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -163,8 +169,6 @@ class _WorkoutTileState extends State<_WorkoutTile> {
           .doc(globalUsername)
           .collection('Workout-Plan')
           .doc(widget.workout['date'])
-          .collection('Workout')
-          .doc(widget.workout['exercise'])
           .delete();
       widget.onDelete();
     } catch (e) {

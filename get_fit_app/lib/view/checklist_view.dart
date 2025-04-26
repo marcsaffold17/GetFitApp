@@ -64,11 +64,14 @@ class _ChecklistPageState extends State<ChecklistPage> {
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
+        centerTitle: true,
         title: const Text(
           'My Checklist',
-          style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+          style: TextStyle(
+            color: Color.fromARGB(255, 244, 238, 227),
+            fontFamily: 'MontserratB',
+          ),
         ),
-        centerTitle: true,
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
