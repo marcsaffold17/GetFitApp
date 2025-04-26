@@ -9,9 +9,12 @@ class ChartModel {
 
   factory ChartModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+    print(
+      'Data Y: ${data['y']}',
+    ); // This will print the value of 'y' for debugging
     return ChartModel(
       x: data['x'] ?? 0,
-      y: (data['y'] ?? 0).toDouble(),
+      y: (data['y'] is double) ? data['y'] : (data['y']?.toDouble() ?? 0.0),
       name: data['name'] ?? '',
     );
   }
