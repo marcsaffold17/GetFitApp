@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'view/login_view.dart';
+import '../view/spashscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           color: const Color.fromARGB(255, 46, 105, 70),
         ),
       ),
-      home: LoginButtonPage(),
+      home: SplashScreen(),
     );
   }
 }

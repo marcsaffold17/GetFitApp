@@ -5,6 +5,7 @@ import '../view/insert_workout_view.dart';
 import '../presenter/insert_workout_presenter.dart';
 import '../model/insert_workout_model.dart';
 import '../view/photo_view.dart';
+import '../view/spashscreen.dart';
 
 class WorkoutHistoryByDate extends StatefulWidget {
   @override
@@ -299,8 +300,10 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Are you sure you want to delete this workout?"
-              " This cannot be undone"),
+          title: Text(
+            "Are you sure you want to delete this workout?"
+            " This cannot be undone",
+          ),
           actions: <Widget>[
             TextButton(
               child: Text("Cancel"),
