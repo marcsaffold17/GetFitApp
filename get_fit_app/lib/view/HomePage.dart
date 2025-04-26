@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'LeaderboardPage.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
-import '../model/chart_model.dart'; // Make sure to import the ChartModel class
+import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
 import 'settingspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,47 +29,55 @@ class _MyHomePageState extends State<MyHomePage> {
   List<ChartModel> _chartData = [];
   String _selectedChart = 'Line';
   Color _chartColor = Colors.blue;
+  bool _isLoading = true; // <-- Added loading indicator state
 
   @override
   void initState() {
     super.initState();
     _loadUsername();
-    _loadChartData(); // Load dynamic chart data
-    _loadChartPreference();
+    _loadChartPreference().then((_) {
+      _loadChartData();
+    });
   }
 
   void _loadUsername() {
-    userName = widget.username; // Access username from widget
+    userName = widget.username;
   }
 
-  // Fetch the dynamic data for the chart from Firestore
   Future<void> _loadChartData() async {
-    List<ChartModel> chartData =
-        await ChartModel.fetchData(); // Fetch data from Firebase
-    setState(() {
-      _chartData = chartData; // Update the state with the fetched chart data
-    });
+    try {
+      List<ChartModel> chartData = await ChartModel.fetchData();
+      setState(() {
+        _chartData = chartData;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      debugPrint("Error fetching chart data: $e");
+    }
   }
 
   Future<void> _loadChartPreference() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _selectedChart = prefs.getString('selectedChart') ?? 'Line';
-      final colorHex =
-          prefs.getString('chartColor') ?? 'FF2196F3'; // Default blue
+      final colorHex = prefs.getString('chartColor') ?? 'FF2196F3';
       _chartColor = Color(int.parse('0x$colorHex'));
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _loadChartPreference();
   }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  // Callback function to refresh the chart
+  void _refreshChart() {
+    setState(() {
+      _loadChartData(); // Re-fetch chart data
     });
   }
 
@@ -93,8 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 context,
                 MaterialPageRoute(builder: (context) => SettingsPage()),
               );
-              await _loadChartPreference(); // Always reload preferences including color
-              setState(() {}); // Rebuild the widget tree
+              await _loadChartPreference();
+              setState(() {}); // Rebuild after returning
             },
             child: const Text("Change Chart Settings"),
           ),
@@ -106,8 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             child:
-                _chartData.isEmpty
-                    ? const CircularProgressIndicator() // Show loading indicator while data is being fetched
+                _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : _chartData.isEmpty
+                    ? const Center(child: Text('No chart data available.'))
                     : displayChart(_chartData, _selectedChart, _chartColor),
           ),
         ),
@@ -119,10 +129,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       _buildHomePage(),
-      ExercisePage(),
+      ExercisePage(onWorkoutAdded: _refreshChart), // Pass the callback here
       FavoritesPage(),
       WorkoutHistoryByDate(),
-      LeaderboardPage(chartColor: _chartColor), // Pass color to LeaderboardPage
+      LeaderboardPage(chartColor: _chartColor),
     ];
 
     return Scaffold(

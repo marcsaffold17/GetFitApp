@@ -6,7 +6,9 @@ import '../presenter/global_presenter.dart';
 import 'package:intl/intl.dart';
 
 class ExercisePage extends StatefulWidget {
-  const ExercisePage({super.key});
+  final Function onWorkoutAdded; // Accept callback function
+
+  const ExercisePage({super.key, required this.onWorkoutAdded});
 
   @override
   _ExercisePageState createState() => _ExercisePageState();
@@ -86,6 +88,13 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
   TextEditingController repsController = TextEditingController();
   String reps = '';
   String sets = '';
+
+  void _addWorkout() async {
+    // Add workout logic here...
+
+    // Trigger the callback to refresh the chart
+    widget.onWorkoutAdded();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -340,6 +349,9 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                 });
                                           }
                                         }
+
+                                        // Trigger the callback to refresh the chart
+                                        widget.onWorkoutAdded();
                                       },
                                     ),
                                   ],
