@@ -61,7 +61,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
         exerciseTypeText.text == "plyometrics" ||
         exerciseTypeText.text == "strength" ||
         exerciseTypeText.text == "stretching") {
-      print("works");
       muscleTypeText.text = "type";
     }
     _presenter.fetchMuscleExercises(muscleTypeText.text, exerciseTypeText.text);
@@ -82,22 +81,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
       _exercises = [];
     });
   }
-
-  //   Future<void> _selectDate() async {
-  //   final DateTime? pickedDate = await showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2000),
-  //     lastDate: DateTime(2100),
-  //   );
-
-  //   if (pickedDate != null) {
-  //     String formattedDate = DateFormat('MM/dd/yy').format(pickedDate);
-  //     print(formattedDate);
-  //     await workoutPlanRef.doc(exercise.name).set({
-  //       'date': formattedDate,
-  //   });
-  // }
 
   TextEditingController setsController = TextEditingController();
   TextEditingController repsController = TextEditingController();
@@ -135,7 +118,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
             SizedBox(height: 15),
             Center(
               child: Container(
-                // alignment: Alignment.center,
                 width: 250,
                 height: 50,
                 decoration: BoxDecoration(
@@ -195,8 +177,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                 ),
                               ),
                               subtitle: Text(
-                                "Difficulty: ${exercise.difficulty}\n"
-                                "Equipment: ${exercise.equipment}",
+                                "Difficulty: ${exercise.difficulty}\nEquipment: ${exercise.equipment}",
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 46, 105, 70),
                                 ),
@@ -213,7 +194,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                             : Icons.star_border,
                                         color:
                                             isFavorite
-                                                ? const Color.fromARGB(
+                                                ? Color.fromARGB(
                                                   255,
                                                   81,
                                                   163,
@@ -307,14 +288,11 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                             );
                                           },
                                         );
+
                                         if (pickedDate != null) {
                                           String formattedDate = DateFormat(
                                             'MM-dd-yyyy',
                                           ).format(pickedDate);
-                                          // print(formattedDate);
-                                          //   await workoutPlanRef.doc(exercise.name).set({
-                                          //     'date': formattedDate,
-                                          // });
                                           await workoutPlanRef
                                               .doc(formattedDate)
                                               .set({'date': formattedDate});
@@ -333,13 +311,40 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                 'reps': reps,
                                                 'sets': sets,
                                               });
+
+                                          // Update chartData collection
+                                          final chartCollection =
+                                              FirebaseFirestore.instance
+                                                  .collection('chartData');
+                                          final chartDoc =
+                                              await chartCollection
+                                                  .doc(formattedDate)
+                                                  .get();
+
+                                          if (chartDoc.exists) {
+                                            await chartDoc.reference.update({
+                                              'y': FieldValue.increment(1),
+                                            });
+                                          } else {
+                                            final snapshot =
+                                                await chartCollection.get();
+                                            final nextX =
+                                                snapshot.docs.length + 1;
+
+                                            await chartCollection
+                                                .doc(formattedDate)
+                                                .set({
+                                                  'x': nextX,
+                                                  'y': 1,
+                                                  'name': formattedDate,
+                                                });
+                                          }
                                         }
                                       },
                                     ),
                                   ],
                                 ),
                               ),
-
                               onTap: () => _showDetails(exercise),
                             ),
                           );

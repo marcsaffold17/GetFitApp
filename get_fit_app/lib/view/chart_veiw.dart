@@ -1,76 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../presenter/chart_presenter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/chart_model.dart';
-
-class ChartScreen extends StatefulWidget {
-  const ChartScreen({super.key});
-
-  @override
-  State<ChartScreen> createState() => _ChartScreenState();
-}
-
-class _ChartScreenState extends State<ChartScreen> implements ChartView {
-  String _selectedChart = 'Line';
-  String _selectedColor = 'Blue';
-  List<ChartModel> _chartData = [];
-  late ChartPresenter _presenter;
-
-  @override
-  void initState() {
-    super.initState();
-    _presenter = ChartPresenter(this);
-    _loadPreferences();
-    _presenter.loadData();
-  }
-
-  Future<void> _loadPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _selectedChart = prefs.getString('selectedChart') ?? 'Line';
-      _selectedColor = prefs.getString('selectedColor') ?? 'Blue';
-    });
-  }
-
-  @override
-  void updateChart(List<ChartModel> data) {
-    setState(() {
-      _chartData = data;
-    });
-  }
-
-  Color _getColor() {
-    switch (_selectedColor) {
-      case 'Red':
-        return Colors.red;
-      case 'Green':
-        return Colors.green;
-      case 'Purple':
-        return Colors.purple;
-      default:
-        return Colors.blue;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Flutter MVP Chart')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (_chartData.isNotEmpty)
-              _selectedChart == 'Line'
-                  ? LineChartWidget(data: _chartData, color: _getColor())
-                  : BarChartWidget(data: _chartData, color: _getColor()),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class LineChartWidget extends StatefulWidget {
   final List<ChartModel> data;
@@ -159,22 +90,31 @@ class _LineChartWidgetState extends State<LineChartWidget>
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
+                    reservedSize: 30,
+                    interval: 1,
                     getTitlesWidget: (value, meta) {
-                      final index = value.toInt();
-                      final name =
-                          index >= 0 && index < widget.data.length
-                              ? widget.data[index].name
-                              : '';
+                      const epsilon = 0.01;
+                      final match = widget.data.firstWhere(
+                        (e) => (e.x.toDouble() - value).abs() < epsilon,
+                        orElse:
+                            () => ChartModel(x: value.toInt(), y: 0, name: ''),
+                      );
                       return SideTitleWidget(
-                        space: 8,
                         meta: meta,
-                        child: Text(name, style: const TextStyle(fontSize: 10)),
+                        space: 8,
+                        child: Text(
+                          match.name,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.black,
+                          ),
+                        ),
                       );
                     },
                   ),
                 ),
                 leftTitles: AxisTitles(
-                  sideTitles: SideTitles(showTitles: true),
+                  sideTitles: SideTitles(showTitles: true, reservedSize: 42),
                 ),
                 rightTitles: AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
@@ -263,22 +203,31 @@ class _BarChartWidgetState extends State<BarChartWidget>
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
+                    reservedSize: 30,
+                    interval: 1,
                     getTitlesWidget: (value, meta) {
-                      final index = value.toInt();
-                      final name =
-                          index >= 0 && index < widget.data.length
-                              ? widget.data[index].name
-                              : '';
+                      const epsilon = 0.01;
+                      final match = widget.data.firstWhere(
+                        (e) => (e.x.toDouble() - value).abs() < epsilon,
+                        orElse:
+                            () => ChartModel(x: value.toInt(), y: 0, name: ''),
+                      );
                       return SideTitleWidget(
-                        space: 8,
                         meta: meta,
-                        child: Text(name, style: const TextStyle(fontSize: 10)),
+                        space: 8,
+                        child: Text(
+                          match.name,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.black,
+                          ),
+                        ),
                       );
                     },
                   ),
                 ),
                 leftTitles: AxisTitles(
-                  sideTitles: SideTitles(showTitles: true),
+                  sideTitles: SideTitles(showTitles: true, reservedSize: 30),
                 ),
                 rightTitles: AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
@@ -294,6 +243,44 @@ class _BarChartWidgetState extends State<BarChartWidget>
                   widget.data.map((e) => e.y).reduce((a, b) => a > b ? a : b) +
                   2,
             ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class GraphScreen extends StatelessWidget {
+  const GraphScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Workout Graph')),
+      body: StreamBuilder<QuerySnapshot>(
+        stream:
+            FirebaseFirestore.instance
+                .collection(
+                  'chartData',
+                ) // Replace with your actual collection name
+                .orderBy('x')
+                .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          // Process your data from Firestore
+          List<ChartModel> chartData =
+              snapshot.data!.docs
+                  .map((doc) => ChartModel.fromFirestore(doc))
+                  .toList();
+
+          return Column(
+            children: [
+              LineChartWidget(data: chartData, color: Colors.blue),
+              BarChartWidget(data: chartData, color: Colors.green),
+            ],
           );
         },
       ),
