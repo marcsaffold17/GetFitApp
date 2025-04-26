@@ -163,8 +163,6 @@ class _WorkoutTileState extends State<_WorkoutTile> {
           .doc(globalUsername)
           .collection('Workout-Plan')
           .doc(widget.workout['date'])
-          .collection('Workout')
-          .doc(widget.workout['exercise'])
           .delete();
       widget.onDelete();
     } catch (e) {
