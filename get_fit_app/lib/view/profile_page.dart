@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../presenter/global_presenter.dart';
 
 class ProfilePage extends StatefulWidget {
   final String username;
@@ -13,10 +15,16 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String _bio = '';
+  String? _imageUrl;
   File? _image;
-
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _bioController = TextEditingController();
+
+  final profileRef = FirebaseFirestore.instance
+      .collection('Login-Info')
+      .doc(globalUsername)
+      .collection('profilepage')
+      .doc('info');
 
   @override
   void initState() {
@@ -25,33 +33,42 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _loadProfileData() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _bio = prefs.getString('bio') ?? '';
-      String? imagePath = prefs.getString('profileImage');
-      if (imagePath != null && File(imagePath).existsSync()) {
-        _image = File(imagePath);
-      }
-      _bioController.text = _bio;
-    });
+    final doc = await profileRef.get();
+    if (doc.exists) {
+      final data = doc.data() as Map<String, dynamic>;
+      setState(() {
+        _bio = data['bio'] ?? '';
+        _imageUrl = data['imageUrl'];
+        _bioController.text = _bio;
+      });
+    }
   }
 
   Future<void> _saveBio() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _bio = _bioController.text;
-    });
-    await prefs.setString('bio', _bio);
+    _bio = _bioController.text;
+    await profileRef.set({'bio': _bio}, SetOptions(merge: true));
   }
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      final prefs = await SharedPreferences.getInstance();
+      File file = File(pickedFile.path);
+
+      String fileName =
+          '${DateTime.now().millisecondsSinceEpoch}_${globalUsername}.jpg';
+      Reference storageRef = FirebaseStorage.instance.ref().child(
+        'profile_images/$fileName',
+      );
+
+      await storageRef.putFile(file);
+      String downloadUrl = await storageRef.getDownloadURL();
+
       setState(() {
-        _image = File(pickedFile.path);
+        _image = file;
+        _imageUrl = downloadUrl;
       });
-      await prefs.setString('profileImage', pickedFile.path);
+
+      await profileRef.set({'imageUrl': downloadUrl}, SetOptions(merge: true));
     }
   }
 
@@ -121,16 +138,17 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("My Workout Profile", style: TextStyle(color:  Color.fromARGB(255, 244, 238, 227)),),
-        iconTheme: IconThemeData(
-          color: Color.fromARGB(255, 244, 238, 227),
+        title: const Text(
+          "My Workout Profile",
+          style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
         ),
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
         backgroundColor: Color.fromARGB(255, 20, 50, 31),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
-          )
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -144,7 +162,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundImage:
                       _image != null
                           ? FileImage(_image!)
-                          : const AssetImage('assets/images/AshtonHall.webp')
+                          : (_imageUrl != null
+                                  ? NetworkImage(_imageUrl!)
+                                  : const AssetImage(
+                                    'assets/images/AshtonHall.webp',
+                                  ))
                               as ImageProvider,
                 ),
                 Positioned(
