@@ -38,7 +38,7 @@ class NavBar extends StatelessWidget {
                       icon: const Icon(
                         Icons.close,
                         size: 28,
-                        color: Color.fromARGB(200, 202, 59, 59),
+                        color: Color.fromARGB(255, 244, 238, 227),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
