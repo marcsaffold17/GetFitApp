@@ -300,19 +300,73 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "Are you sure you want to delete this workout?"
-            " This cannot be undone",
+          backgroundColor: Color.fromARGB(255, 244, 238, 227),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
           ),
+          title: Column(
+            children: [
+              DeleteText(
+                textAlign: TextAlign.center,
+                text: "Delete Workout",
+                color: Color.fromARGB(255, 20, 50, 31),
+                fontSize: 30,
+                fontFamily: 'MontserratB',
+              ),
+              Divider(color: Color.fromARGB(255, 20, 50, 31), thickness: 2),
+              DeleteText(
+                textAlign: TextAlign.left,
+                text: "Are you sure you want to delete this workout?",
+                color: Color.fromARGB(255, 46, 105, 70),
+                fontSize: 19,
+                fontFamily: 'RubikL',
+              ),
+              SizedBox(height: 12),
+              DeleteText(
+                textAlign: TextAlign.left,
+                text: "This action cannot be undone.",
+                color: Color.fromARGB(255, 202, 59, 59),
+                fontSize: 15,
+                fontFamily: 'RubikL',
+              ),
+            ],
+          ),
+          // title: Text(
+          //   "Are you sure you want to delete this workout?\n"
+          //   "This action cannot be undone.",
+          //   style: TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //     color: Color.fromARGB(255, 20, 50, 31),
+          //   ),
+          // ),
           actions: <Widget>[
             TextButton(
-              child: Text("Cancel"),
+              style: TextButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 229, 221, 212),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
+            // SizedBox(width: 8),
             TextButton(
-              child: Text("Delete"),
+              style: TextButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 202, 59, 59),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: Text(
+                "Delete",
+                style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+              ),
               onPressed: () {
                 _deleteWorkout();
                 Navigator.of(context).pop();
@@ -487,6 +541,42 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       color: Color.fromARGB(255, 49, 112, 75),
       fontWeight: FontWeight.bold,
       fontFamily: 'RubikL',
+    );
+  }
+}
+
+class DeleteText extends StatelessWidget {
+  const DeleteText({
+    super.key,
+    required this.textAlign,
+    required this.text,
+    required this.color,
+    required this.fontSize,
+    required this.fontFamily,
+  });
+
+  final String text;
+  final TextAlign textAlign;
+  final Color color;
+  final double fontSize;
+  final String fontFamily;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: RichText(
+        textAlign: textAlign,
+        text: TextSpan(
+          text: text,
+          style: TextStyle(
+            fontFamily: fontFamily,
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+      ),
     );
   }
 }
