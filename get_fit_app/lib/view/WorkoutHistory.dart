@@ -162,6 +162,27 @@ class _WorkoutTile extends StatefulWidget {
 
 class _WorkoutTileState extends State<_WorkoutTile> {
   bool isExpanded = false;
+  final _typeController = TextEditingController();
+  String? _workoutType;
+  IconData? _workoutTypeIcon;
+
+  @override
+  void initState() {
+    super.initState();
+    _workoutType = widget.workout['Type'];
+    // Initialize the icon based on the workout type
+    if (_workoutType != null) {
+      final workoutTypes = [
+        {'type': 'Run', 'icon': Icons.directions_run},
+        // ... rest of your workout types
+      ];
+      final matchingType = workoutTypes.firstWhere(
+        (type) => type['type'] == _workoutType,
+        orElse: () => {'icon': Icons.fitness_center},
+      );
+      _workoutTypeIcon = matchingType['icon'] as IconData;
+    }
+  }
 
   Future<void> _deleteWorkout() async {
     try {
@@ -178,15 +199,12 @@ class _WorkoutTileState extends State<_WorkoutTile> {
   }
 
   void _showEditDialog() {
-    // if (widget.workout['Distance'] != null || widget.workout['Time'] != null) {
     final disController = TextEditingController(
       text: widget.workout['Distance']?.toString() ?? '',
     );
     final timeController = TextEditingController(
       text: widget.workout['Time']?.toString() ?? '',
     );
-    // return;
-    // }
     final setsController = TextEditingController(
       text: widget.workout['sets']?.toString() ?? '',
     );
@@ -221,77 +239,229 @@ class _WorkoutTileState extends State<_WorkoutTile> {
       Navigator.of(context).pop();
     }
 
+    TextStyle selectedStyle = TextStyle(
+      fontFamily: 'rubikL',
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+      color: Color.fromARGB(255, 46, 105, 70),
+    );
+
+    TextStyle unselectedStyle = TextStyle(
+      fontFamily: 'RubikL',
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+      color: Color.fromARGB(160, 46, 105, 70),
+    );
+
+    void _showWorkoutTypeBottomSheet(
+      BuildContext context,
+      StateSetter setDialogState,
+    ) {
+      final List<Map<String, dynamic>> workoutTypes = [
+        {'type': 'Run', 'icon': Icons.directions_run},
+        {'type': 'Walk', 'icon': Icons.directions_walk},
+        {'type': 'Hike', 'icon': Icons.hiking},
+        {'type': 'Bike', 'icon': Icons.directions_bike},
+        {'type': 'Inline Skate', 'icon': Icons.roller_skating},
+        {'type': 'Roller Ski', 'icon': Icons.roller_skating},
+        {'type': 'Swim', 'icon': Icons.pool},
+        {'type': 'Canoe', 'icon': Icons.kayaking},
+        {'type': 'Kayak', 'icon': Icons.kayaking},
+        {'type': 'Alpine Ski', 'icon': Icons.downhill_skiing},
+        {'type': 'Nordic Ski', 'icon': Icons.downhill_skiing},
+        {'type': 'Snowboard', 'icon': Icons.snowboarding},
+        {'type': 'Ice Skate', 'icon': Icons.ice_skating},
+        {'type': 'Snowshoe', 'icon': Icons.snowshoeing},
+        {'type': 'Weight Training', 'icon': Icons.fitness_center},
+        {'type': 'Rock Climb', 'icon': Icons.landscape},
+        {'type': 'Yoga', 'icon': Icons.self_improvement},
+        {'type': 'Crossfit', 'icon': Icons.fitness_center},
+        {'type': 'StairMaster', 'icon': Icons.stairs},
+        {'type': 'Pickleball', 'icon': Icons.sports_tennis},
+
+        // More activities
+      ];
+
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return ListView(
+            children:
+                workoutTypes.map((workout) {
+                  return ListTile(
+                    leading: Icon(workout['icon'] as IconData),
+                    title: Text(workout['type'] as String),
+                    onTap: () {
+                      setDialogState(() {
+                        _workoutType = workout['type'];
+                        _workoutTypeIcon = workout['icon'];
+                        _typeController.text = _workoutType!;
+                      });
+                      Navigator.pop(context);
+                    },
+                  );
+                }).toList(),
+          );
+        },
+      );
+    }
+
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            backgroundColor: Color.fromARGB(255, 244, 238, 227),
-            title: Text(
-              'Edit Sets & Reps',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 20, 50, 31),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setDialogState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-            ),
-            content:
-                (widget.workout['Distance'] != null ||
-                        widget.workout['Time'] != null)
-                    ? EditingWorkouts(
-                      flabel: 'Distance',
-                      slabel: 'Time',
-                      fController: disController,
-                      sController: timeController,
-                    )
-                    : EditingWorkouts(
-                      flabel: 'Reps',
-                      slabel: 'Sets',
-                      fController: repsController,
-                      sController: setsController,
-                    ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+              backgroundColor: Color.fromARGB(255, 244, 238, 227),
+              title: Text(
+                'Edit Sets & Reps',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 20, 50, 31),
                 ),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                  backgroundColor: Color.fromARGB(255, 46, 105, 70),
-                ),
-                onPressed: () async {
-                  if (widget.workout['Distance'] != null ||
-                      widget.workout['Time'] != null) {
-                    await UpdateingWorkout(
-                      disController,
-                      timeController,
-                      context,
-                      'Distance',
-                      'Time',
-                    );
-                  } else if (widget.workout['sets'] != null ||
-                      widget.workout['reps'] != null) {
-                    await UpdateingWorkout(
-                      repsController,
-                      setsController,
-                      context,
-                      'reps',
-                      'sets',
-                    );
-                  }
-                },
-                child: Text(
-                  'Save',
-                  style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
-                ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children:
+                    (widget.workout['Distance'] != null ||
+                            widget.workout['Time'] != null)
+                        ? [
+                          EditingWorkouts(
+                            flabel: 'Distance',
+                            slabel: 'Time',
+                            fController: disController,
+                            sController: timeController,
+                          ),
+                          SizedBox(height: 12),
+                          GestureDetector(
+                            onTap: () {
+                              _showWorkoutTypeBottomSheet(
+                                context,
+                                setDialogState,
+                              );
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 15,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 229, 221, 212),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    _workoutTypeIcon,
+                                    color: Color.fromARGB(255, 20, 50, 31),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    _workoutType ?? 'Select workout type',
+                                    style:
+                                        _workoutType == null
+                                            ? TextStyle(
+                                              fontFamily: 'RubikL',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                160,
+                                                46,
+                                                105,
+                                                70,
+                                              ),
+                                            )
+                                            : TextStyle(
+                                              fontFamily: 'rubikL',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                255,
+                                                46,
+                                                105,
+                                                70,
+                                              ),
+                                            ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ]
+                        : [
+                          EditingWorkouts(
+                            flabel: 'Reps',
+                            slabel: 'Sets',
+                            fController: repsController,
+                            sController: setsController,
+                          ),
+                        ],
               ),
-            ],
-          ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: StadiumBorder(),
+                    backgroundColor: Color.fromARGB(255, 46, 105, 70),
+                  ),
+                  onPressed: () async {
+                    if (widget.workout['Distance'] != null ||
+                        widget.workout['Time'] != null) {
+                      await FirebaseFirestore.instance
+                          .collection('Login-Info')
+                          .doc(globalUsername)
+                          .collection('Workout-Plan')
+                          .doc(widget.workout['date'])
+                          .collection('Workout')
+                          .doc(widget.workout['exercise'])
+                          .update({
+                            'Distance': disController.text,
+                            'Time': timeController.text,
+                            if (_workoutType != null) 'Type': _workoutType,
+                          });
+                    } else if (widget.workout['sets'] != null ||
+                        widget.workout['reps'] != null) {
+                      await FirebaseFirestore.instance
+                          .collection('Login-Info')
+                          .doc(globalUsername)
+                          .collection('Workout-Plan')
+                          .doc(widget.workout['date'])
+                          .collection('Workout')
+                          .doc(widget.workout['exercise'])
+                          .update({
+                            'reps': repsController.text,
+                            'sets': setsController.text,
+                          });
+                    }
+                    Navigator.of(context).pop();
+                    widget.onDelete(); // Refresh the list
+                  },
+                  child: Text(
+                    'Save',
+                    style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 
@@ -331,14 +501,6 @@ class _WorkoutTileState extends State<_WorkoutTile> {
               ),
             ],
           ),
-          // title: Text(
-          //   "Are you sure you want to delete this workout?\n"
-          //   "This action cannot be undone.",
-          //   style: TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //     color: Color.fromARGB(255, 20, 50, 31),
-          //   ),
-          // ),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
