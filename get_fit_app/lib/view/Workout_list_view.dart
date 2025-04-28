@@ -28,7 +28,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
 
   String _errorMessage = "";
 
-  final exerciseTypeText = TextEditingController();
+  final workoutTypeText = TextEditingController();
   final muscleTypeText = TextEditingController();
 
   void _loadFavorites() async {
@@ -51,20 +51,20 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
     _presenter = ExercisePresenter(this);
     _loadFavorites();
     _LoadWorkoutPlan();
-    _presenter.fetchMuscleExercises(muscleTypeText.text, exerciseTypeText.text);
+    _presenter.fetchMuscleExercises(muscleTypeText.text, workoutTypeText.text);
   }
 
   void getMuscleExercises() {
     _presenter = ExercisePresenter(this);
     muscleTypeText.text = "muscle";
-    if (exerciseTypeText.text == "cardio" ||
-        exerciseTypeText.text == "plyometrics" ||
-        exerciseTypeText.text == "strength" ||
-        exerciseTypeText.text == "stretching") {
+    if (workoutTypeText.text == "cardio" ||
+        workoutTypeText.text == "plyometrics" ||
+        workoutTypeText.text == "strength" ||
+        workoutTypeText.text == "stretching") {
       print("works");
       muscleTypeText.text = "type";
     }
-    _presenter.fetchMuscleExercises(muscleTypeText.text, exerciseTypeText.text);
+    _presenter.fetchMuscleExercises(muscleTypeText.text, workoutTypeText.text);
   }
 
   @override
@@ -85,6 +85,8 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
 
   TextEditingController setsController = TextEditingController();
   TextEditingController repsController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController disController = TextEditingController();
   String reps = '';
   String sets = '';
   bool cancelled = false;
@@ -104,7 +106,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                 fontFamily: 'RubikL',
                 fontWeight: FontWeight.bold,
               ),
-              controller: exerciseTypeText,
+              controller: workoutTypeText,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Muscle type, Cardio, Stretching',
@@ -250,18 +252,37 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                           }
                                         });
                                         if (exercise.isFavorite) {
-                                          await favoritesRef
-                                              .doc(exercise.name)
-                                              .set({
-                                                'name': exercise.name,
-                                                'type': exercise.type,
-                                                'muscle': exercise.muscle,
-                                                'difficulty':
-                                                    exercise.difficulty,
-                                                'equipment': exercise.equipment,
-                                                'instructions':
-                                                    exercise.instructions,
-                                              });
+                                          if (workoutTypeText.text ==
+                                              "cardio") {
+                                            await favoritesRef
+                                                .doc(exercise.name)
+                                                .set({
+                                                  'name': exercise.name,
+                                                  'CardioType': "true",
+                                                  'type': exercise.type,
+                                                  'muscle': exercise.muscle,
+                                                  'difficulty':
+                                                      exercise.difficulty,
+                                                  'equipment':
+                                                      exercise.equipment,
+                                                  'instructions':
+                                                      exercise.instructions,
+                                                });
+                                          } else {
+                                            await favoritesRef
+                                                .doc(exercise.name)
+                                                .set({
+                                                  'name': exercise.name,
+                                                  'type': exercise.type,
+                                                  'muscle': exercise.muscle,
+                                                  'difficulty':
+                                                      exercise.difficulty,
+                                                  'equipment':
+                                                      exercise.equipment,
+                                                  'instructions':
+                                                      exercise.instructions,
+                                                });
+                                          }
                                         } else {
                                           await favoritesRef
                                               .doc(exercise.name)
@@ -308,18 +329,36 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                 content: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
-                                                  children: [
-                                                    SmallTextField(
-                                                      setsController:
-                                                          setsController,
-                                                      lText: 'Sets',
-                                                    ),
-                                                    SmallTextField(
-                                                      setsController:
-                                                          repsController,
-                                                      lText: 'Reps',
-                                                    ),
-                                                  ],
+                                                  children:
+                                                      (workoutTypeText.text ==
+                                                                  "cardio"
+                                                              ? [
+                                                                SmallTextField(
+                                                                  setsController:
+                                                                      timeController,
+                                                                  lText:
+                                                                      'Time (Mins)',
+                                                                ),
+                                                                SmallTextField(
+                                                                  setsController:
+                                                                      disController,
+                                                                  lText:
+                                                                      'Distance (Miles)',
+                                                                ),
+                                                              ]
+                                                              : [
+                                                                SmallTextField(
+                                                                  setsController:
+                                                                      setsController,
+                                                                  lText: 'Sets',
+                                                                ),
+                                                                SmallTextField(
+                                                                  setsController:
+                                                                      repsController,
+                                                                  lText: 'Reps',
+                                                                ),
+                                                              ])
+                                                          .toList(),
                                                 ),
                                                 actions: [
                                                   Container(
@@ -378,28 +417,47 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                           String formattedDate = DateFormat(
                                             'MM-dd-yyyy',
                                           ).format(pickedDate);
-                                          // print(formattedDate);
-                                          //   await workoutPlanRef.doc(exercise.name).set({
-                                          //     'date': formattedDate,
-                                          // });
+
                                           await workoutPlanRef
                                               .doc(formattedDate)
                                               .set({'date': formattedDate});
-                                          await workoutPlanRef
-                                              .doc(formattedDate)
-                                              .collection("Workout")
-                                              .doc(exercise.name)
-                                              .set({
-                                                'name': exercise.name,
-                                                'difficulty':
-                                                    exercise.difficulty,
-                                                'equipment': exercise.equipment,
-                                                'instructions':
-                                                    exercise.instructions,
-                                                'date': formattedDate,
-                                                'reps': reps,
-                                                'sets': sets,
-                                              });
+                                          if (workoutTypeText.text ==
+                                              "cardio") {
+                                            await workoutPlanRef
+                                                .doc(formattedDate)
+                                                .collection("Workout")
+                                                .doc(exercise.name)
+                                                .set({
+                                                  'name': exercise.name,
+                                                  'difficulty':
+                                                      exercise.difficulty,
+                                                  'equipment':
+                                                      exercise.equipment,
+                                                  'instructions':
+                                                      exercise.instructions,
+                                                  'date': formattedDate,
+                                                  'Time': timeController.text,
+                                                  'Distance':
+                                                      disController.text,
+                                                });
+                                          } else {
+                                            await workoutPlanRef
+                                                .doc(formattedDate)
+                                                .collection("Workout")
+                                                .doc(exercise.name)
+                                                .set({
+                                                  'name': exercise.name,
+                                                  'difficulty':
+                                                      exercise.difficulty,
+                                                  'equipment':
+                                                      exercise.equipment,
+                                                  'instructions':
+                                                      exercise.instructions,
+                                                  'date': formattedDate,
+                                                  'reps': reps,
+                                                  'sets': sets,
+                                                });
+                                          }
                                         }
                                         ;
                                       },

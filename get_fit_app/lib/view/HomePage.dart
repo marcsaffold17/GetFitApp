@@ -6,7 +6,7 @@ import '../presenter/global_presenter.dart';
 import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'exercise_list_view.dart';
+import 'Workout_list_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../view/WorkoutHistory.dart';

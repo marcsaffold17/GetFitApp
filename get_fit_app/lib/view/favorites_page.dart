@@ -15,6 +15,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
   String sets = '';
   TextEditingController setsController = TextEditingController();
   TextEditingController repsController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController disController = TextEditingController();
 
   final favoritesRef = FirebaseFirestore.instance
       .collection('Login-Info')
@@ -76,6 +78,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   difficulty: data['difficulty'],
                   equipment: data['equipment'],
                   instructions: data['instructions'],
+                  cardioType: data['CardioType'],
                   isFavorite: true,
                 );
               }).toList();
@@ -216,20 +219,28 @@ class _FavoritesPageState extends State<FavoritesPage> {
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                SmallTextField(setsController: setsController, lText: 'Sets'),
-                SmallTextField(setsController: repsController, lText: 'Reps'),
-                // TextField(
-                //   controller: setsController,
-                //   keyboardType: TextInputType.number,
-                //   decoration: const InputDecoration(labelText: 'Sets'),
-                // ),
-                // TextField(
-                //   controller: repsController,
-                //   keyboardType: TextInputType.number,
-                //   decoration: const InputDecoration(labelText: 'Reps'),
-                // ),
-              ],
+              children:
+                  exercise.cardioType == 'true'
+                      ? [
+                        SmallTextField(
+                          textController: timeController,
+                          lText: 'Time (mins)',
+                        ),
+                        SmallTextField(
+                          textController: disController,
+                          lText: 'Distance (Miles)',
+                        ),
+                      ]
+                      : [
+                        SmallTextField(
+                          textController: setsController,
+                          lText: 'Sets',
+                        ),
+                        SmallTextField(
+                          textController: repsController,
+                          lText: 'Reps',
+                        ),
+                      ],
             ),
             actions: [
               Container(
@@ -270,20 +281,35 @@ class _FavoritesPageState extends State<FavoritesPage> {
       String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
 
       await workoutPlanRef.doc(formattedDate).set({'date': formattedDate});
-
-      await workoutPlanRef
-          .doc(formattedDate)
-          .collection("Workout")
-          .doc(exercise.name)
-          .set({
-            'name': exercise.name,
-            'difficulty': exercise.difficulty,
-            'equipment': exercise.equipment,
-            'instructions': exercise.instructions,
-            'date': formattedDate,
-            'reps': reps,
-            'sets': sets,
-          });
+      if (exercise.cardioType == 'true') {
+        await workoutPlanRef
+            .doc(formattedDate)
+            .collection("Workout")
+            .doc(exercise.name)
+            .set({
+              'name': exercise.name,
+              'difficulty': exercise.difficulty,
+              'equipment': exercise.equipment,
+              'instructions': exercise.instructions,
+              'date': formattedDate,
+              'Time': timeController.text,
+              'Distance': disController.text,
+            });
+      } else {
+        await workoutPlanRef
+            .doc(formattedDate)
+            .collection("Workout")
+            .doc(exercise.name)
+            .set({
+              'name': exercise.name,
+              'difficulty': exercise.difficulty,
+              'equipment': exercise.equipment,
+              'instructions': exercise.instructions,
+              'date': formattedDate,
+              'reps': reps,
+              'sets': sets,
+            });
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -333,10 +359,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   backgroundColor: Color.fromARGB(255, 229, 221, 212),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    // side: BorderSide(
-                    //   color: Color.fromARGB(255, 0, 0, 0),
-                    //   width: 1,
-                    // ),
                   ),
                 ),
                 onPressed: () => Navigator.pop(context),
@@ -395,18 +417,18 @@ Widget DateSelectorColor(context, child) {
 class SmallTextField extends StatelessWidget {
   const SmallTextField({
     super.key,
-    required this.setsController,
+    required this.textController,
     required this.lText,
   });
 
-  final TextEditingController setsController;
+  final TextEditingController textController;
   final String lText;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(fontFamily: 'RubikL', fontWeight: FontWeight.bold),
-      controller: setsController,
+      controller: textController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(

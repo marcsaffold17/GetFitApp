@@ -568,7 +568,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
               double? distanceValue = double.tryParse(_distanceController.text);
               _distanceError =
                   distanceValue == null || distanceValue <= 0
-                      ? 'Please enter a valid\ndistance (miles)'
+                      ? 'Please enter a valid\ndistance (Miles)'
                       : null;
               _dropdownError =
                   _workoutType == null ? 'Please select a workout type' : null;
