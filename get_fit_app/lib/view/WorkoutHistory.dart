@@ -316,13 +316,31 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                 borderRadius: BorderRadius.circular(16),
               ),
               backgroundColor: Color.fromARGB(255, 244, 238, 227),
-              title: Text(
-                'Edit Sets & Reps',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 20, 50, 31),
-                ),
-              ),
+              title:
+                  widget.workout['Distance'] != null ||
+                          widget.workout['Time'] != null
+                      ? Text(
+                        'Edit Time, Distance, & Type',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 23,
+                          color: Color.fromARGB(255, 20, 50, 31),
+                        ),
+                      )
+                      : Text(
+                        'Edit Sets & Reps',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 20, 50, 31),
+                        ),
+                      ),
+              // title: Text(
+              //   'Edit Sets, Reps & WT',
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.bold,
+              //     color: Color.fromARGB(255, 20, 50, 31),
+              //   ),
+              // ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children:
@@ -330,72 +348,99 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                             widget.workout['Time'] != null)
                         ? [
                           EditingWorkouts(
-                            flabel: 'Distance',
-                            slabel: 'Time',
+                            flabel: 'Distance (Miles)',
+                            slabel: 'Time (Mins)',
                             fController: disController,
                             sController: timeController,
                           ),
                           SizedBox(height: 12),
-                          GestureDetector(
-                            onTap: () {
-                              _showWorkoutTypeBottomSheet(
-                                context,
-                                setDialogState,
-                              );
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(
-                                vertical: 15,
-                                horizontal: 15,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 229, 221, 212),
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 1,
+                          Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _showWorkoutTypeBottomSheet(
+                                    context,
+                                    setDialogState,
+                                  );
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 15,
+                                    horizontal: 15,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 244, 238, 227),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        _workoutTypeIcon,
+                                        color: Color.fromARGB(255, 20, 50, 31),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        _workoutType ?? 'Select workout type',
+                                        style:
+                                            _workoutType == null
+                                                ? TextStyle(
+                                                  fontFamily: 'RubikL',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                  color: Color.fromARGB(
+                                                    160,
+                                                    46,
+                                                    105,
+                                                    70,
+                                                  ),
+                                                )
+                                                : TextStyle(
+                                                  fontFamily: 'rubikL',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                  color: Color.fromARGB(
+                                                    255,
+                                                    46,
+                                                    105,
+                                                    70,
+                                                  ),
+                                                ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(10.0),
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    _workoutTypeIcon,
-                                    color: Color.fromARGB(255, 20, 50, 31),
+                              // This Positioned widget places the label
+                              Positioned(
+                                left: 10, // Adjust based on where you want it
+                                top: -4,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  color: Color.fromARGB(
+                                    255,
+                                    244,
+                                    238,
+                                    227,
+                                  ), // match the container color
+                                  child: Text(
+                                    'Workout Type',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'RubikL',
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 46, 105, 70),
+                                    ),
                                   ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    _workoutType ?? 'Select workout type',
-                                    style:
-                                        _workoutType == null
-                                            ? TextStyle(
-                                              fontFamily: 'RubikL',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              color: Color.fromARGB(
-                                                160,
-                                                46,
-                                                105,
-                                                70,
-                                              ),
-                                            )
-                                            : TextStyle(
-                                              fontFamily: 'rubikL',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              color: Color.fromARGB(
-                                                255,
-                                                46,
-                                                105,
-                                                70,
-                                              ),
-                                            ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ]
                         : [
@@ -412,7 +457,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
                     'Cancel',
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                    style: TextStyle(color: Color.fromARGB(255, 202, 59, 59)),
                   ),
                 ),
                 ElevatedButton(
@@ -770,6 +815,12 @@ class EditingWorkouts extends StatelessWidget {
             labelText: slabel,
             labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
             border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Color.fromARGB(255, 46, 105, 70),
+                width: 2.0,
+              ),
+            ),
           ),
         ),
         SizedBox(height: 12),
@@ -780,6 +831,12 @@ class EditingWorkouts extends StatelessWidget {
             labelText: flabel,
             labelStyle: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
             border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Color.fromARGB(255, 46, 105, 70),
+                width: 2.0,
+              ),
+            ),
           ),
         ),
       ],
