@@ -433,6 +433,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                           .update({
                             'Distance': disController.text,
                             'Time': timeController.text,
+                            'Type': _workoutType,
                             if (_workoutType != null) 'Type': _workoutType,
                           });
                     } else if (widget.workout['sets'] != null ||
