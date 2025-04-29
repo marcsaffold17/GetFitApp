@@ -123,7 +123,10 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(width: 3.0, color: Colors.blue),
+                  borderSide: BorderSide(
+                    width: 3.0,
+                    color: const Color.fromARGB(255, 81, 163, 108),
+                  ),
                 ),
               ),
             ),
@@ -567,7 +570,7 @@ class SmallTextField extends StatelessWidget {
           borderSide: BorderSide(
             color: Color.fromARGB(255, 46, 105, 70),
             width: 1,
-          ), // focused underline color
+          ),
         ),
 
         labelText: lText,
