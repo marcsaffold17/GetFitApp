@@ -334,22 +334,30 @@ class _FavoritesPageState extends State<FavoritesPage> {
               fontFamily: 'MontserratB',
             ),
           ),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 8),
-                Text(
-                  exercise.instructions,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 46, 105, 70),
-                    fontFamily: 'RubikL',
-                    fontWeight: FontWeight.bold,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Divider(color: Color.fromARGB(255, 20, 50, 31), thickness: 2),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 8),
+                      Text(
+                        exercise.instructions,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 46, 105, 70),
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           actions: [
             Container(

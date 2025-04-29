@@ -61,7 +61,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
         workoutTypeText.text == "plyometrics" ||
         workoutTypeText.text == "strength" ||
         workoutTypeText.text == "stretching") {
-      print("works");
       muscleTypeText.text = "type";
     }
     _presenter.fetchMuscleExercises(muscleTypeText.text, workoutTypeText.text);
@@ -106,11 +105,13 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                 fontFamily: 'RubikL',
                 fontWeight: FontWeight.bold,
               ),
+              // color: Color.fromARGB(255, 20, 50, 31),
               controller: workoutTypeText,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Muscle type, Cardio, Stretching',
                 hintStyle: TextStyle(
+                  color: Color.fromARGB(255, 20, 50, 31),
                   fontFamily: 'RubikL',
                   fontWeight: FontWeight.bold,
                 ),
@@ -494,23 +495,50 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
               fontFamily: 'MontserratB',
             ),
           ),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 8),
-                Text(
-                  exercise.instructions,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 46, 105, 70),
-                    fontFamily: 'RubikL',
-                    fontWeight: FontWeight.bold,
+
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Divider(color: Color.fromARGB(255, 20, 50, 31), thickness: 2),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 8),
+                      Text(
+                        exercise.instructions,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 46, 105, 70),
+                          fontFamily: 'RubikL',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+
+          // content: SingleChildScrollView(
+          //   child: Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       SizedBox(height: 8),
+          //       Text(
+          //         exercise.instructions,
+          //         style: TextStyle(
+          //           color: Color.fromARGB(255, 46, 105, 70),
+          //           fontFamily: 'RubikL',
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           actions: [
             Container(
               width: 100,
@@ -519,10 +547,6 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                   backgroundColor: Color.fromARGB(255, 229, 221, 212),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    // side: BorderSide(
-                    //   color: Color.fromARGB(255, 0, 0, 0),
-                    //   width: 1,
-                    // ),
                   ),
                 ),
                 onPressed: () => Navigator.pop(context),

@@ -128,7 +128,7 @@ class LoginPage extends State<MyLoginPage> implements LoginView {
         backgroundColor: const Color.fromARGB(255, 229, 221, 212),
         content: Text(
           message,
-          style: const TextStyle(color: Color.fromARGB(255, 40, 31, 20)),
+          style: const TextStyle(color: Color.fromARGB(255, 81, 163, 108)),
         ),
       ),
     );
