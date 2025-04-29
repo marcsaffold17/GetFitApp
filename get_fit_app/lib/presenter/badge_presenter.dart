@@ -1,33 +1,65 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/badge_model.dart';
+import '../presenter/global_presenter.dart';
 import '../view/badge_screen.dart';
 
 class BadgePresenter {
-  final BadgeRepository repository;
   final BadgeView view;
+  final BadgeRepository repository;
 
-  BadgePresenter({required this.repository, required this.view});
+  BadgePresenter({required this.view, required this.repository});
 
-  void loadBadges() async {
-    final badges = await repository.fetchBadges();
-    view.displayBadges(badges);
+  Future<void> loadBadges() async {
+    try {
+      final badges = await repository.fetchBadges();
+      view.displayBadges(badges);
+    } catch (e) {
+      print("Error loading badges: $e");
+    }
   }
 
-  void unlockBadge(String badgeId) async {
-    print("unlockBadge called with $badgeId");
-    await repository.markBadgeUnlocked(badgeId);
-    view.showBadgeUnlocked(badgeId);
-    loadBadges();
+  Future<void> unlockFirstWorkoutBadge() async {
+    try {
+      await repository.checkAndUnlockBadge(
+        badgeId: 'firstworkoutadded',
+        badgeTitle: 'First Workout Added',
+        badgeDescription: 'Unlocked when you add your first workout',
+        badgeIconUrl: 'https://i.kym-cdn.com/photos/images/original/000/685/444/c89.jpg',
+        badgeisUnlocked: true,
+      );
+      await loadBadges(); // Refresh UI if needed
+    } catch (e) {
+      print('Error unlocking first workout badge: $e');
+    }
   }
 
+  Future<void> unlockFiveWorkoutsBadge() async {
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('Login-Info')
+          .doc(globalUsername)
+          .collection('Workout-Plan')
+          .get();
 
+      int workoutCount = 0;
 
-  // All Unlock Logic Below This Point
+      for (final doc in snapshot.docs) {
+        final subCollection = await doc.reference.collection('Workout').get();
+        workoutCount += subCollection.docs.length;
+      }
 
-
-  void unlockFirstWorkoutAddedBadge() {
-    unlockBadge('first_workout_added');
-  }
-  void unlockFoundScugBadge() {
-    unlockBadge('foundscug');
+      if (workoutCount >= 5) {
+        await repository.checkAndUnlockBadge(
+          badgeId: 'fiveworkouts',
+          badgeTitle: '5 Workouts Complete',
+          badgeDescription: 'Unlocked after completing 5 workouts',
+          badgeIconUrl: 'https://static.thenounproject.com/png/1426512-200.png',
+          badgeisUnlocked: true,
+        );
+        await loadBadges(); // Refresh UI if needed
+      }
+    } catch (e) {
+      print('Error unlocking 5 workouts badge: $e');
+    }
   }
 }

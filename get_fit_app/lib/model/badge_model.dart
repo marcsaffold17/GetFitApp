@@ -1,3 +1,4 @@
+// badge_model.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_fit_app/presenter/global_presenter.dart';
 
@@ -40,9 +41,11 @@ class BadgeRepository {
         .collection('badges')
         .get();
 
-    print("Fetched ${snapshot.docs.length} badge documents");
+    print("Fetched \${snapshot.docs.length} badge documents");
 
-    return snapshot.docs.map((doc) => Badge.fromFirestore(doc.data(), doc.id)).toList();
+    return snapshot.docs
+        .map((doc) => Badge.fromFirestore(doc.data(), doc.id))
+        .toList();
   }
 
   Future<void> unlockBadge(String badgeId) async {
@@ -67,10 +70,11 @@ class BadgeRepository {
 
   Future<void> checkAndUnlockBadge({
     required String badgeId,
-    required String badgeName,
+    required String badgeTitle,
     required String badgeDescription,
-    required String badgeImageUrl,
-}) async {
+    required String badgeIconUrl,
+    required bool badgeisUnlocked,
+  }) async {
     try {
       final badgeDoc = await _firestore
           .collection('Login-Info')
@@ -79,7 +83,7 @@ class BadgeRepository {
           .doc(badgeId)
           .get();
 
-      if (!badgeDoc.exists) {
+      if (!badgeDoc.exists || !(badgeDoc.data()?['isUnlocked'] ?? false)) {
         await _firestore
             .collection('Login-Info')
             .doc(globalUsername)
@@ -87,17 +91,16 @@ class BadgeRepository {
             .doc(badgeId)
             .set({
           'badgeId': badgeId,
-          'badgeName': badgeName,
+          'badgeTitle': badgeTitle,
           'badgeDescription': badgeDescription,
-          'badgeImageUrl': badgeImageUrl,
+          'badgeIconUrl': badgeIconUrl,
           'isUnlocked': true,
         });
 
-        print('Badge unlocked: $badgeName');
+        print('Badge unlocked: \$badgeTitle');
       }
     } catch (e) {
-      print('Error checking and unlocking badge: $e');
+      print('Error checking and unlocking badge: \$e');
     }
   }
-
 }

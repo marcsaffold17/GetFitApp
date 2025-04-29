@@ -71,7 +71,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
     );
 
     // Add badge to user's profile
-    _badgePresenter.unlockFirstWorkoutAddedBadge();
+    _badgePresenter.unlockFirstWorkoutBadge();
 
     _formKey.currentState?.reset();
     _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());

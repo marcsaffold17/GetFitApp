@@ -9,6 +9,7 @@ class WorkoutPresenter {
   late WorkoutView view;
   final WorkoutRepository repository;
 
+
   WorkoutPresenter(this.repository);
 
   // Adds workout data user inserts in app to Firestore under correct structure
