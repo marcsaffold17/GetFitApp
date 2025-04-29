@@ -21,6 +21,9 @@ class BadgeGrid extends StatelessWidget {
         final badge = badges[index];
         return GestureDetector(
           onTap: () {
+            if (badge.id == "foundscug" && badge.isUnlocked) {
+              presenter.unlockFoundScugBadge();
+            }
             showDialog(
               context: context,
                 builder: (_) => AlertDialog(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_fit_app/presenter/global_presenter.dart';
 
 class Badge {
   final String id;
@@ -62,6 +63,41 @@ class BadgeRepository {
         .doc(badgeId);
 
     await badgeRef.update({'isUnlocked': true});
+  }
+
+  Future<void> checkAndUnlockBadge({
+    required String badgeId,
+    required String badgeName,
+    required String badgeDescription,
+    required String badgeImageUrl,
+}) async {
+    try {
+      final badgeDoc = await _firestore
+          .collection('Login-Info')
+          .doc(globalUsername)
+          .collection('badges')
+          .doc(badgeId)
+          .get();
+
+      if (!badgeDoc.exists) {
+        await _firestore
+            .collection('Login-Info')
+            .doc(globalUsername)
+            .collection('badges')
+            .doc(badgeId)
+            .set({
+          'badgeId': badgeId,
+          'badgeName': badgeName,
+          'badgeDescription': badgeDescription,
+          'badgeImageUrl': badgeImageUrl,
+          'isUnlocked': true,
+        });
+
+        print('Badge unlocked: $badgeName');
+      }
+    } catch (e) {
+      print('Error checking and unlocking badge: $e');
+    }
   }
 
 }

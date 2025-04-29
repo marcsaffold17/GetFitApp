@@ -1,6 +1,6 @@
 // import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:intl/intl.dart';
 import '../presenter/insert_workout_presenter.dart';
 import '../model/insert_workout_model.dart';
@@ -8,6 +8,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../presenter/global_presenter.dart';
+// imports for Badges
+import '../model/badge_model.dart';
+import '../presenter/badge_presenter.dart';
+import 'badge_screen.dart';
 
 // Required when needing to authenticate user
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -47,10 +51,14 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
   String? _dropdownError;
   String? _dateError;
 
+  // Add BadgePresenter
+  late BadgePresenter _badgePresenter;
+
   @override
   void initState() {
     super.initState();
     _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());
+
   }
 
   @override
@@ -61,6 +69,9 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
         duration: Duration(seconds: 2),
       ),
     );
+
+    // Add badge to user's profile
+    _badgePresenter.unlockFirstWorkoutAddedBadge();
 
     _formKey.currentState?.reset();
     _dayController.text = DateFormat('MM-dd-yyyy').format(DateTime.now());
@@ -760,3 +771,4 @@ class SmallTextFormField extends StatelessWidget {
     );
   }
 }
+

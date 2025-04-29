@@ -1,6 +1,9 @@
+import '../view/badge_screen.dart';
 import '../view/insert_workout_view.dart';
 import '../model/insert_workout_model.dart';
-import '../presenter/global_presenter.dart'; 
+import '../presenter/global_presenter.dart';
+import '../presenter/badge_presenter.dart';
+import '../model/badge_model.dart';
 
 class WorkoutPresenter {
   late WorkoutView view;
@@ -16,9 +19,12 @@ class WorkoutPresenter {
         formattedDate: formattedDate,
         workout: workout,
       );
+
+
       view.onWorkoutAdded();
     } catch (e) {
       print("Error adding workout: $e");
     }
+
   }
 }

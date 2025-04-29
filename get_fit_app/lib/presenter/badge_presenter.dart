@@ -18,4 +18,16 @@ class BadgePresenter {
     view.showBadgeUnlocked(badgeId);
     loadBadges();
   }
+
+
+
+  // All Unlock Logic Below This Point
+
+
+  void unlockFirstWorkoutAddedBadge() {
+    unlockBadge('first_workout_added');
+  }
+  void unlockFoundScugBadge() {
+    unlockBadge('foundscug');
+  }
 }

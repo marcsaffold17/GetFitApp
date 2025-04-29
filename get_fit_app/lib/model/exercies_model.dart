@@ -1,3 +1,4 @@
+
 class Exercise {
   final String name;
   final String type;

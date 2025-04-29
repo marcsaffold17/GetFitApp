@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Restructured dart files to attempt firestore connectivity again.">
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Attempt 1 for unlock condition of favorites badge">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_16_2025_2_15_PM_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_16_2025_2_15_PM__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_4_16_2025_2_20_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_4_16_2025_2_20_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/model/badge_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/model/badge_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/model/exercies_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/model/exercies_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/presenter/insert_workout_presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/presenter/insert_workout_presenter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/Workout-Plan.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/Workout-Plan.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_grid.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/insert_workout_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/insert_workout_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,28 +90,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Flutter.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Badges&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/danie/StudioProjects/Bug-Hunters/get_fit_app/pubspec.yaml&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Flutter.Main.executor": "Run",
+    "Flutter.main.dart.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "Badges",
+    "io.flutter.reload.alreadyRun": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/danie/StudioProjects/Bug-Hunters/get_fit_app/pubspec.yaml",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "dart.settings",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\danie\StudioProjects" />
@@ -214,8 +224,27 @@
       <option name="project" value="LOCAL" />
       <updated>1745331388503</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added pop-up for badges to display descriptions">
+      <option name="closed" value="true" />
+      <created>1745438244028</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1745438244029</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="badge_model.dart is done, just neet to connect to firestore." />
@@ -227,6 +256,8 @@
     <MESSAGE value="Added more detail to badges" />
     <MESSAGE value="Preparing for merge" />
     <MESSAGE value="Restructured dart files to attempt firestore connectivity again." />
-    <option name="LAST_COMMIT_MESSAGE" value="Restructured dart files to attempt firestore connectivity again." />
+    <MESSAGE value="Added pop-up for badges to display descriptions" />
+    <MESSAGE value="Attempt 1 for unlock condition of favorites badge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Attempt 1 for unlock condition of favorites badge" />
   </component>
 </project>
