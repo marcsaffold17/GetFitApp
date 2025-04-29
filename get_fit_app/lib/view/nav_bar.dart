@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_fit_app/view/LeaderboardPage.dart';
 import '../view/HomePage.dart';
-import '../view/SettingsPage.dart';
+import 'SettingsPage.dart';
 import '../view/checklist_view.dart';
 import '../view/login_view.dart';
 import '../presenter/global_presenter.dart';
+import '../view/badge_screen.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -49,75 +51,139 @@ class NavBar extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     color: Color.fromARGB(255, 244, 238, 227),
+                    fontFamily: 'MontserratB',
                   ),
                 ),
-                const SizedBox(height: 10),
               ],
             ),
           ),
           Expanded(
             child: ListView(
               children: [
-                ListTile(
-                  leading: const Icon(
-                    Icons.home_outlined,
-                    color: Color.fromARGB(255, 46, 105, 70),
+                Container(
+                  color: Color.fromARGB(255, 229, 221, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.home_outlined,
+                      color: Color.fromARGB(255, 20, 50, 31),
+                    ),
+                    title: Text("Home", style: NavTextStyle()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  const MyHomePage(title: 'Home', username: ""),
+                        ),
+                      );
+                    },
                   ),
-                  title: const Text(
-                    "Home",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) =>
-                                const MyHomePage(title: 'Home', username: ""),
-                      ),
-                    );
-                  },
                 ),
                 ListTile(
                   leading: const Icon(
                     Icons.checklist_rounded,
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 20, 50, 31),
                   ),
-                  title: const Text("Checklist"),
+                  title: Text("Checklist", style: NavTextStyle()),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ChecklistPage()),
+                      MaterialPageRoute(
+                        builder: (context) => ChecklistPage(isFromNavbar: true),
+                      ),
                     );
                   },
                 ),
+                Container(
+                  color: Color.fromARGB(255, 229, 221, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.auto_graph_outlined,
+                      color: Color.fromARGB(255, 20, 50, 31),
+                    ),
+                    title: Text("LeaderBoard", style: NavTextStyle()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => LeaderboardPage(
+                                isFromNavbar: true,
+                                chartColor: Colors.blue, // Corrected color
+                              ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 ListTile(
                   leading: const Icon(
-                    Icons.settings,
-                    color: Color.fromARGB(255, 46, 105, 70),
+                    Icons.badge_outlined,
+                    color: Color.fromARGB(255, 20, 50, 31),
                   ),
-                  title: const Text(
-                    "Settings",
-                    style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                  ),
+                  title: Text("Badges", style: NavTextStyle()),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SettingsPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const BadgeScreen(),
+                      ),
                     );
                   },
+                ),
+                Container(
+                  color: Color.fromARGB(255, 229, 221, 212),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.settings,
+                      color: Color.fromARGB(255, 20, 50, 31),
+                    ),
+                    title: Text("Settings", style: NavTextStyle()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
           ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.logout, color: Colors.black),
-            title: const Text("Logout"),
-            onTap: () => _logout(context),
+          Container(
+            color: Color.fromARGB(255, 20, 50, 31),
+            child: ListTile(
+              leading: const Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 244, 238, 227),
+              ),
+              title: Text(
+                "Logout",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 244, 238, 227),
+                  fontFamily: 'MontserratB',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () => _logout(context),
+            ),
           ),
         ],
       ),
     );
   }
+
+  TextStyle NavTextStyle() {
+    return TextStyle(
+      color: Color.fromARGB(255, 46, 105, 70),
+      fontFamily: 'RubikL',
+      fontWeight: FontWeight.bold,
+    );
+  }
 }
+
+// Credit for UI help and emotional support during UI work: Eva :>
+// :(

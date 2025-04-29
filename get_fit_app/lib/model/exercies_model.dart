@@ -5,6 +5,7 @@ class Exercise {
   final String equipment;
   final String difficulty;
   final String instructions;
+  final String? cardioType;
   bool isFavorite;
 
   Exercise({
@@ -15,10 +16,10 @@ class Exercise {
     required this.difficulty,
     required this.instructions,
     required this.isFavorite,
+    this.cardioType,
   });
 
-  factory Exercise.fromJson(Map<String,dynamic> json)
-  {
+  factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(
       name: json['name'],
       type: json['type'],

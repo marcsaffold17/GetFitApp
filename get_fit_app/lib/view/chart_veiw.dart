@@ -227,7 +227,26 @@ class _BarChartWidgetState extends State<BarChartWidget>
                   ),
                 ),
                 leftTitles: AxisTitles(
-                  sideTitles: SideTitles(showTitles: true, reservedSize: 30),
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    getTitlesWidget: (value, meta) {
+                      if (value.toInt() == 10) {
+                        return const SizedBox.shrink();
+                      }
+
+                      return SideTitleWidget(
+                        space: 8,
+                        meta: meta,
+                        child: Text(
+                          value.toInt().toString(),
+                          style: const TextStyle(
+                            fontSize: 10,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
                 rightTitles: AxisTitles(
                   sideTitles: SideTitles(showTitles: false),

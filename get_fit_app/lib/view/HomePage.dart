@@ -1,17 +1,19 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'LeaderboardPage.dart';
+import 'package:get_fit_app/view/LeaderboardPage.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
 import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
-import 'settingspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../view/exercise_view.dart';
+import 'Workout_list_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../view/Workout-Plan.dart';
+import '../view/WorkoutHistory.dart';
 import '../view/profile_page.dart';
+import '../view/checklist_view.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
@@ -28,8 +30,9 @@ class _MyHomePageState extends State<MyHomePage> {
   late String userName;
   List<ChartModel> _chartData = [];
   String _selectedChart = 'Line';
-  Color _chartColor = Colors.blue;
-  bool _isLoading = true; // <-- Added loading indicator state
+  Color _chartColor = Colors.blue; // Default chart color
+  bool _isLoading = true;
+  File? _profileImage;
 
   @override
   void initState() {
@@ -38,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _loadChartPreference().then((_) {
       _loadChartData();
     });
+    _loadProfileImage();
   }
 
   void _loadUsername() {
@@ -68,6 +72,26 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> _loadProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? imagePath = prefs.getString('profileImage');
+    if (imagePath != null && File(imagePath).existsSync()) {
+      setState(() {
+        _profileImage = File(imagePath);
+      });
+    } else {
+      setState(() {
+        _profileImage = null;
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadChartPreference();
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -77,51 +101,131 @@ class _MyHomePageState extends State<MyHomePage> {
   // Callback function to refresh the chart
   void _refreshChart() {
     setState(() {
-      _loadChartData(); // Re-fetch chart data
+      _loadChartData();
     });
   }
 
   Widget _buildHomePage() {
-    return Stack(
-      children: [
-        Positioned(
-          top: 20,
-          left: 20,
-          child: Text(
-            "Welcome Back, $userName",
-            style: const TextStyle(fontSize: 30),
-          ),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 244, 238, 227),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Welcome Back,",
+              style: TextStyle(fontSize: 30, fontFamily: 'MontserratB'),
+            ),
+            Text(
+              "$userName",
+              style: const TextStyle(fontSize: 27, fontFamily: 'MontserratB'),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.all(15),
+              height: 300,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 229, 221, 212),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: const Color.fromARGB(255, 20, 50, 31),
+                  width: 2,
+                ),
+              ),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: displayChart(_chartData, _selectedChart, _chartColor),
+              ),
+            ),
+            const SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 379.4,
+                  height: 70,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.checklist_rounded,
+                      color: Color.fromARGB(255, 229, 221, 212),
+                      size: 35,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => ChecklistPage(isFromNavbar: false),
+                        ),
+                      );
+                    },
+                    label: const Text(
+                      "Check List",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 244, 238, 227),
+                        fontFamily: 'MontserratB',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 379.4,
+                  height: 70,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.emoji_events,
+                      color: Color.fromARGB(255, 229, 221, 212),
+                      size: 35,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    onPressed: () async {
+                      // Pass the chart color to the LeaderboardPage
+                      final updatedChart = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => LeaderboardPage(
+                                chartColor: _chartColor,
+                                isFromNavbar: false, // Pass color here
+                              ),
+                        ),
+                      );
+                      if (updatedChart != null) {
+                        setState(() {
+                          _chartColor =
+                              updatedChart; // Update color after returning
+                        });
+                      }
+                    },
+                    label: const Text(
+                      "LeaderBoard",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 244, 238, 227),
+                        fontFamily: 'MontserratB',
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        Positioned(
-          top: 60,
-          left: 20,
-          child: ElevatedButton(
-            onPressed: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-              await _loadChartPreference();
-              setState(() {}); // Rebuild after returning
-            },
-            child: const Text("Change Chart Settings"),
-          ),
-        ),
-        Positioned(
-          top: 120,
-          left: 20,
-          right: 20,
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child:
-                _isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : _chartData.isEmpty
-                    ? const Center(child: Text('No chart data available.'))
-                    : displayChart(_chartData, _selectedChart, _chartColor),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -129,10 +233,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       _buildHomePage(),
-      ExercisePage(onWorkoutAdded: _refreshChart), // Pass the callback here
+      ExercisePage(onWorkoutAdded: _refreshChart),
       FavoritesPage(),
       WorkoutHistoryByDate(),
-      LeaderboardPage(chartColor: _chartColor),
+      LeaderboardPage(
+        chartColor: _chartColor,
+        isFromNavbar: false, // Pass chart color to LeaderboardPage
+      ),
     ];
 
     return Scaffold(
@@ -145,19 +252,32 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: const Color.fromARGB(255, 20, 50, 31),
         actions: [
           Padding(
+            padding: const EdgeInsets.only(right: 104),
+            child: Image.asset(
+              'assets/images/MachoMuscleMania.png',
+              height: 300,
+              width: 100,
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(username: userName),
                   ),
                 );
+                _loadProfileImage();
               },
-              child: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/AshtonHall.webp'),
+              child: CircleAvatar(
                 radius: 18,
+                backgroundImage:
+                    _profileImage != null
+                        ? FileImage(_profileImage!)
+                        : const AssetImage('assets/images/AshtonHall.webp')
+                            as ImageProvider,
               ),
             ),
           ),
@@ -173,6 +293,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: pages[_selectedIndex],
       bottomNavigationBar: GNav(
         onTabChange: _onItemTapped,
+        textStyle: const TextStyle(
+          color: Color.fromARGB(255, 244, 238, 227),
+          fontFamily: 'MontserratB',
+        ),
         padding: const EdgeInsets.all(16),
         gap: 8,
         backgroundColor: const Color.fromARGB(255, 20, 50, 31),
@@ -204,13 +328,6 @@ class _MyHomePageState extends State<MyHomePage> {
           GButton(
             icon: Icons.history,
             text: "Workout History",
-            iconColor: Color.fromARGB(255, 244, 238, 227),
-            iconActiveColor: Color.fromARGB(255, 244, 238, 227),
-            textColor: Color.fromARGB(255, 244, 238, 227),
-          ),
-          GButton(
-            icon: Icons.bar_chart_sharp,
-            text: "Leaderboard",
             iconColor: Color.fromARGB(255, 244, 238, 227),
             iconActiveColor: Color.fromARGB(255, 244, 238, 227),
             textColor: Color.fromARGB(255, 244, 238, 227),
