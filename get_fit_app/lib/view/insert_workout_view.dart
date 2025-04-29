@@ -169,7 +169,7 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
             itemCount: workoutTypes.length,
             separatorBuilder:
                 (context, index) => Divider(
-                  color: Color.fromARGB(255, 20, 50, 31), // <-- Divider color
+                  color: Color.fromARGB(255, 20, 50, 31),
                   thickness: 1,
                   height: 1,
                 ),

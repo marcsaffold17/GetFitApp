@@ -191,6 +191,8 @@ class _WorkoutTileState extends State<_WorkoutTile> {
           .doc(globalUsername)
           .collection('Workout-Plan')
           .doc(widget.workout['date'])
+          .collection('Workout')
+          .doc(widget.workout['exercise'])
           .delete();
       widget.onDelete();
     } catch (e) {
@@ -316,10 +318,9 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                   ),
                   textColor: Color.fromARGB(255, 20, 50, 31),
                   onTap: () {
-                    setState(() {
-                      _workoutType = workout['type'];
-                      _workoutTypeIcon = workout['icon'];
-                      _typeController.text = _workoutType!;
+                    setDialogState(() {
+                      _workoutType = workout['type'] as String;
+                      _workoutTypeIcon = workout['icon'] as IconData;
                     });
                     Navigator.pop(context);
                   },
@@ -359,13 +360,6 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                           color: Color.fromARGB(255, 20, 50, 31),
                         ),
                       ),
-              // title: Text(
-              //   'Edit Sets, Reps & WT',
-              //   style: TextStyle(
-              //     fontWeight: FontWeight.bold,
-              //     color: Color.fromARGB(255, 20, 50, 31),
-              //   ),
-              // ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children:
@@ -403,7 +397,6 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(
