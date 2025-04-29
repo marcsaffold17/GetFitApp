@@ -13,8 +13,10 @@ class LeaderboardPage extends StatefulWidget {
 }
 
 class _LeaderboardPageState extends State<LeaderboardPage> {
-  List<ChartModel> _chartData = [];
-  bool _isLoading = true; // <-- Add loading state
+  List<ChartModel> _workoutsData = [];
+  List<ChartModel> _repsData = [];
+  List<ChartModel> _longestWorkoutsData = [];
+  bool _isLoading = true;
   String _errorMessage = '';
 
   @override
@@ -25,9 +27,14 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
 
   Future<void> _loadLeaderboardData() async {
     try {
-      List<ChartModel> chartData = await fetchLeaderboardData();
+      List<ChartModel> workoutsData = await fetchData('workouts');
+      List<ChartModel> repsData = await fetchData('reps');
+      List<ChartModel> longestWorkoutsData = await fetchData('longestWorkouts');
+
       setState(() {
-        _chartData = chartData;
+        _workoutsData = workoutsData;
+        _repsData = repsData;
+        _longestWorkoutsData = longestWorkoutsData;
         _isLoading = false;
       });
     } catch (e) {
@@ -38,18 +45,14 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     }
   }
 
-  Future<List<ChartModel>> fetchLeaderboardData() async {
+  Future<List<ChartModel>> fetchData(String collectionName) async {
     var snapshot =
-        await FirebaseFirestore.instance
-            .collection(
-              'leaderboard',
-            ) // Make sure to use the correct Firestore collection
-            .get();
+        await FirebaseFirestore.instance.collection(collectionName).get();
 
     return snapshot.docs.map((doc) {
       return ChartModel(
         x: doc['x'],
-        y: (doc['y'] ?? 0).toDouble(), // Ensure 'y' is a double
+        y: (doc['y'] ?? 0).toDouble(),
         name: doc['name'] ?? '',
       );
     }).toList();
@@ -80,17 +83,20 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    BarChartWidget(data: _chartData, color: widget.chartColor),
+                    BarChartWidget(
+                      data: _workoutsData,
+                      color: widget.chartColor,
+                    ),
                     const SizedBox(height: 30),
                     const Text(
-                      'Most achievements (weekly)',
+                      'Most reps (weekly)',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    BarChartWidget(data: _chartData, color: widget.chartColor),
+                    BarChartWidget(data: _repsData, color: widget.chartColor),
                     const SizedBox(height: 30),
                     const Text(
                       'Longest workout (daily)',
@@ -100,7 +106,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    BarChartWidget(data: _chartData, color: widget.chartColor),
+                    BarChartWidget(
+                      data: _longestWorkoutsData,
+                      color: widget.chartColor,
+                    ),
                   ],
                 ),
               ),

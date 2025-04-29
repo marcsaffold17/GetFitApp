@@ -331,8 +331,13 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                   .get();
 
                                           if (chartDoc.exists) {
+                                            // Increment the 'y' value by the updated reps value
+                                            int updatedReps =
+                                                int.tryParse(reps) ?? 0;
                                             await chartDoc.reference.update({
-                                              'y': FieldValue.increment(1),
+                                              'y': FieldValue.increment(
+                                                updatedReps,
+                                              ),
                                             });
                                           } else {
                                             final snapshot =
@@ -344,7 +349,7 @@ class _ExercisePageState extends State<ExercisePage> implements ExerciseView {
                                                 .doc(formattedDate)
                                                 .set({
                                                   'x': nextX,
-                                                  'y': 1,
+                                                  'y': int.tryParse(reps) ?? 0,
                                                   'name': formattedDate,
                                                 });
                                           }
