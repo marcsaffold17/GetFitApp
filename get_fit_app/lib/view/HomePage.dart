@@ -1,23 +1,23 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'dart:ui';
+import 'LeaderboardPage.dart';
 import 'package:get_fit_app/view/LeaderboardPage.dart';
-import '../view/login_view.dart';
 import 'nav_bar.dart';
 import '../presenter/global_presenter.dart';
 import '../model/chart_model.dart';
 import '../view/chart_veiw.dart';
-import 'settingspage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../view/exercise_view.dart';
+import 'Workout_list_view.dart';
 import '../view/favorites_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../view/Workout-Plan.dart';
+import '../view/WorkoutHistory.dart';
 import '../view/profile_page.dart';
 import '../view/checklist_view.dart';
-import '../view/LeaderboardPage.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required this.username});
+
   final String title;
   final String username;
 
@@ -27,37 +27,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  late String UserName;
+  late String userName;
   List<ChartModel> _chartData = [];
   String _selectedChart = 'Line';
+  Color _chartColor = Colors.blue; // Default chart color
+  bool _isLoading = true;
   File? _profileImage;
 
   @override
   void initState() {
     super.initState();
     _loadUsername();
-    _loadChartData();
-    _loadChartPreference();
+    _loadChartPreference().then((_) {
+      _loadChartData();
+    });
     _loadProfileImage();
   }
 
   void _loadUsername() {
-    UserName = globalUsername ?? widget.username;
+    userName = widget.username;
   }
 
-  void _loadChartData() {
-    _chartData = [
-      ChartModel(x: 1, y: 5, name: "0"),
-      ChartModel(x: 2, y: 6, name: "1"),
-      ChartModel(x: 3, y: 7, name: "2"),
-      ChartModel(x: 4, y: 8, name: "3"),
-    ];
+  Future<void> _loadChartData() async {
+    try {
+      List<ChartModel> chartData = await ChartModel.fetchData();
+      setState(() {
+        _chartData = chartData;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      debugPrint("Error fetching chart data: $e");
+    }
   }
 
   Future<void> _loadChartPreference() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _selectedChart = prefs.getString('selectedChart') ?? 'Line';
+      final colorHex = prefs.getString('chartColor') ?? 'FF2196F3';
+      _chartColor = Color(int.parse('0x$colorHex'));
     });
   }
 
@@ -87,98 +98,167 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  // Callback function to refresh the chart
+  void _refreshChart() {
+    setState(() {
+      _loadChartData();
+    });
+  }
+
   Widget _buildHomePage() {
-    return Stack(
-      children: [
-        Positioned(
-          top: 20,
-          left: 20,
-          child: Text(
-            "Welcome Back, $UserName",
-            style: const TextStyle(fontSize: 30),
-          ),
-        ),
-        Positioned(
-          top: 120,
-          left: 20,
-          right: 20,
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: displayChart(_chartData, _selectedChart),
-          ),
-        ),
-        Positioned(
-          bottom: 240,
-          left: 20,
-          child: Container(
-            width: 180,
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 229, 221, 212),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 244, 238, 227),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Welcome Back,",
+              style: TextStyle(fontSize: 30, fontFamily: 'MontserratB'),
+            ),
+            Text(
+              "$userName",
+              style: const TextStyle(fontSize: 27, fontFamily: 'MontserratB'),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.all(15),
+              height: 300,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 229, 221, 212),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: const Color.fromARGB(255, 20, 50, 31),
+                  width: 2,
+                ),
               ),
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChecklistPage()),
-                );
-              },
-              child: const Text(
-                "TODO List",
-                style: TextStyle(color: Color.fromARGB(255, 49, 112, 75)),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: displayChart(_chartData, _selectedChart, _chartColor),
               ),
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 240,
-          right: 20,
-          child: Container(
-            width: 180,
-            height: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 229, 221, 212),
-              ),
-              onPressed: () async {
-                final updatedChart = await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LeaderboardPage()),
-                );
-                if (updatedChart != null) {
-                  setState(() {
-                    _selectedChart = updatedChart;
-                  });
-                }
-              },
-              child: const Text(
-                "LeaderBoard",
-                style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
-                textAlign: TextAlign.center,
-              ),
+            const SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 379.4,
+                  height: 70,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.checklist_rounded,
+                      color: Color.fromARGB(255, 229, 221, 212),
+                      size: 35,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => ChecklistPage(isFromNavbar: false),
+                        ),
+                      );
+                    },
+                    label: const Text(
+                      "Check List",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 244, 238, 227),
+                        fontFamily: 'MontserratB',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 379.4,
+                  height: 70,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.emoji_events,
+                      color: Color.fromARGB(255, 229, 221, 212),
+                      size: 35,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 46, 105, 70),
+                    ),
+                    onPressed: () async {
+                      // Pass the chart color to the LeaderboardPage
+                      final updatedChart = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => LeaderboardPage(
+                                chartColor: _chartColor,
+                                isFromNavbar: false, // Pass color here
+                              ),
+                        ),
+                      );
+                      if (updatedChart != null) {
+                        setState(() {
+                          _chartColor =
+                              updatedChart; // Update color after returning
+                        });
+                      }
+                    },
+                    label: const Text(
+                      "LeaderBoard",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 244, 238, 227),
+                        fontFamily: 'MontserratB',
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       _buildHomePage(),
-      ExercisePage(),
+      ExercisePage(onWorkoutAdded: _refreshChart),
       FavoritesPage(),
       WorkoutHistoryByDate(),
+      LeaderboardPage(
+        chartColor: _chartColor,
+        isFromNavbar: false, // Pass chart color to LeaderboardPage
+      ),
     ];
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 244, 238, 227),
+      backgroundColor: const Color.fromARGB(255, 244, 238, 227),
       appBar: AppBar(
         title: const Text(""),
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
-        backgroundColor: Color.fromARGB(255, 20, 50, 31),
+        iconTheme: const IconThemeData(
+          color: Color.fromARGB(255, 244, 238, 227),
+        ),
+        backgroundColor: const Color.fromARGB(255, 20, 50, 31),
         actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 104),
+            child: Image.asset(
+              'assets/images/MachoMuscleMania.png',
+              height: 300,
+              width: 100,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
@@ -186,7 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfilePage(username: UserName),
+                    builder: (context) => ProfilePage(username: userName),
                   ),
                 );
                 _loadProfileImage();
@@ -202,7 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -210,17 +290,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       drawer: const NavBar(),
-      body: _pages[_selectedIndex],
+      body: pages[_selectedIndex],
       bottomNavigationBar: GNav(
-        onTabChange: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        onTabChange: _onItemTapped,
+        textStyle: const TextStyle(
+          color: Color.fromARGB(255, 244, 238, 227),
+          fontFamily: 'MontserratB',
+        ),
         padding: const EdgeInsets.all(16),
         gap: 8,
-        backgroundColor: Color.fromARGB(255, 20, 50, 31),
-        tabBackgroundColor: Color.fromARGB(255, 49, 112, 75),
+        backgroundColor: const Color.fromARGB(255, 20, 50, 31),
+        tabBackgroundColor: const Color.fromARGB(255, 49, 112, 75),
         tabBorderRadius: 12,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         tabs: const [
@@ -258,9 +338,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Widget displayChart(List<ChartModel> chartData, String selectedChart) {
+Widget displayChart(
+  List<ChartModel> chartData,
+  String selectedChart,
+  Color chartColor,
+) {
   if (chartData.isEmpty) return const SizedBox.shrink();
   return selectedChart == 'Line'
-      ? LineChartWidget(key: const ValueKey('line'), data: chartData)
-      : BarChartWidget(key: const ValueKey('bar'), data: chartData);
+      ? LineChartWidget(
+        key: const ValueKey('line'),
+        data: chartData,
+        color: chartColor,
+      )
+      : BarChartWidget(
+        key: const ValueKey('bar'),
+        data: chartData,
+        color: chartColor,
+      );
 }

@@ -12,12 +12,7 @@ class ImageScreen extends StatelessWidget {
       backgroundColor: Colors.black.withOpacity(0.8),
       body: Stack(
         children: [
-          Center(
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
+          Center(child: Image.network(imageUrl, fit: BoxFit.cover)),
           Positioned(
             top: 40,
             left: 16,

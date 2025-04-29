@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/chart_model.dart';
 
 abstract class ChartView {
@@ -9,7 +10,9 @@ class ChartPresenter {
 
   ChartPresenter(this.view);
 
+  // Updated loadData to fetch data from Firebase
   void loadData() async {
+    // Fetch the data from Firestore
     List<ChartModel> data = await ChartModel.fetchData();
     view.updateChart(data);
   }

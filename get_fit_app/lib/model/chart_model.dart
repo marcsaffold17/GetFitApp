@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ChartModel {
   final int x;
   final double y;
@@ -5,15 +7,22 @@ class ChartModel {
 
   ChartModel({required this.x, required this.y, required this.name});
 
+  factory ChartModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    print(
+      'Data Y: ${data['y']}',
+    ); // This will print the value of 'y' for debugging
+    return ChartModel(
+      x: data['x'] ?? 0,
+      y: (data['y'] is double) ? data['y'] : (data['y']?.toDouble() ?? 0.0),
+      name: data['name'] ?? '',
+    );
+  }
+
   static Future<List<ChartModel>> fetchData() async {
-    return [
-      ChartModel(x: 0, y: 1, name: "bill"),
-      ChartModel(x: 1, y: 1.5, name: "bill"),
-      ChartModel(x: 2, y: 1.4, name: "bill"),
-      ChartModel(x: 3, y: 3.4, name: "bill"),
-      ChartModel(x: 4, y: 2, name: "bill"),
-      ChartModel(x: 5, y: 2.2, name: "bill"),
-      ChartModel(x: 6, y: 1.8, name: "bill"),
-    ];
+    final snapshot =
+        await FirebaseFirestore.instance.collection('chartData').get();
+
+    return snapshot.docs.map((doc) => ChartModel.fromFirestore(doc)).toList();
   }
 }
