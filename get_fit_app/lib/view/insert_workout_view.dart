@@ -1,6 +1,7 @@
 // import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get_fit_app/view/login_view.dart';
 import 'package:intl/intl.dart';
 import '../presenter/insert_workout_presenter.dart';
 import '../model/insert_workout_model.dart';
@@ -154,23 +155,48 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
 
     showModalBottomSheet(
       context: context,
+      backgroundColor: Color.fromARGB(255, 244, 238, 227),
       builder: (BuildContext context) {
-        return ListView(
-          children:
-              workoutTypes.map((workout) {
-                return ListTile(
-                  leading: Icon(workout['icon'] as IconData),
-                  title: Text(workout['type'] as String),
-                  onTap: () {
-                    setState(() {
-                      _workoutType = workout['type'];
-                      _workoutTypeIcon = workout['icon'];
-                      _typeController.text = _workoutType!;
-                    });
-                    Navigator.pop(context);
-                  },
-                );
-              }).toList(),
+        return Container(
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 244, 238, 227),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: ListView.separated(
+            itemCount: workoutTypes.length,
+            separatorBuilder:
+                (context, index) => Divider(
+                  color: Color.fromARGB(255, 20, 50, 31),
+                  thickness: 1,
+                  height: 1,
+                ),
+            itemBuilder: (context, index) {
+              final workout = workoutTypes[index];
+              return ListTile(
+                tileColor: Colors.grey[850],
+                leading: Icon(
+                  workout['icon'] as IconData,
+                  color: Color.fromARGB(255, 20, 50, 31),
+                ),
+                title: Text(
+                  workout['type'] as String,
+                  style: TextStyle(color: Color.fromARGB(255, 46, 105, 70)),
+                ),
+                textColor: Color.fromARGB(255, 20, 50, 31),
+                onTap: () {
+                  setState(() {
+                    _workoutType = workout['type'];
+                    _workoutTypeIcon = workout['icon'];
+                    _typeController.text = _workoutType!;
+                  });
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
         );
       },
     );
@@ -456,7 +482,6 @@ class _WorkoutEntryScreenState extends State<WorkoutEntryScreen>
                                               lastDate: DateTime(2100),
                                               builder: DateSelectorColor,
                                             );
-
                                         if (pickedDate != null) {
                                           setState(() {
                                             _dayController.text = DateFormat(
