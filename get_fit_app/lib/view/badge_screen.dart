@@ -18,16 +18,15 @@ class BadgeScreen extends StatefulWidget {
 class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
   late BadgePresenter presenter;
   List<badge_model.Badge> _badges = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    // Replace with actual logic to get the current user's ID
-    String userId = "UserId";
-
+    // 🔐 Use the actual user ID from auth, for now we hardcode
+    String userId = "Daniel"; // match your Firestore doc ID under Login_Info
     final repository = badge_model.BadgeRepository(userId: userId);
     presenter = BadgePresenter(repository: repository, view: this);
-
     presenter.loadBadges();
   }
 
@@ -35,24 +34,26 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 244, 238, 227)),
-        title: const Text(
-          'My Badges',
-          style: TextStyle(color: Color.fromARGB(255, 244, 238, 227)),
-        ),
+        title: const Text('Introductary Page', style: TextStyle(color: Color(0xFFF4EEE3))),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(233, 20, 50, 31),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color.fromARGB(233, 20, 50, 31),
+        iconTheme: const IconThemeData(color: Color(0xFFF4EEE3)),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
           ),
         ),
       ),
-      body:
-          _badges.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : BadgeGrid(badges: _badges, presenter: presenter),
+      backgroundColor: const Color(0xFFD9D6CF),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _badges.isEmpty
+            ? const Center(child: Text("No badges found."))
+            : BadgeGrid(badges: _badges, presenter: presenter),
+      ),
     );
   }
 
@@ -61,13 +62,14 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
     print("Display called with ${badges.length} badges");
     setState(() {
       _badges = badges;
+      _isLoading = false;
     });
   }
 
   @override
   void showBadgeUnlocked(String badgeId) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Badge $badgeId unlocked!')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('🎉 Badge "$badgeId" unlocked!')),
+    );
   }
 }

@@ -122,7 +122,7 @@ class NavBar extends StatelessWidget {
                     Icons.badge_outlined,
                     color: Color.fromARGB(255, 20, 50, 31),
                   ),
-                  title: Text("Badges", style: NavTextStyle()),
+                  title: Text("Introduction", style: NavTextStyle()),
                   onTap: () {
                     Navigator.push(
                       context,

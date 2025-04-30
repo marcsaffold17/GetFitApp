@@ -24,17 +24,17 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
 
   Future<void> fetchAndGroupWorkouts() async {
     final planSnapshot =
-        await FirebaseFirestore.instance
-            .collection('Login-Info')
-            .doc(globalUsername)
-            .collection('Workout-Plan')
-            .get();
+    await FirebaseFirestore.instance
+        .collection('Login-Info')
+        .doc(globalUsername)
+        .collection('Workout-Plan')
+        .get();
     final Map<String, List<Map<String, dynamic>>> grouped = {};
 
     for (var planDoc in planSnapshot.docs) {
       final date = planDoc.id;
       final workoutSnapshot =
-          await planDoc.reference.collection('Workout').get();
+      await planDoc.reference.collection('Workout').get();
 
       for (var workoutDoc in workoutSnapshot.docs) {
         final workoutData = workoutDoc.data();
@@ -53,21 +53,21 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
     final chartCollection = FirebaseFirestore.instance.collection('chartData');
     int xCounter = 1;
     final sortedEntries =
-        grouped.entries.toList()..sort((a, b) => a.key.compareTo(b.key));
+    grouped.entries.toList()..sort((a, b) => a.key.compareTo(b.key));
 
     for (final entry in sortedEntries) {
       final date = entry.key;
       final workouts = entry.value;
       final y = workouts
           .map((w) {
-            if (w['reps'] != null) {
-              return int.tryParse(w['reps'].toString()) ?? 0;
-            } else if (w['Time'] != null) {
-              return int.tryParse(w['Time'].toString()) ?? 0;
-            } else {
-              return 0;
-            }
-          })
+        if (w['reps'] != null) {
+          return int.tryParse(w['reps'].toString()) ?? 0;
+        } else if (w['Time'] != null) {
+          return int.tryParse(w['Time'].toString()) ?? 0;
+        } else {
+          return 0;
+        }
+      })
           .fold(0, (a, b) => a + b);
 
       await chartCollection.doc(date).set({
@@ -81,52 +81,52 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
   @override
   Widget build(BuildContext context) {
     final sortedEntries =
-        workoutsByDate.entries.toList()..sort((a, b) => b.key.compareTo(a.key));
+    workoutsByDate.entries.toList()..sort((a, b) => b.key.compareTo(a.key));
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 238, 227),
       body:
-          isLoading
-              ? Center(child: CircularProgressIndicator())
-              : ListView(
-                padding: EdgeInsets.only(bottom: 24),
-                children: [
-                  ...sortedEntries.map((entry) {
-                    final date = entry.key;
-                    final workouts = entry.value;
-                    return ExpansionTile(
-                      title: Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 46, 105, 70),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          date,
-                          style: TextStyle(
-                            fontFamily: 'RubikL',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 244, 238, 227),
-                          ),
-                        ),
-                      ),
-                      children:
-                          workouts
-                              .map(
-                                (workout) => _WorkoutTile(
-                                  workout: workout,
-                                  onDelete: fetchAndGroupWorkouts,
-                                ),
-                              )
-                              .toList(),
-                    );
-                  }).toList(),
-                  SizedBox(height: 20),
-                ],
+      isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView(
+        padding: EdgeInsets.only(bottom: 24),
+        children: [
+          ...sortedEntries.map((entry) {
+            final date = entry.key;
+            final workouts = entry.value;
+            return ExpansionTile(
+              title: Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 46, 105, 70),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  date,
+                  style: TextStyle(
+                    fontFamily: 'RubikL',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 244, 238, 227),
+                  ),
+                ),
               ),
+              children:
+              workouts
+                  .map(
+                    (workout) => _WorkoutTile(
+                  workout: workout,
+                  onDelete: fetchAndGroupWorkouts,
+                ),
+              )
+                  .toList(),
+            );
+          }).toList(),
+          SizedBox(height: 20),
+        ],
+      ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(
           left: 20.0,
@@ -151,9 +151,9 @@ class _WorkoutHistoryByDateState extends State<WorkoutHistoryByDate> {
               MaterialPageRoute(
                 builder:
                     (context) => WorkoutEntryScreen(
-                      presenter: presenter,
-                      onWorkoutUploaded: fetchAndGroupWorkouts,
-                    ),
+                  presenter: presenter,
+                  onWorkoutUploaded: fetchAndGroupWorkouts,
+                ),
               ),
             );
             fetchAndGroupWorkouts();
@@ -200,7 +200,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
         // ... rest of your workout types
       ];
       final matchingType = workoutTypes.firstWhere(
-        (type) => type['type'] == _workoutType,
+            (type) => type['type'] == _workoutType,
         orElse: () => {'icon': Icons.fitness_center},
       );
       _workoutTypeIcon = matchingType['icon'] as IconData;
@@ -238,12 +238,12 @@ class _WorkoutTileState extends State<_WorkoutTile> {
     );
 
     Future<void> UpdateingWorkout(
-      TextEditingController fController,
-      TextEditingController sController,
-      BuildContext context,
-      String fType,
-      String sType,
-    ) async {
+        TextEditingController fController,
+        TextEditingController sController,
+        BuildContext context,
+        String fType,
+        String sType,
+        ) async {
       String updatedF = fController.text;
       String updatedS = sController.text;
 
@@ -279,9 +279,9 @@ class _WorkoutTileState extends State<_WorkoutTile> {
     );
 
     void _showWorkoutTypeBottomSheet(
-      BuildContext context,
-      StateSetter setDialogState,
-    ) {
+        BuildContext context,
+        StateSetter setDialogState,
+        ) {
       final List<Map<String, dynamic>> workoutTypes = [
         {'type': 'Run', 'icon': Icons.directions_run},
         {'type': 'Walk', 'icon': Icons.directions_walk},
@@ -323,10 +323,10 @@ class _WorkoutTileState extends State<_WorkoutTile> {
               itemCount: workoutTypes.length,
               separatorBuilder:
                   (context, index) => Divider(
-                    color: Color.fromARGB(255, 20, 50, 31),
-                    thickness: 1,
-                    height: 1,
-                  ),
+                color: Color.fromARGB(255, 20, 50, 31),
+                thickness: 1,
+                height: 1,
+              ),
               itemBuilder: (context, index) {
                 final workout = workoutTypes[index];
                 return ListTile(
@@ -366,132 +366,132 @@ class _WorkoutTileState extends State<_WorkoutTile> {
               ),
               backgroundColor: Color.fromARGB(255, 244, 238, 227),
               title:
-                  widget.workout['Distance'] != null ||
-                          widget.workout['Time'] != null
-                      ? Text(
-                        'Edit Time, Distance, & Type',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 23,
-                          color: Color.fromARGB(255, 20, 50, 31),
-                        ),
-                      )
-                      : Text(
-                        'Edit Sets & Reps',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 20, 50, 31),
-                        ),
-                      ),
+              widget.workout['Distance'] != null ||
+                  widget.workout['Time'] != null
+                  ? Text(
+                'Edit Time, Distance, & Type',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                  color: Color.fromARGB(255, 20, 50, 31),
+                ),
+              )
+                  : Text(
+                'Edit Sets & Reps',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 20, 50, 31),
+                ),
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children:
-                    (widget.workout['Distance'] != null ||
-                            widget.workout['Time'] != null)
-                        ? [
-                          EditingWorkouts(
-                            flabel: 'Distance (Miles)',
-                            slabel: 'Time (Mins)',
-                            fController: disController,
-                            sController: timeController,
+                (widget.workout['Distance'] != null ||
+                    widget.workout['Time'] != null)
+                    ? [
+                  EditingWorkouts(
+                    flabel: 'Distance (Miles)',
+                    slabel: 'Time (Mins)',
+                    fController: disController,
+                    sController: timeController,
+                  ),
+                  SizedBox(height: 12),
+                  Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _showWorkoutTypeBottomSheet(
+                            context,
+                            setDialogState,
+                          );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 15,
                           ),
-                          SizedBox(height: 12),
-                          Stack(
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 244, 238, 227),
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _showWorkoutTypeBottomSheet(
-                                    context,
-                                    setDialogState,
-                                  );
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 15,
-                                    horizontal: 15,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 244, 238, 227),
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        _workoutTypeIcon,
-                                        color: Color.fromARGB(255, 20, 50, 31),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        _workoutType ?? 'Select workout type',
-                                        style:
-                                            _workoutType == null
-                                                ? TextStyle(
-                                                  fontFamily: 'RubikL',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
-                                                  color: Color.fromARGB(
-                                                    160,
-                                                    46,
-                                                    105,
-                                                    70,
-                                                  ),
-                                                )
-                                                : TextStyle(
-                                                  fontFamily: 'rubikL',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
-                                                  color: Color.fromARGB(
-                                                    255,
-                                                    46,
-                                                    105,
-                                                    70,
-                                                  ),
-                                                ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              Icon(
+                                _workoutTypeIcon,
+                                color: Color.fromARGB(255, 20, 50, 31),
                               ),
-                              // This Positioned widget places the label
-                              Positioned(
-                                left: 10, // Adjust based on where you want it
-                                top: -4,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                              SizedBox(width: 8),
+                              Text(
+                                _workoutType ?? 'Select workout type',
+                                style:
+                                _workoutType == null
+                                    ? TextStyle(
+                                  fontFamily: 'RubikL',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Color.fromARGB(
+                                    160,
+                                    46,
+                                    105,
+                                    70,
+                                  ),
+                                )
+                                    : TextStyle(
+                                  fontFamily: 'rubikL',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
                                   color: Color.fromARGB(
                                     255,
-                                    244,
-                                    238,
-                                    227,
-                                  ), // match the container color
-                                  child: Text(
-                                    'Workout Type',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'RubikL',
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 46, 105, 70),
-                                    ),
+                                    46,
+                                    105,
+                                    70,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ]
-                        : [
-                          EditingWorkouts(
-                            flabel: 'Reps',
-                            slabel: 'Sets',
-                            fController: repsController,
-                            sController: setsController,
+                        ),
+                      ),
+                      // This Positioned widget places the label
+                      Positioned(
+                        left: 10, // Adjust based on where you want it
+                        top: -4,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          color: Color.fromARGB(
+                            255,
+                            244,
+                            238,
+                            227,
+                          ), // match the container color
+                          child: Text(
+                            'Workout Type',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'RubikL',
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 46, 105, 70),
+                            ),
                           ),
-                        ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ]
+                    : [
+                  EditingWorkouts(
+                    flabel: 'Reps',
+                    slabel: 'Sets',
+                    fController: repsController,
+                    sController: setsController,
+                  ),
+                ],
               ),
               actions: [
                 TextButton(
@@ -517,11 +517,11 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                           .collection('Workout')
                           .doc(widget.workout['exercise'])
                           .update({
-                            'Distance': disController.text,
-                            'Time': timeController.text,
-                            'Type': _workoutType,
-                            if (_workoutType != null) 'Type': _workoutType,
-                          });
+                        'Distance': disController.text,
+                        'Time': timeController.text,
+                        'Type': _workoutType,
+                        if (_workoutType != null) 'Type': _workoutType,
+                      });
                     } else if (widget.workout['sets'] != null ||
                         widget.workout['reps'] != null) {
                       await FirebaseFirestore.instance
@@ -532,9 +532,9 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                           .collection('Workout')
                           .doc(widget.workout['exercise'])
                           .update({
-                            'reps': repsController.text,
-                            'sets': setsController.text,
-                          });
+                        'reps': repsController.text,
+                        'sets': setsController.text,
+                      });
                     }
                     Navigator.of(context).pop();
                     widget.onDelete(); // Refresh the list
@@ -759,7 +759,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                             GestureDetector(
                               onTap:
                                   () =>
-                                      _showFullScreenImage(workout['imageURL']),
+                                  _showFullScreenImage(workout['imageURL']),
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Image.network(
@@ -769,7 +769,7 @@ class _WorkoutTileState extends State<_WorkoutTile> {
                                   fit: BoxFit.cover,
                                   errorBuilder:
                                       (context, error, stackTrace) =>
-                                          Icon(Icons.error),
+                                      Icon(Icons.error),
                                 ),
                               ),
                             ),

@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b424f84-6c03-44d4-a8a2-38f561c85ed8" name="Changes" comment="Got code startup for the notification services user stories" />
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Preparing for merge">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Changing the functions of the badges into an introductory page part 1.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/nav_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/nav_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +90,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Badges",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/danie/StudioProjects/Bug-Hunters/get_fit_app/pubspec.yaml",
@@ -206,8 +197,35 @@
       <option name="project" value="LOCAL" />
       <updated>1744809967276</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="The purge of unlock methods to focus on a more salvageable function">
+      <option name="closed" value="true" />
+      <created>1746028621754</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1746028621754</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Changing the functions of the badges into an introductory page part 1.">
+      <option name="closed" value="true" />
+      <created>1746035364769</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1746035364771</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="badge_model.dart is done, just neet to connect to firestore." />
@@ -218,6 +236,8 @@
     <MESSAGE value="Made test files to display badges screen" />
     <MESSAGE value="Added more detail to badges" />
     <MESSAGE value="Preparing for merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Preparing for merge" />
+    <MESSAGE value="The purge of unlock methods to focus on a more salvageable function" />
+    <MESSAGE value="Changing the functions of the badges into an introductory page part 1." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changing the functions of the badges into an introductory page part 1." />
   </component>
 </project>

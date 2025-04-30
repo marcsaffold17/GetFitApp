@@ -1,6 +1,6 @@
 import '../view/insert_workout_view.dart';
 import '../model/insert_workout_model.dart';
-import '../presenter/global_presenter.dart'; 
+import '../presenter/global_presenter.dart';
 
 class WorkoutPresenter {
   late WorkoutView view;
