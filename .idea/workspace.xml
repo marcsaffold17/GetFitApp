@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="The purge of unlock methods to focus on a more salvageable function">
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Changing the functions of the badges into an introductory page part 1.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/nav_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/nav_bar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746028621754</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Changing the functions of the badges into an introductory page part 1.">
+      <option name="closed" value="true" />
+      <created>1746035364769</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1746035364771</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -226,6 +237,7 @@
     <MESSAGE value="Added more detail to badges" />
     <MESSAGE value="Preparing for merge" />
     <MESSAGE value="The purge of unlock methods to focus on a more salvageable function" />
-    <option name="LAST_COMMIT_MESSAGE" value="The purge of unlock methods to focus on a more salvageable function" />
+    <MESSAGE value="Changing the functions of the badges into an introductory page part 1." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changing the functions of the badges into an introductory page part 1." />
   </component>
 </project>

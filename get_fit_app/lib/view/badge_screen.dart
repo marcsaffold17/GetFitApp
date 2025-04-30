@@ -34,7 +34,7 @@ class _BadgeScreenState extends State<BadgeScreen> implements BadgeView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Badges', style: TextStyle(color: Color(0xFFF4EEE3))),
+        title: const Text('Introductary Page', style: TextStyle(color: Color(0xFFF4EEE3))),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(233, 20, 50, 31),
         iconTheme: const IconThemeData(color: Color(0xFFF4EEE3)),
