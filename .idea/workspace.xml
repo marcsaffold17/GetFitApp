@@ -4,19 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="Preparing for merge">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="4dece322-6fa9-4adc-8007-a10138c669ad" name="Changes" comment="The awful reset">
+      <change beforePath="$PROJECT_DIR$/.idea/Bug-Hunters.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Bug-Hunters.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/badge_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/nav_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/nav_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/linux/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/presenter/badge_presenter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/presenter/checklist_presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/presenter/checklist_presenter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/presenter/insert_workout_presenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/presenter/insert_workout_presenter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/WorkoutHistory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/WorkoutHistory.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/checklist_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/checklist_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_fit_app/lib/view/insert_workout_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/get_fit_app/lib/view/insert_workout_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,8 +94,7 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Badges",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/danie/StudioProjects/Bug-Hunters/get_fit_app/pubspec.yaml",

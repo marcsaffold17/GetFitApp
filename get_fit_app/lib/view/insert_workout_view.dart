@@ -1,6 +1,7 @@
 // import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get_fit_app/presenter/badge_presenter.dart';
 import 'package:get_fit_app/view/login_view.dart';
 import 'package:intl/intl.dart';
 import '../presenter/insert_workout_presenter.dart';
@@ -22,7 +23,7 @@ class WorkoutEntryScreen extends StatefulWidget {
   final WorkoutPresenter presenter;
   final VoidCallback? onWorkoutUploaded;
 
-  WorkoutEntryScreen({required this.presenter, this.onWorkoutUploaded});
+  WorkoutEntryScreen({required this.presenter, this.onWorkoutUploaded,});
 
   @override
   _WorkoutEntryScreenState createState() => _WorkoutEntryScreenState();

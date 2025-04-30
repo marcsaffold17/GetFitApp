@@ -139,86 +139,86 @@ class _ChecklistPageState extends State<ChecklistPage> {
             const SizedBox(height: 16),
             Expanded(
               child:
-                  items.isEmpty
-                      ? Center(
-                        child: Text(
-                          'No items yet. Add something!',
-                          style: Theme.of(context).textTheme.titleMedium,
+              items.isEmpty
+                  ? Center(
+                child: Text(
+                  'No items yet. Add something!',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              )
+                  : ListView.separated(
+                itemCount: items.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 20),
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  return Dismissible(
+                    key: Key(item.text + index.toString()),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (_) => _removeItem(index),
+                    background: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        12,
+                      ), // Add curved edges
+                      child: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        color: const Color.fromARGB(238, 202, 59, 59),
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.white,
                         ),
-                      )
-                      : ListView.separated(
-                        itemCount: items.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 20),
-                        itemBuilder: (context, index) {
-                          final item = items[index];
-                          return Dismissible(
-                            key: Key(item.text + index.toString()),
-                            direction: DismissDirection.endToStart,
-                            onDismissed: (_) => _removeItem(index),
-                            background: ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                12,
-                              ), // Add curved edges
-                              child: Container(
-                                alignment: Alignment.centerRight,
-                                padding: const EdgeInsets.only(right: 20),
-                                color: const Color.fromARGB(238, 202, 59, 59),
-                                child: const Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 300),
-                              decoration: BoxDecoration(
-                                color:
-                                    item.isChecked
-                                        ? Colors.green.withOpacity(0.1)
-                                        : Color.fromARGB(255, 229, 221, 212),
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 4,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: CheckboxListTile(
-                                activeColor: Color.fromARGB(255, 46, 105, 70),
-                                title: Text(
-                                  item.text,
-                                  style: TextStyle(
-                                    fontFamily: 'RubikL',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    decoration:
-                                        item.isChecked
-                                            ? TextDecoration.lineThrough
-                                            : TextDecoration.none,
-                                    color:
-                                        item.isChecked
-                                            ? Colors.grey
-                                            : Color.fromARGB(255, 46, 105, 70),
-                                  ),
-                                ),
-                                value: item.isChecked,
-                                onChanged: (_) => _toggleItem(index),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                side: BorderSide(
-                                  color: const Color.fromARGB(255, 46, 105, 70),
-                                  width: 2,
-                                ),
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                              ),
-                            ),
-                          );
-                        },
                       ),
+                    ),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      decoration: BoxDecoration(
+                        color:
+                        item.isChecked
+                            ? Colors.green.withOpacity(0.1)
+                            : Color.fromARGB(255, 229, 221, 212),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: CheckboxListTile(
+                        activeColor: Color.fromARGB(255, 46, 105, 70),
+                        title: Text(
+                          item.text,
+                          style: TextStyle(
+                            fontFamily: 'RubikL',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            decoration:
+                            item.isChecked
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
+                            color:
+                            item.isChecked
+                                ? Colors.grey
+                                : Color.fromARGB(255, 46, 105, 70),
+                          ),
+                        ),
+                        value: item.isChecked,
+                        onChanged: (_) => _toggleItem(index),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        side: BorderSide(
+                          color: const Color.fromARGB(255, 46, 105, 70),
+                          width: 2,
+                        ),
+                        controlAffinity:
+                        ListTileControlAffinity.leading,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
