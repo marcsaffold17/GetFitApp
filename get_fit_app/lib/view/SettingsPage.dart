@@ -54,8 +54,17 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(
+        title: const Text(
+          'Settings',
+          style: TextStyle(
+            color: Colors.white, // Set title text color to white
+          ),
+        ),
+        backgroundColor: const Color(0xFF2E6946), // New color for AppBar
+      ),
       drawer: const NavBar(),
+      backgroundColor: const Color(0xFFF4EEE3), // Set background color
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
@@ -66,41 +75,66 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const SizedBox(height: 16),
 
-            _buildDropdown(
-              label: 'Chart Type',
-              value: _selectedChart,
-              options: _chartTypeOptions,
-              onChanged: (val) => setState(() => _selectedChart = val),
+            _buildDropdownContainer(
+              _buildDropdown(
+                label: 'Chart Type',
+                value: _selectedChart,
+                options: _chartTypeOptions,
+                onChanged: (val) => setState(() => _selectedChart = val),
+              ),
             ),
             const SizedBox(height: 16),
 
-            _buildDropdown(
-              label: 'Chart Color',
-              value: _selectedColor,
-              options: _colorOptions,
-              onChanged: (val) => setState(() => _selectedColor = val),
+            _buildDropdownContainer(
+              _buildDropdown(
+                label: 'Chart Color',
+                value: _selectedColor,
+                options: _colorOptions,
+                onChanged: (val) => setState(() => _selectedColor = val),
+              ),
             ),
             const SizedBox(height: 16),
 
-            _buildDropdown(
-              label: 'Main Graph Type',
-              value: _selectedType,
-              options: _mainGraphOptions,
-              onChanged: (val) => setState(() => _selectedType = val),
+            _buildDropdownContainer(
+              _buildDropdown(
+                label: 'Main Graph Type',
+                value: _selectedType,
+                options: _mainGraphOptions,
+                onChanged: (val) => setState(() => _selectedType = val),
+              ),
             ),
             const SizedBox(height: 30),
 
-            ElevatedButton(
-              onPressed: () async {
-                await _savePreferences();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Preferences saved")),
-                );
-              },
-              child: const Text('Save Preferences'),
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await _savePreferences();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Preferences saved")),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(
+                    0xFF2E6946,
+                  ), // Keeps the original background color
+                  foregroundColor: Colors.black, // Sets the text color to black
+                ),
+                child: const Text('Save Preferences'),
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDropdownContainer(Widget child) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 300),
+        child: child,
       ),
     );
   }
@@ -116,16 +150,29 @@ class _SettingsPageState extends State<SettingsPage> {
       children: [
         Text(label, style: const TextStyle(fontSize: 16)),
         const SizedBox(height: 8),
-        DropdownButton<String>(
-          isExpanded: true,
-          value: value,
-          onChanged: (String? newValue) {
-            if (newValue != null) onChanged(newValue);
-          },
-          items:
-              options.map((String item) {
-                return DropdownMenuItem<String>(value: item, child: Text(item));
-              }).toList(),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: DropdownButton<String>(
+            isExpanded: true,
+            underline: const SizedBox(),
+            value: value,
+            onChanged: (String? newValue) {
+              if (newValue != null) onChanged(newValue);
+            },
+            items:
+                options
+                    .map(
+                      (String item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(item),
+                      ),
+                    )
+                    .toList(),
+          ),
         ),
       ],
     );
