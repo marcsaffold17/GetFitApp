@@ -35,10 +35,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _loadProfileData() async {
     final doc = await profileRef.get();
     if (doc.exists) {
-      final data = doc.data() as Map<String, dynamic>;
       setState(() {
-        _bio = data['bio'] ?? '';
-        _imageUrl = data['imageUrl'];
+        _bio = doc['bio'] ?? '';
+        _imageUrl = doc['imageUrl'];
         _bioController.text = _bio;
       });
     }
