@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../presenter/global_presenter.dart';
 
@@ -15,8 +14,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String _bio = '';
-  String? _imageUrl;
   File? _image;
+
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _bioController = TextEditingController();
 
@@ -24,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
       .collection('Login-Info')
       .doc(globalUsername)
       .collection('profilepage')
-      .doc('info');
+      .doc('data');
 
   @override
   void initState() {
@@ -35,39 +34,32 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _loadProfileData() async {
     final doc = await profileRef.get();
     if (doc.exists) {
+      final data = doc.data()!;
       setState(() {
-        _bio = doc['bio'] ?? '';
-        _imageUrl = doc['imageUrl'];
+        _bio = data['bio'] ?? '';
+        final imagePath = data['profileImage'];
+        if (imagePath != null && File(imagePath).existsSync()) {
+          _image = File(imagePath);
+        }
         _bioController.text = _bio;
       });
     }
   }
 
-  Future<void> _saveBio() async {
-    _bio = _bioController.text;
-    await profileRef.set({'bio': _bio}, SetOptions(merge: true));
+  Future<void> _saveProfileData() async {
+    await profileRef.set({
+      'bio': _bioController.text,
+      'profileImage': _image?.path ?? '',
+    });
   }
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      File file = File(pickedFile.path);
-
-      String fileName =
-          '${DateTime.now().millisecondsSinceEpoch}_${globalUsername}.jpg';
-      Reference storageRef = FirebaseStorage.instance.ref().child(
-        'profile_images/$fileName',
-      );
-
-      await storageRef.putFile(file);
-      String downloadUrl = await storageRef.getDownloadURL();
-
       setState(() {
-        _image = file;
-        _imageUrl = downloadUrl;
+        _image = File(pickedFile.path);
       });
-
-      await profileRef.set({'imageUrl': downloadUrl}, SetOptions(merge: true));
+      _saveProfileData();
     }
   }
 
@@ -161,11 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundImage:
                       _image != null
                           ? FileImage(_image!)
-                          : (_imageUrl != null
-                                  ? NetworkImage(_imageUrl!)
-                                  : const AssetImage(
-                                    'assets/images/AshtonHall.webp',
-                                  ))
+                          : const AssetImage('assets/images/AshtonHall.webp')
                               as ImageProvider,
                 ),
                 Positioned(
@@ -216,7 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               maxLines: 3,
-              onChanged: (value) => _saveBio(),
+              onChanged: (_) => _saveProfileData(),
             ),
             const SizedBox(height: 24),
             const Align(
