@@ -1,0 +1,1 @@
+Android application written in Dart and using the Flutter library. Worked in a group of 6 for 7 weeks. Uses MVP architecture, Firebase, and agile scrum. My contributions include implementing the add workout screen, workout history screen, and setting up the database.
